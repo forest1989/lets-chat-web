@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.letschatapp.dao.AppUserDao">
+    
+	<sql id="appUserColumns">
+		a.id AS "id",
+		a.login_name AS "loginName",
+		a.password AS "password",
+		a.photo AS "photo",
+		a.name AS "name",
+		a.nick_name AS "nickName",
+		a.sex AS "sex",
+		a.phone AS "phone",
+		a.email AS "email",
+		a.area_id AS "area.id",
+		a.del_flag AS "delFlag",
+		a.login_flag AS "loginFlag",
+		a.update_date AS "updateDate",
+		a.create_date AS "createDate",
+		a.remarks AS "remarks",
+		a10.name AS "area.name"
+	</sql>
+	
+	<sql id="appUserJoins">
+		LEFT JOIN sys_area a10 ON a10.id = a.area_id
+	</sql>
+    
+	<select id="get" resultType="AppUser">
+		SELECT 
+			<include refid="appUserColumns"/>
+		FROM app_user a
+		<include refid="appUserJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AppUser">
+		SELECT 
+			<include refid="appUserColumns"/>
+		FROM app_user a
+		<include refid="appUserJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AppUser">
+		SELECT 
+			<include refid="appUserColumns"/>
+		FROM app_user a
+		<include refid="appUserJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO app_user(
+			id,
+			login_name,
+			password,
+			photo,
+			name,
+			nick_name,
+			sex,
+			phone,
+			email,
+			area_id,
+			del_flag,
+			login_flag,
+			update_date,
+			create_date,
+			remarks
+		) VALUES (
+			#{id},
+			#{loginName},
+			#{password},
+			#{photo},
+			#{name},
+			#{nickName},
+			#{sex},
+			#{phone},
+			#{email},
+			#{area.id},
+			#{delFlag},
+			#{loginFlag},
+			#{updateDate},
+			#{createDate},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE app_user SET 	
+			login_name = #{loginName},
+			password = #{password},
+			photo = #{photo},
+			name = #{name},
+			nick_name = #{nickName},
+			sex = #{sex},
+			phone = #{phone},
+			email = #{email},
+			area_id = #{area.id},
+			login_flag = #{loginFlag},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE app_user SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
