@@ -245,271 +245,184 @@ values ('67', '1', '接入日志', 'sys_log_type', '日志类型', 30, '0', '1',sysdate,
 insert into sys_dict (ID, VALUE, LABEL, TYPE, DESCRIPTION, SORT, PARENT_ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
 values ('68', '2', '异常日志', 'sys_log_type', '日志类型', 40, '0', '1',sysdate, '1',sysdate, null, '0');
 
-insert into sys_dict (ID, VALUE, LABEL, TYPE, DESCRIPTION, SORT, PARENT_ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('93c4ca856e6f4cc482107dc508ee96e9', '4', '四级', 'yjjb', '预警级别四级', 13, '0', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_dict (ID, VALUE, LABEL, TYPE, DESCRIPTION, SORT, PARENT_ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('55857d3203794cd69271f06da777c049', '5', '五级', 'yjjb', '预警级别五级', 23, '0', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_dict (ID, VALUE, LABEL, TYPE, DESCRIPTION, SORT, PARENT_ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('72d6ce1fc8034113b550feff332d1331', '1', '一级', 'yjjb', '预警级别一级', 10, '0', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_dict (ID, VALUE, LABEL, TYPE, DESCRIPTION, SORT, PARENT_ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('cf66c15fc8c44a1fa92b7f93e0ae16b2', '3', '三级', 'yjjb', '预警级别三级', 12, '0', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_dict (ID, VALUE, LABEL, TYPE, DESCRIPTION, SORT, PARENT_ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('057b98b1ef1f457d8984e83e122578c2', '2', '二级', 'yjjb', '预警级别二级', 11, '0', '1', sysdate, '1', sysdate, null, '0');
-
 commit;
 
 
 --菜单初始化
 delete from sys_menu;
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('55', '53', '0,1,27,31,40,53,', '审核', 40, null, null, null, '0', 'cms:guestbook:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('50', '40', '0,1,27,31,40,', '评论管理', 40, '/cms/comment/?status=2', null, 'comment', '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('57', '56', '0,1,27,40,56,', '查看', 30, null, null, null, '0', 'cms:ckfinder:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('58', '56', '0,1,27,40,56,', '上传', 40, null, null, null, '0', 'cms:ckfinder:upload', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('53', '40', '0,1,27,31,40,', '公共留言', 80, '/cms/guestbook/?status=2', null, 'glass', '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('59', '56', '0,1,27,40,56,', '修改', 50, null, null, null, '0', 'cms:ckfinder:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('62', '27', '0,1,27,', '在线办公', 920, '23332', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('79', '27', '0,1,27,', '代码生成', 94000, null, null, null, '0', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('9bb139e9581b4e6286364cf912f1bb16', '1249cf39b8cf4c84a1610fb05d845a6c', '0,1,27,79,3c92c17886944d0687e73e286cada573,1249cf39b8cf4c84a1610fb05d845a6c,', '查看', 30, null, null, null, '1', 'test:oaTestAudit:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('68', '2', '0,1,27,2,', '日志查询', 90, '/sys/log', null, ' icon-search', '1', 'sys:log:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('70', '62', '0,1,27,62,', '流程管理', 50, '/act/process', null, 'road', '1', 'act:process:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('72', '62', '0,1,27,62,', '模型管理', 100, '/act/model', null, 'road', '1', 'act:model:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('6b9aa023d57b49938c183c63832b398c', 'd633cd075bd84fa3bf425ed70b7a9812', '0,1,27,b3ac1cffc8344bbc8919132f1fd42987,d633cd075bd84fa3bf425ed70b7a9812,', '查看', 30, null, null, null, '1', 'dawh:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('5906b5b7252249eba91472bc13812ec3', '0ae8d87734854d63826192b1199ce877', '0,1,27,b3ac1cffc8344bbc8919132f1fd42987,0ae8d87734854d63826192b1199ce877,', '查看', 40, null, null, null, '0', 'daglInfoList:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('0bf1a48ea79e496686c20a2030da0d2f', '2e921e3436b54e14beee800347fbc0cd', '0,1,27,2,2e921e3436b54e14beee800347fbc0cd,', '查看', 30, null, null, null, '0', 'vendor:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('d346d3d54bce41c483b2c62bff9e5556', 'db39ef50d1ed43d58ac1d07c367cbad1', '0,1,27,2,db39ef50d1ed43d58ac1d07c367cbad1,', '查看', 30, null, null, null, '0', 'windfiled:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('bb352f76032f42259d2e1edf117f5106', '123a64ab93e54e6eb5dbf56f1f5a1e17', '0,1,27,2,123a64ab93e54e6eb5dbf56f1f5a1e17,', '查看', 30, null, null, null, '0', 'windfan:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('b65a941d34e04f4491c74ba7037d38a8', 'db39ef50d1ed43d58ac1d07c367cbad1', '0,1,27,2,db39ef50d1ed43d58ac1d07c367cbad1,', '修改', 40, null, null, null, '0', 'pzgl:windFiled:edit', '1',sysdate, '1',sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('b9d97b3aa1de483fa0edbe80e7f26311', '123a64ab93e54e6eb5dbf56f1f5a1e17', '0,1,27,2,123a64ab93e54e6eb5dbf56f1f5a1e17,', '修改', 60, null, null, null, '0', 'pzgl:windFan:edit', '1', sysdate, '1',sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('cf999f1107074d15857ce78ba96d2b29', '7fa67b109878400381cd410df6e29bc7', '0,1,27,b3ac1cffc8344bbc8919132f1fd42987,7fa67b109878400381cd410df6e29bc7,', '查看', 40, null, null, null, '0', 'daglList:view', '1',sysdate, '1',sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('52f886575dc64dc1aed62749d9956639', '2e921e3436b54e14beee800347fbc0cd', '0,1,27,2,2e921e3436b54e14beee800347fbc0cd,', '修改', 60, null, null, null, '0', 'pzgl:vendor:edit', '1', sysdate, '1',sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('7e1fa29c561d40f08242c2747b70486f', '10', '0,1,27,2,10,', '查看', 70, null, null, null, '0', 'sys:dict:view', '1',sysdate, '1',sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('80', '79', '0,1,27,79,', '代码生成', 50, null, null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('0b2ebd4d639e4c2b83c2dd0764522f24', 'ba8092291b40482db8fe7fc006ea3d76', '0,1,27,79,3c92c17886944d0687e73e286cada573,ba8092291b40482db8fe7fc006ea3d76,', '编辑', 60, null, null, null, '0', 'test:testData:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('df7ce823c5b24ff9bada43d992f373e2', 'ba8092291b40482db8fe7fc006ea3d76', '0,1,27,79,3c92c17886944d0687e73e286cada573,ba8092291b40482db8fe7fc006ea3d76,', '查看', 30, null, null, null, '0', 'test:testData:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('4855cf3b25c244fb8500a380db189d97', 'b1f6d1b86ba24365bae7fd86c5082317', '0,1,27,79,3c92c17886944d0687e73e286cada573,b1f6d1b86ba24365bae7fd86c5082317,', '查看', 30, null, null, null, '0', 'test:testDataMain:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('d15ec45a4c5449c3bbd7a61d5f9dd1d2', 'b1f6d1b86ba24365bae7fd86c5082317', '0,1,27,79,3c92c17886944d0687e73e286cada573,b1f6d1b86ba24365bae7fd86c5082317,', '编辑', 60, null, null, null, '0', 'test:testDataMain:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('c2e4d9082a0b4386884a0b203afe2c5c', '0ca004d6b1bf4bcab9670a5060d82a55', '0,1,27,79,3c92c17886944d0687e73e286cada573,0ca004d6b1bf4bcab9670a5060d82a55,', '查看', 30, null, null, null, '0', 'test:testTree:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('afab2db430e2457f9cf3a11feaa8b869', '0ca004d6b1bf4bcab9670a5060d82a55', '0,1,27,79,3c92c17886944d0687e73e286cada573,0ca004d6b1bf4bcab9670a5060d82a55,', '编辑', 60, null, null, null, '0', 'test:testTree:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('5', '4', '0,1,27,2,4,', '查看', 30, null, null, null, '0', 'sys:menu:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('6', '4', '0,1,27,2,4,', '修改', 40, null, null, null, '0', 'sys:menu:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('8', '7', '0,1,27,2,7,', '查看', 30, null, null, null, '0', 'sys:role:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('9', '7', '0,1,27,2,7,', '修改', 40, null, null, null, '0', 'sys:role:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('9a5635eac41248289f5faefbc3a77ec1', 'd633cd075bd84fa3bf425ed70b7a9812', '0,1,27,b3ac1cffc8344bbc8919132f1fd42987,d633cd075bd84fa3bf425ed70b7a9812,', '修改', 40, null, null, null, '0', 'dagl:dawh:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('81', '80', '0,1,27,79,80,', '生成方案配置', 30, '/gen/genScheme', null, null, '1', 'gen:genScheme:view,gen:genScheme:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('82', '80', '0,1,27,79,80,', '业务表配置', 20, '/gen/genTable', null, null, '1', 'gen:genTable:view,gen:genTable:edit,gen:genTableColumn:view,gen:genTableColumn:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('85', '76', '0,1,75,76,', '行政区域', 80, '/../static/map/map-city.html', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('0985af56e13e452ea9034594a48ee73c', '85', '0,1,75,76,85,', 'test/OaTestAudit', 5030, null, null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('bb7c64f10e4443c1a4430eeddbcc9f40', '1249cf39b8cf4c84a1610fb05d845a6c', '0,1,27,79,3c92c17886944d0687e73e286cada573,1249cf39b8cf4c84a1610fb05d845a6c,', '新增', 60, null, null, null, '1', 'test:oaTestAudit:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('1249cf39b8cf4c84a1610fb05d845a6c', '3c92c17886944d0687e73e286cada573', '0,1,27,79,3c92c17886944d0687e73e286cada573,', 'oaTest生成', 120, '/test/oaTestAudit', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('3c92c17886944d0687e73e286cada573', '79', '0,1,27,79,', '生成示例', 120, null, null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('ba8092291b40482db8fe7fc006ea3d76', '3c92c17886944d0687e73e286cada573', '0,1,27,79,3c92c17886944d0687e73e286cada573,', '单表', 30, '/test/testData', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('b1f6d1b86ba24365bae7fd86c5082317', '3c92c17886944d0687e73e286cada573', '0,1,27,79,3c92c17886944d0687e73e286cada573,', '主子表', 60, '/test/testDataMain', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('0ca004d6b1bf4bcab9670a5060d82a55', '3c92c17886944d0687e73e286cada573', '0,1,27,79,3c92c17886944d0687e73e286cada573,', '树结构', 90, '/test/testTree', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
 values ('1', '0', '0,', '功能菜单', 0, null, null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('2', '27', '0,1,27,', '配置管理', 15, '/sys/user/index', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('4', '2', '0,1,27,2,', '菜单管理', 30, '/sys/menu/', null, 'list-alt', '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('7', '2', '0,1,27,2,', '角色管理', 50, '/sys/role/', null, 'lock', '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('12', '10', '0,1,27,2,10,', '修改', 40, null, null, null, '0', 'sys:dict:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('15', '14', '0,1,27,2,14,', '查看', 30, null, null, null, '0', 'sys:area:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('10', '2', '0,1,27,2,', '字典管理', 60, '/sys/dict/', null, 'th-list', '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('16', '14', '0,1,27,2,14,', '修改', 40, null, null, null, '0', 'sys:area:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('18', '17', '0,1,27,2,17,', '查看', 30, null, null, null, '0', 'sys:office:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('14', '2', '0,1,27,2,', '区域管理', 50, '/sys/area/', null, 'th', '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('19', '17', '0,1,27,2,17,', '修改', 40, null, null, null, '0', 'sys:office:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('21', '20', '0,1,27,2,20,', '查看', 30, null, null, null, '0', 'sys:user:view', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('17', '2', '0,1,27,2,', '机构管理', 40, '/sys/office/', null, 'th-large', '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('22', '20', '0,1,27,2,20,', '修改', 40, null, null, null, '0', 'sys:user:edit', '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('20', '2', '0,1,27,2,', '用户管理', 30, '/sys/user/index', null, 'user', '1', null, '1', sysdate, '1', sysdate, null, '0');
-
-insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('31', '27', '0,1,27,', '内容管理', 93000, null, null, null, '0', null, '1', sysdate, '1', sysdate, null, '0');
-
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
 values ('27', '1', '0,1,', '我的面板', 1, null, null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('34', '33', '0,1,27,31,32,33,', '查看', 30, null, null, null, '0', 'cms:category:view', '1', sysdate, '1', sysdate, null, '0');
+values ('2', '27', '0,1,27,', '配置管理', 10, '/sys/user/index', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('35', '33', '0,1,27,31,32,33,', '修改', 40, null, null, null, '0', 'cms:category:edit', '1', sysdate, '1', sysdate, null, '0');
+values ('14', '2', '0,1,27,2,', '区域管理', 1, '/sys/area/', null, 'th', '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('15', '14', '0,1,27,2,14,', '查看', 1, null, null, null, '0', 'sys:area:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('16', '14', '0,1,27,2,14,', '修改', 2, null, null, null, '0', 'sys:area:edit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('37', '36', '0,1,27,31,32,36,', '查看', 30, null, null, null, '0', 'cms:site:view', '1', sysdate, '1', sysdate, null, '0');
+values ('17', '2', '0,1,27,2,', '机构管理', 2, '/sys/office/', null, 'th-large', '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('18', '17', '0,1,27,2,17,', '查看', 1, null, null, null, '0', 'sys:office:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('19', '17', '0,1,27,2,17,', '修改', 2, null, null, null, '0', 'sys:office:edit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('38', '36', '0,1,27,31,32,36,', '修改', 40, null, null, null, '0', 'cms:site:edit', '1', sysdate, '1', sysdate, null, '0');
+values ('7', '2', '0,1,27,2,', '角色管理', 3, '/sys/role/', null, 'lock', '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('8', '7', '0,1,27,2,7,', '查看', 1, null, null, null, '0', 'sys:role:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('9', '7', '0,1,27,2,7,', '修改', 2, null, null, null, '0', 'sys:role:edit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('32', '31', '0,1,27,31,', '栏目设置', 990, null, null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
+values ('20', '2', '0,1,27,2,', '用户管理', 4, '/sys/user/index', null, 'user', '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('21', '20', '0,1,27,2,20,', '查看', 1, null, null, null, '0', 'sys:user:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('22', '20', '0,1,27,2,20,', '修改', 2, null, null, null, '0', 'sys:user:edit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('33', '32', '0,1,27,31,32', '栏目管理', 30, '/cms/category/', null, 'align-justify', '1', null, '1', sysdate, '1', sysdate, null, '0');
+values ('10', '2', '0,1,27,2,', '字典管理', 5, '/sys/dict/', null, 'th-list', '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('11', '10', '0,1,27,2,10,', '查看', 1, null, null, null, '0', 'sys:dict:view', '1',sysdate, '1',sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('12', '10', '0,1,27,2,10,', '修改', 2, null, null, null, '0', 'sys:dict:edit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('42', '41', '0,1,27,31,40,41,', '文章模型', 40, '/cms/article/', null, 'file', '0', null, '1', sysdate, '1', sysdate, null, '0');
+values ('4', '2', '0,1,27,2,', '菜单管理', 6, '/sys/menu/', null, 'list-alt', '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('5', '4', '0,1,27,2,4,', '查看', 1, null, null, null, '0', 'sys:menu:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('6', '4', '0,1,27,2,4,', '修改', 2, null, null, null, '0', 'sys:menu:edit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('43', '42', '0,1,27,31,40,41,42,', '查看', 30, null, null, null, '0', 'cms:article:view', '1', sysdate, '1', sysdate, null, '0');
+values ('68', '2', '0,1,27,2,', '日志查询', 7, '/sys/log', null, ' icon-search', '1', 'sys:log:view', '1', sysdate, '1', sysdate, null, '0');
+
+
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('36', '32', '0,1,27,31,32', '站点设置', 40, '/cms/site/', null, 'certificate', '1', null, '1', sysdate, '1', sysdate, null, '0');
+values ('62', '27', '0,1,27,', '在线办公', 11, '23332', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('70', '62', '0,1,27,62,', '流程管理', 2, '/act/process', null, 'road', '1', 'act:process:edit', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('72', '62', '0,1,27,62,', '模型管理', 1, '/act/model', null, 'road', '1', 'act:model:edit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('44', '42', '0,1,27,31,40,41,42,', '修改', 40, null, null, null, '0', 'cms:article:edit', '1', sysdate, '1', sysdate, null, '0');
+values ('79', '27', '0,1,27,', '代码生成', 12, null, null, null, '0', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('80', '79', '0,1,27,79,', '代码生成', 1, null, null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('81', '80', '0,1,27,79,80,', '生成方案配置', 1, '/gen/genScheme', null, null, '1', 'gen:genScheme:view,gen:genScheme:edit', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('82', '80', '0,1,27,79,80,', '业务表配置', 2, '/gen/genTable', null, null, '1', 'gen:genTable:view,gen:genTable:edit,gen:genTableColumn:view,gen:genTableColumn:edit', '1', sysdate, '1', sysdate, null, '0');
+
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('45', '42', '0,1,27,31,40,41,42,', '审核', 50, null, null, null, '0', 'cms:article:audit', '1', sysdate, '1', sysdate, null, '0');
+values ('3c92c17886944d0687e73e286cada573', '79', '0,1,27,79,', '生成示例', 2, null, null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('1249cf39b8cf4c84a1610fb05d845a6c', '3c92c17886944d0687e73e286cada573', '0,1,27,79,3c92c17886944d0687e73e286cada573,', 'oaTest生成', 1, '/test/oaTestAudit', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('bb7c64f10e4443c1a4430eeddbcc9f40', '1249cf39b8cf4c84a1610fb05d845a6c', '0,1,27,79,3c92c17886944d0687e73e286cada573,1249cf39b8cf4c84a1610fb05d845a6c,', '新增', 1, null, null, null, '1', 'test:oaTestAudit:edit', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('9bb139e9581b4e6286364cf912f1bb16', '1249cf39b8cf4c84a1610fb05d845a6c', '0,1,27,79,3c92c17886944d0687e73e286cada573,1249cf39b8cf4c84a1610fb05d845a6c,', '查看', 2, null, null, null, '1', 'test:oaTestAudit:view', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('39', '32', '0,1,27,31,32', '切换站点', 50, '/cms/site/select', null, 'retweet', '1', 'cms:site:select', '1', sysdate, '1', sysdate, null, '0');
+values ('ba8092291b40482db8fe7fc006ea3d76', '3c92c17886944d0687e73e286cada573', '0,1,27,79,3c92c17886944d0687e73e286cada573,', '单表', 2, '/test/testData', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('0b2ebd4d639e4c2b83c2dd0764522f24', 'ba8092291b40482db8fe7fc006ea3d76', '0,1,27,79,3c92c17886944d0687e73e286cada573,ba8092291b40482db8fe7fc006ea3d76,', '编辑', 60, null, null, null, '0', 'test:testData:edit', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('df7ce823c5b24ff9bada43d992f373e2', 'ba8092291b40482db8fe7fc006ea3d76', '0,1,27,79,3c92c17886944d0687e73e286cada573,ba8092291b40482db8fe7fc006ea3d76,', '查看', 30, null, null, null, '0', 'test:testData:view', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('40', '31', '0,1,27,31,', '内容管理', 500, null, null, null, '1', 'cms:view', '1', sysdate, '1', sysdate, null, '0');
+values ('b1f6d1b86ba24365bae7fd86c5082317', '3c92c17886944d0687e73e286cada573', '0,1,27,79,3c92c17886944d0687e73e286cada573,', '主子表', 3, '/test/testDataMain', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('4855cf3b25c244fb8500a380db189d97', 'b1f6d1b86ba24365bae7fd86c5082317', '0,1,27,79,3c92c17886944d0687e73e286cada573,b1f6d1b86ba24365bae7fd86c5082317,', '查看', 30, null, null, null, '0', 'test:testDataMain:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('d15ec45a4c5449c3bbd7a61d5f9dd1d2', 'b1f6d1b86ba24365bae7fd86c5082317', '0,1,27,79,3c92c17886944d0687e73e286cada573,b1f6d1b86ba24365bae7fd86c5082317,', '编辑', 60, null, null, null, '0', 'test:testDataMain:edit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('41', '40', '0,1,27,31,40,', '内容发布', 30, '/cms/', null, 'briefcase', '1', null, '1', sysdate, '1', sysdate, null, '0');
+values ('0ca004d6b1bf4bcab9670a5060d82a55', '3c92c17886944d0687e73e286cada573', '0,1,27,79,3c92c17886944d0687e73e286cada573,', '树结构', 4, '/test/testTree', null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('c2e4d9082a0b4386884a0b203afe2c5c', '0ca004d6b1bf4bcab9670a5060d82a55', '0,1,27,79,3c92c17886944d0687e73e286cada573,0ca004d6b1bf4bcab9670a5060d82a55,', '查看', 30, null, null, null, '0', 'test:testTree:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('afab2db430e2457f9cf3a11feaa8b869', '0ca004d6b1bf4bcab9670a5060d82a55', '0,1,27,79,3c92c17886944d0687e73e286cada573,0ca004d6b1bf4bcab9670a5060d82a55,', '编辑', 60, null, null, null, '0', 'test:testTree:edit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('46', '41', '0,1,27,31,40,41,', '链接模型', 60, '/cms/link/', null, 'random', '0', null, '1', sysdate, '1', sysdate, null, '0');
+values ('31', '27', '0,1,27,', '内容管理', 13, null, null, null, '0', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('40', '31', '0,1,27,31,', '内容管理', 1, null, null, null, '1', 'cms:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('41', '40', '0,1,27,31,40,', '内容发布', 1, '/cms/', null, 'briefcase', '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('42', '41', '0,1,27,31,40,41,', '文章模型', 1, '/cms/article/', null, 'file', '0', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('43', '42', '0,1,27,31,40,41,42,', '查看', 1, null, null, null, '0', 'cms:article:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('44', '42', '0,1,27,31,40,41,42,', '修改', 2, null, null, null, '0', 'cms:article:edit', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('45', '42', '0,1,27,31,40,41,42,', '审核', 3, null, null, null, '0', 'cms:article:audit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('47', '46', '0,1,27,31,40,41,46,', '查看', 30, null, null, null, '0', 'cms:link:view', '1', sysdate, '1', sysdate, null, '0');
+values ('46', '41', '0,1,27,31,40,41,', '链接模型', 2, '/cms/link/', null, 'random', '0', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('47', '46', '0,1,27,31,40,41,46,', '查看', 1, null, null, null, '0', 'cms:link:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('48', '46', '0,1,27,31,40,41,46,', '修改', 2, null, null, null, '0', 'cms:link:edit', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('49', '46', '0,1,27,31,40,41,46,', '审核', 3, null, null, null, '0', 'cms:link:audit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('48', '46', '0,1,27,31,40,41,46,', '修改', 40, null, null, null, '0', 'cms:link:edit', '1', sysdate, '1', sysdate, null, '0');
+values ('53', '40', '0,1,27,31,40,', '公共留言', 2, '/cms/guestbook/?status=2', null, 'glass', '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('55', '53', '0,1,27,31,40,53,', '审核', 1, null, null, null, '0', 'cms:guestbook:edit', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('54', '53', '0,1,27,31,40,53,', '查看', 2, null, null, null, '0', 'cms:guestbook:view', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('49', '46', '0,1,27,31,40,41,46,', '审核', 50, null, null, null, '0', 'cms:link:audit', '1', sysdate, '1', sysdate, null, '0');
+values ('50', '40', '0,1,27,31,40,', '评论管理', 3, '/cms/comment/?status=2', null, 'comment', '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('51', '50', '0,1,27,31,40,50,', '查看', 1, null, null, null, '0', 'cms:comment:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('52', '50', '0,1,27,31,40,50,', '审核', 2, null, null, null, '0', 'cms:comment:edit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('51', '50', '0,1,27,31,40,50,', '查看', 30, null, null, null, '0', 'cms:comment:view', '1', sysdate, '1', sysdate, null, '0');
+values ('32', '31', '0,1,27,31,', '栏目设置', 2, null, null, null, '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('33', '32', '0,1,27,31,32', '栏目管理', 1, '/cms/category/', null, 'align-justify', '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('34', '33', '0,1,27,31,32,33,', '查看', 1, null, null, null, '0', 'cms:category:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('35', '33', '0,1,27,31,32,33,', '修改', 2, null, null, null, '0', 'cms:category:edit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('52', '50', '0,1,27,31,40,50,', '审核', 40, null, null, null, '0', 'cms:comment:edit', '1', sysdate, '1', sysdate, null, '0');
+values ('36', '32', '0,1,27,31,32', '站点设置', 2, '/cms/site/', null, 'certificate', '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('37', '36', '0,1,27,31,32,36,', '查看', 1, null, null, null, '0', 'cms:site:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('38', '36', '0,1,27,31,32,36,', '修改', 2, null, null, null, '0', 'cms:site:edit', '1', sysdate, '1', sysdate, null, '0');
 
 insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
-values ('54', '53', '0,1,27,31,40,53,', '查看', 30, null, null, null, '0', 'cms:guestbook:view', '1', sysdate, '1', sysdate, null, '0');
+values ('39', '32', '0,1,27,31,32', '切换站点', 3, '/cms/site/select', null, 'retweet', '1', 'cms:site:select', '1', sysdate, '1', sysdate, null, '0');
+
+
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('71', '27', '0,1,27,', '文件管理', 14, null, null, null, '0', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('56', '71', '0,1,27,71,', '文件管理', 1, '/../static/ckfinder/ckfinder.html', null, 'folder-open', '1', null, '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('57', '56', '0,1,27,40,56,', '查看', 1, null, null, null, '0', 'cms:ckfinder:view', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('58', '56', '0,1,27,40,56,', '上传', 2, null, null, null, '0', 'cms:ckfinder:upload', '1', sysdate, '1', sysdate, null, '0');
+insert into sys_menu (ID, PARENT_ID, PARENT_IDS, NAME, SORT, HREF, TARGET, ICON, IS_SHOW, PERMISSION, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, REMARKS, DEL_FLAG)
+values ('59', '56', '0,1,27,40,56,', '修改', 3, null, null, null, '0', 'cms:ckfinder:edit', '1', sysdate, '1', sysdate, null, '0');
+
+
 
 --机构
 delete from sys_office;
