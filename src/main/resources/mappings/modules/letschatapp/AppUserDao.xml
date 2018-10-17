@@ -137,4 +137,18 @@
 	<select id="getByLoginName" resultType="AppUser" >
     select * from app_user where login_name=#{loginName}
     </select>
+    <!-- app用户注册  -->
+	<insert id="register" parameterType="map">
+		insert into APP_USER(id,login_name,password,photo,name,nick_name,sex,phone,email,area_id,del_flag,login_flag,update_date,create_date,remarks) 
+		values(
+		#{id},#{loginName},#{passWord},#{photo},#{name},#{nickName},#{sex},#{phone},#{email},#{areaid},'0','0',sysdate,sysdate,#{remarks})
+	</insert>
+	<!-- app查询序列SEQ_APP_USER  -->
+	<select id="getid"  resultType="java.lang.String">
+		select SEQ_APP_USER.nextval id from dual
+	</select>
+	<!-- app查询用户名，用于注册用户名不能重复  -->
+	<select id="userLoginName" parameterType="map" resultType="map">
+		select login_name from APP_USER where login_name = #{loginName}
+	</select>
 </mapper>

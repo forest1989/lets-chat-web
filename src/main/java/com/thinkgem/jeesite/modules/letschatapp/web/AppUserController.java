@@ -3,6 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.letschatapp.web;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,13 +27,15 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.letschatapp.entity.AppUser;
 import com.thinkgem.jeesite.modules.letschatapp.service.AppUserService;
 
+import net.sf.json.JSONArray;
+
 /**
  * 用户信息Controller
  * @author tao_yonggang
  * @version 2018-10-16
  */
 @Controller
-@RequestMapping(value = "${frontPath}/letschatapp/appUser")
+@RequestMapping(value = "${frontPath}/letschatapp/appuser")
 public class AppUserController extends BaseController {
 
 	@Autowired
@@ -109,5 +114,33 @@ public class AppUserController extends BaseController {
 			model.addAttribute("rtnMessage", "账号错误");
 			return renderString(response, model);
 		}
+	}
+
+	/**
+	 * @author zhai_shaobo
+	 * app注册
+	 */
+	
+	@RequestMapping(value = "register",method = RequestMethod.POST)
+	public String register(HttpServletRequest request, HttpServletResponse response, Model model) {
+		try {
+			String jsonStr = request.getParameter("data");
+			 JSONArray myJsonArray = JSONArray.fromObject(jsonStr);
+			 List<Map<String,Object>> orderIds = (List)myJsonArray;
+
+			 AppUser res = appUserService.register(orderIds);
+			 if (res.getCode().equals("0000")) {
+				 model.addAttribute("message", "注册成功");
+				 model.addAttribute("code", "1");
+			}else {
+				 model.addAttribute("message", "注册失败");
+				 model.addAttribute("code", "0");
+			}
+		} catch (Exception e) {
+			model.addAttribute("message", "注册异常");
+			 model.addAttribute("code", "0");
+		}
+//		return JsonMapper.toJsonString(model);
+		return renderString(response, model);
 	}
 }
