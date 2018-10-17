@@ -21,9 +21,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
+import com.thinkgem.jeesite.modules.letsapi.jwt.api.TokenMgr;
+import com.thinkgem.jeesite.modules.letsapi.jwt.config.Constant;
+import com.thinkgem.jeesite.modules.letsapi.jwt.model.SubjectModel;
 import com.thinkgem.jeesite.modules.letsapi.service.AppUserService;
 
 import net.sf.json.JSONArray;
@@ -104,8 +108,12 @@ public class AppUserController extends BaseController {
 					model.addAttribute("rtnMessage", "您已经被禁止登录");
 					return renderString(response, model);
 				}
+				// 生成TOKEN
+				SubjectModel sub = new SubjectModel(appUser.getId(), appUser.getLoginName());//用户信息
+				String token = TokenMgr.createJWT(IdGen.uuid(),Constant.JWT_ISS,TokenMgr.generalSubject(sub), Constant.JWT_TTL);
 				model.addAttribute("rtnCode", "0000");
 				model.addAttribute("rtnMessage", "登陆成功");
+				model.addAttribute("token", token);
 				model.addAttribute("appUser", appUser);
 				return renderString(response, model);
 			}else {
