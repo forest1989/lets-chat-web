@@ -18,10 +18,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/letschatapp/appUser/">用户信息列表</a></li>
-		<shiro:hasPermission name="letschatapp:appUser:edit"><li><a href="${ctx}/letschatapp/appUser/form">用户信息添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/letsapi/appUser/">用户信息列表</a></li>
+		<shiro:hasPermission name="letsapi:appUser:edit"><li><a href="${ctx}/letsapi/appUser/form">用户信息添加</a></li></shiro:hasPermission>
 	</ul>
-	<form:form id="searchForm" modelAttribute="appUser" action="${ctx}/letschatapp/appUser/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="appUser" action="${ctx}/letsapi/appUser/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
@@ -39,13 +39,13 @@
 				<th>用户姓名</th>
 				<th>更新时间</th>
 				<th>备注信息</th>
-				<shiro:hasPermission name="letschatapp:appUser:edit"><th>操作</th></shiro:hasPermission>
+				<shiro:hasPermission name="letsapi:appUser:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="appUser">
 			<tr>
-				<td><a href="${ctx}/letschatapp/appUser/form?id=${appUser.id}">
+				<td><a href="${ctx}/letsapi/appUser/form?id=${appUser.id}">
 					${appUser.name}
 				</a></td>
 				<td>
@@ -54,9 +54,9 @@
 				<td>
 					${appUser.remarks}
 				</td>
-				<shiro:hasPermission name="letschatapp:appUser:edit"><td>
-    				<a href="${ctx}/letschatapp/appUser/form?id=${appUser.id}">修改</a>
-					<a href="${ctx}/letschatapp/appUser/delete?id=${appUser.id}" onclick="return confirmx('确认要删除该用户信息吗？', this.href)">删除</a>
+				<shiro:hasPermission name="letsapi:appUser:edit"><td>
+    				<a href="${ctx}/letsapi/appUser/form?id=${appUser.id}">修改</a>
+					<a href="${ctx}/letsapi/appUser/delete?id=${appUser.id}" onclick="return confirmx('确认要删除该用户信息吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
