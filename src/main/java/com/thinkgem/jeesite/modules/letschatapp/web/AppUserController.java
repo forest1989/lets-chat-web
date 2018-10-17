@@ -100,6 +100,11 @@ public class AppUserController extends BaseController {
 		AppUser appUser=appUserService.login(user);
 		if(appUser!=null){
 			if(StringUtils.equals(password, appUser.getPassword())){
+				if(StringUtils.equals(appUser.getLoginFlag(), "1")) {
+					model.addAttribute("rtnCode", "500");
+					model.addAttribute("rtnMessage", "您已经被禁止登录");
+					return renderString(response, model);
+				}
 				model.addAttribute("rtnCode", "0000");
 				model.addAttribute("rtnMessage", "登陆成功");
 				model.addAttribute("appUser", appUser);

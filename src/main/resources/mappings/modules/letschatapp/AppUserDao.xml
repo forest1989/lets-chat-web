@@ -135,7 +135,7 @@
 	</update>
 	<!-- 登录和判断 用户是否存在-->
 	<select id="getByLoginName" resultType="AppUser" >
-    select * from app_user where login_name=#{loginName}
+    select * from app_user where login_name=#{loginName} and del_flag = 0
     </select>
     <!-- app用户注册  -->
 	<insert id="register" parameterType="map">
