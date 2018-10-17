@@ -18,10 +18,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/letschatmanage/appUserManage/">用户信息列表</a></li>
-		<shiro:hasPermission name="letschatmanage:appUserManage:edit"><li><a href="${ctx}/letschatmanage/appUserManage/form">用户信息添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/letsmall/appUserManage/">用户信息列表</a></li>
+		<shiro:hasPermission name="letsmall:appUserManage:edit"><li><a href="${ctx}/letsmall/appUserManage/form">用户信息添加</a></li></shiro:hasPermission>
 	</ul>
-	<form:form id="searchForm" modelAttribute="appUserManage" action="${ctx}/letschatmanage/appUserManage/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="appUserManage" action="${ctx}/letsmall/appUserManage/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
@@ -39,13 +39,13 @@
 				<th>用户姓名</th>
 				<th>更新时间</th>
 				<th>备注信息</th>
-				<shiro:hasPermission name="letschatmanage:appUserManage:edit"><th>操作</th></shiro:hasPermission>
+				<shiro:hasPermission name="letsmall:appUserManage:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="appUserManage">
 			<tr>
-				<td><a href="${ctx}/letschatmanage/appUserManage/form?id=${appUserManage.id}">
+				<td><a href="${ctx}/letsmall/appUserManage/form?id=${appUserManage.id}">
 					${appUserManage.name}
 				</a></td>
 				<td>
@@ -54,9 +54,9 @@
 				<td>
 					${appUserManage.remarks}
 				</td>
-				<shiro:hasPermission name="letschatmanage:appUserManage:edit"><td>
-    				<a href="${ctx}/letschatmanage/appUserManage/form?id=${appUserManage.id}">修改</a>
-					<a href="${ctx}/letschatmanage/appUserManage/delete?id=${appUserManage.id}" onclick="return confirmx('确认要删除该用户信息吗？', this.href)">删除</a>
+				<shiro:hasPermission name="letsmall:appUserManage:edit"><td>
+    				<a href="${ctx}/letsmall/appUserManage/form?id=${appUserManage.id}">修改</a>
+					<a href="${ctx}/letsmall/appUserManage/delete?id=${appUserManage.id}" onclick="return confirmx('确认要删除该用户信息吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

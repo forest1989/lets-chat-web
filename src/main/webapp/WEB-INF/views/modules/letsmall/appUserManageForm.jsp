@@ -27,10 +27,10 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/letschatmanage/appUserManage/">用户信息列表</a></li>
-		<li class="active"><a href="${ctx}/letschatmanage/appUserManage/form?id=${appUserManage.id}">用户信息<shiro:hasPermission name="letschatmanage:appUserManage:edit">${not empty appUserManage.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="letschatmanage:appUserManage:edit">查看</shiro:lacksPermission></a></li>
+		<li><a href="${ctx}/letsmall/appUserManage/">用户信息列表</a></li>
+		<li class="active"><a href="${ctx}/letsmall/appUserManage/form?id=${appUserManage.id}">用户信息<shiro:hasPermission name="letsmall:appUserManage:edit">${not empty appUserManage.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="letsmall:appUserManage:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="appUserManage" action="${ctx}/letschatmanage/appUserManage/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="appUserManage" action="${ctx}/letsmall/appUserManage/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
@@ -104,7 +104,7 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="letschatmanage:appUserManage:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="letsmall:appUserManage:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
