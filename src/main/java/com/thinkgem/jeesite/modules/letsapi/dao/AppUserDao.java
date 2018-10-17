@@ -32,10 +32,5 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 * 查询序列值
 	 */
 	public String getid();
-	/**
-	 * @author zhai_shaobo
-	 * 查询用户信息
-	 */
-	public Map<String, String> userLoginName(Map<String, String> parmMap);
 	
 }

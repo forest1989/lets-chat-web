@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,15 +61,16 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	 */
 	public AppUser register(List<Map<String,Object>> orderIds) {
 		AppUser appVo = new AppUser();
+		AppUser appVores = new AppUser();
 		String id = null;
 		try {
 			//注册前先验证 用户名是否可用。1 不能重复
 			Map<String, String> parmMapin = null;
-			parmMapin.put("loginName", (String) orderIds.get(0).get("loginName"));
-			Map<String,String> res = appUserDao.userLoginName(parmMapin);
-			if (res.get("login_name") == null || res.get("login_name").equals("")) {
+			appVo.setLoginName((String) orderIds.get(0).get("loginName"));
+			appVores = appUserDao.getByLoginName(appVo);
+			if (StringUtils.isBlank(appVores.getLoginName())) {
 				appVo.setMessage("用户名已被注册!");
-				appVo.setCode("8401");
+				appVo.setCode("0001");
 				return appVo;
 			}
 		} catch (Exception e) {

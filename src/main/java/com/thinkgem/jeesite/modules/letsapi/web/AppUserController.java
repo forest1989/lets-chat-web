@@ -136,7 +136,10 @@ public class AppUserController extends BaseController {
 			 if (res.getCode().equals("0000")) {
 				 model.addAttribute("message", "注册成功");
 				 model.addAttribute("code", "1");
-			}else {
+			}else if(res.getCode().equals("0001")){
+				 model.addAttribute("message", "该用户名已被注册!");
+				 model.addAttribute("code", "0");
+			} else {
 				 model.addAttribute("message", "注册失败");
 				 model.addAttribute("code", "0");
 			}
