@@ -3,11 +3,13 @@
  */
 package com.thinkgem.jeesite.modules.letsapi.web;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.web.servlet.ShiroHttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsapi.service.AppUserService;
+
+import net.sf.json.JSONArray;
 
 /**
  * 用户信息Controller
@@ -30,7 +34,7 @@ import com.thinkgem.jeesite.modules.letsapi.service.AppUserService;
  * @version 2018-10-16
  */
 @Controller
-@RequestMapping(value = "${frontPath}/letsapi/appUser")
+@RequestMapping(value = "${frontPath}/letsapi/appuser")
 public class AppUserController extends BaseController {
 
 	@Autowired
@@ -95,6 +99,11 @@ public class AppUserController extends BaseController {
 		AppUser appUser=appUserService.login(user);
 		if(appUser!=null){
 			if(StringUtils.equals(password, appUser.getPassword())){
+				if(StringUtils.equals(appUser.getLoginFlag(), "1")) {
+					model.addAttribute("rtnCode", "500");
+					model.addAttribute("rtnMessage", "您已经被禁止登录");
+					return renderString(response, model);
+				}
 				model.addAttribute("rtnCode", "0000");
 				model.addAttribute("rtnMessage", "登陆成功");
 				model.addAttribute("appUser", appUser);
@@ -109,5 +118,33 @@ public class AppUserController extends BaseController {
 			model.addAttribute("rtnMessage", "账号错误");
 			return renderString(response, model);
 		}
+	}
+
+	/**
+	 * @author zhai_shaobo
+	 * app注册
+	 */
+	
+	@RequestMapping(value = "register",method = RequestMethod.POST)
+	public String register(HttpServletRequest request, HttpServletResponse response, Model model) {
+		try {
+			String jsonStr = request.getParameter("data");
+			 JSONArray myJsonArray = JSONArray.fromObject(jsonStr);
+			 List<Map<String,Object>> orderIds = (List)myJsonArray;
+
+			 AppUser res = appUserService.register(orderIds);
+			 if (res.getCode().equals("0000")) {
+				 model.addAttribute("message", "注册成功");
+				 model.addAttribute("code", "1");
+			}else {
+				 model.addAttribute("message", "注册失败");
+				 model.addAttribute("code", "0");
+			}
+		} catch (Exception e) {
+			model.addAttribute("message", "注册异常");
+			 model.addAttribute("code", "0");
+		}
+//		return JsonMapper.toJsonString(model);
+		return renderString(response, model);
 	}
 }

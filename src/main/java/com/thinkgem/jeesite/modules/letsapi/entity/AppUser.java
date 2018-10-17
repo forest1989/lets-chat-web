@@ -123,5 +123,37 @@ public class AppUser extends DataEntity<AppUser> {
 	public void setLoginFlag(String loginFlag) {
 		this.loginFlag = loginFlag;
 	}
+	//返参
+		private String message;
+		private String code;
+		private String id;
+
+		public String getMessage() {
+			return message;
+		}
+
+		public void setMessage(String message) {
+			this.message = message;
+		}
+
+		public String getCode() {
+			return code;
+		}
+
+		public void setCode(String code) {
+			this.code = code;
+		}
+
+		public static long getSerialversionuid() {
+			return serialVersionUID;
+		}
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
 	
 }

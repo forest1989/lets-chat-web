@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.letsapi.dao;
 
+import java.util.Map;
+
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
@@ -20,5 +22,20 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 * @return
 	 */
 	AppUser getByLoginName(AppUser user);
+	/**
+	 * @author zhai_shaobo
+	 * app注册dao
+	 */
+	public int register(Map<String, Object> parmMap);
+	/**
+	 * @author zhai_shaobo
+	 * 查询序列值
+	 */
+	public String getid();
+	/**
+	 * @author zhai_shaobo
+	 * 查询用户信息
+	 */
+	public Map<String, String> userLoginName(Map<String, String> parmMap);
 	
 }
