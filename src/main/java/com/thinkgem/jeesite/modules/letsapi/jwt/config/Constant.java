@@ -2,7 +2,7 @@ package com.thinkgem.jeesite.modules.letsapi.jwt.config;
 
 /**
  * 全局配置常量
- * @author xuxile
+ * @author forest
  *
  */
 public class Constant {
