@@ -1,18 +1,24 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.letschatmanage.dao;
+package com.thinkgem.jeesite.modules.letsapi.dao;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.letschatmanage.entity.AppUserManage;
+import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 
 /**
  * 用户信息DAO接口
  * @author tao_yonggang
- * @version 2018-10-17
+ * @version 2018-10-16
  */
 @MyBatisDao
-public interface AppUserManageDao extends CrudDao<AppUserManage> {
+public interface AppUserDao extends CrudDao<AppUser> {
+
+	/**
+	 * @param user
+	 * @return
+	 */
+	AppUser getByLoginName(AppUser user);
 	
 }

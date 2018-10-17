@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.letschatmanage.web;
+package com.thinkgem.jeesite.modules.letsmall.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +19,8 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.letschatmanage.entity.AppUserManage;
-import com.thinkgem.jeesite.modules.letschatmanage.service.AppUserManageService;
+import com.thinkgem.jeesite.modules.letsmall.entity.AppUserManage;
+import com.thinkgem.jeesite.modules.letsmall.service.AppUserManageService;
 
 /**
  * 用户信息Controller
@@ -28,7 +28,7 @@ import com.thinkgem.jeesite.modules.letschatmanage.service.AppUserManageService;
  * @version 2018-10-17
  */
 @Controller
-@RequestMapping(value = "${adminPath}/letschatmanage/appUserManage")
+@RequestMapping(value = "${adminPath}/letsmall/appUserManage")
 public class AppUserManageController extends BaseController {
 
 	@Autowired
@@ -46,22 +46,22 @@ public class AppUserManageController extends BaseController {
 		return entity;
 	}
 	
-	@RequiresPermissions("letschatmanage:appUserManage:view")
+	@RequiresPermissions("letsmall:appUserManage:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(AppUserManage appUserManage, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<AppUserManage> page = appUserManageService.findPage(new Page<AppUserManage>(request, response), appUserManage); 
 		model.addAttribute("page", page);
-		return "modules/letschatmanage/appUserManageList";
+		return "modules/letsmall/appUserManageList";
 	}
 
-	@RequiresPermissions("letschatmanage:appUserManage:view")
+	@RequiresPermissions("letsmall:appUserManage:view")
 	@RequestMapping(value = "form")
 	public String form(AppUserManage appUserManage, Model model) {
 		model.addAttribute("appUserManage", appUserManage);
-		return "modules/letschatmanage/appUserManageForm";
+		return "modules/letsmall/appUserManageForm";
 	}
 
-	@RequiresPermissions("letschatmanage:appUserManage:edit")
+	@RequiresPermissions("letsmall:appUserManage:edit")
 	@RequestMapping(value = "save")
 	public String save(AppUserManage appUserManage, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, appUserManage)){
@@ -69,15 +69,15 @@ public class AppUserManageController extends BaseController {
 		}
 		appUserManageService.save(appUserManage);
 		addMessage(redirectAttributes, "保存用户信息成功");
-		return "redirect:"+Global.getAdminPath()+"/letschatmanage/appUserManage/?repage";
+		return "redirect:"+Global.getAdminPath()+"/letsmall/appUserManage/?repage";
 	}
 	
-	@RequiresPermissions("letschatmanage:appUserManage:edit")
+	@RequiresPermissions("letsmall:appUserManage:edit")
 	@RequestMapping(value = "delete")
 	public String delete(AppUserManage appUserManage, RedirectAttributes redirectAttributes) {
 		appUserManageService.delete(appUserManage);
 		addMessage(redirectAttributes, "删除用户信息成功");
-		return "redirect:"+Global.getAdminPath()+"/letschatmanage/appUserManage/?repage";
+		return "redirect:"+Global.getAdminPath()+"/letsmall/appUserManage/?repage";
 	}
 
 }

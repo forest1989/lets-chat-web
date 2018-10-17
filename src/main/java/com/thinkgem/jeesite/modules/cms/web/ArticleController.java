@@ -35,14 +35,14 @@ import com.thinkgem.jeesite.modules.cms.utils.TplUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
- * 文章Controller
- * @author ThinkGem
+ * 文章Controller 
+ * @author ThinkGem  
  * @version 2013-3-23
  */
 @Controller
 @RequestMapping(value = "${adminPath}/cms/article")
 public class ArticleController extends BaseController {
-
+	
 	@Autowired
 	private ArticleService articleService;
 	@Autowired

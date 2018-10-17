@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.letschatapp.web;
+package com.thinkgem.jeesite.modules.letsapi.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +21,8 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.letschatapp.entity.AppUser;
-import com.thinkgem.jeesite.modules.letschatapp.service.AppUserService;
+import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
+import com.thinkgem.jeesite.modules.letsapi.service.AppUserService;
 
 /**
  * 用户信息Controller
@@ -30,7 +30,7 @@ import com.thinkgem.jeesite.modules.letschatapp.service.AppUserService;
  * @version 2018-10-16
  */
 @Controller
-@RequestMapping(value = "${frontPath}/letschatapp/appUser")
+@RequestMapping(value = "${frontPath}/letsapi/appUser")
 public class AppUserController extends BaseController {
 
 	@Autowired
@@ -48,22 +48,22 @@ public class AppUserController extends BaseController {
 		return entity;
 	}
 	
-	@RequiresPermissions("letschatapp:appUser:view")
+	@RequiresPermissions("letsapi:appUser:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(AppUser appUser, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<AppUser> page = appUserService.findPage(new Page<AppUser>(request, response), appUser); 
 		model.addAttribute("page", page);
-		return "modules/letschatapp/appUserList";
+		return "modules/letsapi/appUserList";
 	}
 
-	@RequiresPermissions("letschatapp:appUser:view")
+	@RequiresPermissions("letsapi:appUser:view")
 	@RequestMapping(value = "form")
 	public String form(AppUser appUser, Model model) {
 		model.addAttribute("appUser", appUser);
-		return "modules/letschatapp/appUserForm";
+		return "modules/letsapi/appUserForm";
 	}
 
-	@RequiresPermissions("letschatapp:appUser:edit")
+	@RequiresPermissions("letsapi:appUser:edit")
 	@RequestMapping(value = "save")
 	public String save(AppUser appUser, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, appUser)){
@@ -71,15 +71,15 @@ public class AppUserController extends BaseController {
 		}
 		appUserService.save(appUser);
 		addMessage(redirectAttributes, "保存用户信息成功");
-		return "redirect:"+Global.getAdminPath()+"/letschatapp/appUser/?repage";
+		return "redirect:"+Global.getAdminPath()+"/letsapi/appUser/?repage";
 	}
 	
-	@RequiresPermissions("letschatapp:appUser:edit")
+	@RequiresPermissions("letsapi:appUser:edit")
 	@RequestMapping(value = "delete")
 	public String delete(AppUser appUser, RedirectAttributes redirectAttributes) {
 		appUserService.delete(appUser);
 		addMessage(redirectAttributes, "删除用户信息成功");
-		return "redirect:"+Global.getAdminPath()+"/letschatapp/appUser/?repage";
+		return "redirect:"+Global.getAdminPath()+"/letsapi/appUser/?repage";
 	}
 	
 	/**  

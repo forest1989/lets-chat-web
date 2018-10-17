@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.letschatapp.service;
+package com.thinkgem.jeesite.modules.letsapi.service;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
-import com.thinkgem.jeesite.modules.letschatapp.entity.AppUser;
-import com.thinkgem.jeesite.modules.letschatapp.dao.AppUserDao;
+import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
+import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
 
 /**
  * 用户信息Service

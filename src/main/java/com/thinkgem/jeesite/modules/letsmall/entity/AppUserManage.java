@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.letschatmanage.entity;
+package com.thinkgem.jeesite.modules.letsmall.entity;
 
 import org.hibernate.validator.constraints.Length;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
