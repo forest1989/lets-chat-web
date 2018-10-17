@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.letschatapp.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,8 @@ import com.thinkgem.jeesite.modules.letschatapp.dao.AppUserDao;
 @Service
 @Transactional(readOnly = true)
 public class AppUserService extends CrudService<AppUserDao, AppUser> {
-
+	@Autowired
+    private AppUserDao appUserDao;
 	public AppUser get(String id) {
 		return super.get(id);
 	}
@@ -43,5 +45,11 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	public void delete(AppUser appUser) {
 		super.delete(appUser);
 	}
-	
+	/**
+	 * @param user登录
+	 * @return
+	 */
+	public AppUser login(AppUser user) {
+		return appUserDao.getByLoginName(user);
+	}
 }

@@ -7,11 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.web.servlet.ShiroHttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,7 +30,7 @@ import com.thinkgem.jeesite.modules.letschatapp.service.AppUserService;
  * @version 2018-10-16
  */
 @Controller
-@RequestMapping(value = "${adminPath}/letschatapp/appUser")
+@RequestMapping(value = "${frontPath}/letschatapp/appUser")
 public class AppUserController extends BaseController {
 
 	@Autowired
@@ -79,5 +81,33 @@ public class AppUserController extends BaseController {
 		addMessage(redirectAttributes, "删除用户信息成功");
 		return "redirect:"+Global.getAdminPath()+"/letschatapp/appUser/?repage";
 	}
-
+	
+	/**  
+	* <p>Description:用户登录 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月17日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/login", method = RequestMethod.POST)
+	public String  login(String password,String loginName, HttpServletResponse response, Model model){
+		AppUser user=new AppUser();
+		user.setLoginName(loginName);
+		AppUser appUser=appUserService.login(user);
+		if(appUser!=null){
+			if(StringUtils.equals(password, appUser.getPassword())){
+				model.addAttribute("rtnCode", "0000");
+				model.addAttribute("rtnMessage", "登陆成功");
+				model.addAttribute("appUser", appUser);
+				return renderString(response, model);
+			}else {
+				model.addAttribute("rtnCode", "500");
+				model.addAttribute("rtnMessage", "密码错误");
+				return renderString(response, model);
+			}
+		}else{
+			model.addAttribute("rtnCode", "500");
+			model.addAttribute("rtnMessage", "账号错误");
+			return renderString(response, model);
+		}
+	}
 }

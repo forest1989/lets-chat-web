@@ -14,5 +14,11 @@ import com.thinkgem.jeesite.modules.letschatapp.entity.AppUser;
  */
 @MyBatisDao
 public interface AppUserDao extends CrudDao<AppUser> {
+
+	/**
+	 * @param user
+	 * @return
+	 */
+	AppUser getByLoginName(AppUser user);
 	
 }
