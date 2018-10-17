@@ -110,10 +110,10 @@ public class AppUserController extends BaseController {
 				}
 				// 生成TOKEN
 				SubjectModel sub = new SubjectModel(appUser.getId(), appUser.getLoginName());//用户信息
-				String token = TokenMgr.createJWT(IdGen.uuid(),Constant.JWT_ISS,TokenMgr.generalSubject(sub), Constant.JWT_TTL);
+				String token = TokenMgr.createJWT(IdGen.uuid(), Constant.JWT_ISS,TokenMgr.generalSubject(sub), Constant.JWT_TTL);
+				response.addHeader("Authorization", token);
 				model.addAttribute("rtnCode", "0000");
 				model.addAttribute("rtnMessage", "登陆成功");
-				model.addAttribute("token", token);
 				model.addAttribute("appUser", appUser);
 				return renderString(response, model);
 			}else {
