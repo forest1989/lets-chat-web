@@ -8,15 +8,13 @@ import org.slf4j.LoggerFactory;
 
 import net.sf.json.JSONArray;
 
-/**
- * 文件上传工具类
- * 
- * @author yangdc
- * @date Apr 18, 2012
- * 
- * <pre>
- * </pre>
- */
+
+/**  
+* <p>Description: Json工具类</p>      
+* @author tao_yonggang  
+* @date 2018年10月18日  
+* @version 1.0  
+*/ 
 public class JsonUtils {
 	/**
 	 * 日志对象
