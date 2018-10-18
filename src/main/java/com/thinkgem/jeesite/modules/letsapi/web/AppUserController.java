@@ -168,8 +168,7 @@ public class AppUserController extends BaseController {
 	@RequestMapping(value="/updatePassword", method = RequestMethod.POST)
 	public String  updatePassword(HttpServletRequest request,HttpServletResponse response, Model model){
 		try {
-			String jsonStr = request.getParameter("data");
-			List<Map<String,Object>> listmp= new JsonUtils().getListMap(jsonStr);
+			List<Map<String,Object>> listmp= new JsonUtils().getListMap(request);
 			AppUser appUser=appUserService.updatePassword(listmp);
 			if (appUser.getCode().equals("0000")) {
 				 model.addAttribute("message", appUser.getMessage());

@@ -3,6 +3,8 @@ package com.thinkgem.jeesite.modules.letsapi.utils;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +29,8 @@ public class JsonUtils {
 	 * @return 
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Map<String,Object>> getListMap(String jsonStr) {
+	public List<Map<String,Object>> getListMap(HttpServletRequest request) {
+		String jsonStr = request.getParameter("data");
 		JSONArray myJsonArray = JSONArray.fromObject(jsonStr);
 		 List<Map<String,Object>> listmp=null;
 		 try {
