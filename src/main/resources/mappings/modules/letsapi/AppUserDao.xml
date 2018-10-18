@@ -182,6 +182,6 @@
         remarks = #{remarks},
       </if>
     </set>
-    where login_name = #{loginName}
+    where login_name = #{loginName} and del_flag = 0
   </update>
 </mapper>
