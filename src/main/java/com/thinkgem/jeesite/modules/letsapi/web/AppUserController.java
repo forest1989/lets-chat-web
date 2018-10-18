@@ -104,26 +104,26 @@ public class AppUserController extends BaseController {
 		if(appUser!=null){
 			if(StringUtils.equals(password, appUser.getPassword())){
 				if(StringUtils.equals(appUser.getLoginFlag(), "1")) {
-					model.addAttribute("rtnCode", "500");
-					model.addAttribute("rtnMessage", "您已经被禁止登录");
+					model.addAttribute("code", "500");
+					model.addAttribute("message", "您已经被禁止登录");
 					return renderString(response, model);
 				}
 				// 生成TOKEN
 				SubjectModel sub = new SubjectModel(appUser.getId(), appUser.getLoginName());//用户信息
 				String token = TokenMgr.createJWT(IdGen.uuid(), Constant.JWT_ISS,TokenMgr.generalSubject(sub), Constant.JWT_TTL);
 				response.addHeader("Authorization", token);
-				model.addAttribute("rtnCode", "0000");
-				model.addAttribute("rtnMessage", "登陆成功");
+				model.addAttribute("code", "0000");
+				model.addAttribute("message", "登陆成功");
 				model.addAttribute("appUser", appUser);
 				return renderString(response, model);
 			}else {
-				model.addAttribute("rtnCode", "500");
-				model.addAttribute("rtnMessage", "密码错误");
+				model.addAttribute("code", "500");
+				model.addAttribute("message", "密码错误");
 				return renderString(response, model);
 			}
 		}else{
-			model.addAttribute("rtnCode", "500");
-			model.addAttribute("rtnMessage", "账号错误");
+			model.addAttribute("code", "500");
+			model.addAttribute("message", "账号错误");
 			return renderString(response, model);
 		}
 	}
