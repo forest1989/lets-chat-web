@@ -139,7 +139,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 						appVo.setCode("0000");
 					}else {
 						appVo.setMessage("密码修改失败");
-						appVo.setCode("0000");
+						appVo.setCode("8401");
 					}
 				}
 			}else {
