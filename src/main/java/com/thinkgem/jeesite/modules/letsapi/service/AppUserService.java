@@ -68,7 +68,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			Map<String, String> parmMapin = null;
 			appVo.setLoginName((String) orderIds.get(0).get("loginName"));
 			appVores = appUserDao.getByLoginName(appVo);
-			if (StringUtils.isBlank(appVores.getLoginName())) {
+			if (appVores!=null) {
 				appVo.setMessage("用户名已被注册!");
 				appVo.setCode("0001");
 				return appVo;
