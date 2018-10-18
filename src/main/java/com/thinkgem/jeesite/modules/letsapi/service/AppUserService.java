@@ -16,7 +16,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
-import com.thinkgem.jeesite.modules.letsapi.jwt.utils.OpenFireActionUtil;
+import com.thinkgem.jeesite.modules.letsim.utils.OpenFireActionUtil;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
 

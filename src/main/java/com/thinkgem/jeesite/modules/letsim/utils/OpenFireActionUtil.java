@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.modules.letsapi.jwt.utils;
+package com.thinkgem.jeesite.modules.letsim.utils;
 import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.Message;
 import org.slf4j.Logger;
