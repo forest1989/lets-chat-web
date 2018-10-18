@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.thinkgem.jeesite.modules.letschatapp.dao.AppUserDao">
+<mapper namespace="com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao">
     
 	<sql id="appUserColumns">
 		a.id AS "id",
@@ -133,5 +133,55 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+	<!-- 登录和判断 用户是否存在-->
+	<select id="getByLoginName" resultType="AppUser" >
+    select * from app_user where login_name=#{loginName} and del_flag = 0
+    </select>
+    <!-- app用户注册  -->
+	<insert id="register" parameterType="map">
+		insert into APP_USER(id,login_name,password,photo,name,nick_name,sex,phone,email,area_id,del_flag,login_flag,update_date,create_date,remarks) 
+		values(
+		#{id},#{loginName},#{passWord},#{photo},#{name},#{nickName},#{sex},#{phone},#{email},#{areaid},'0','0',sysdate,sysdate,#{remarks})
+	</insert>
+	<!-- app查询序列SEQ_APP_USER  -->
+	<select id="getid"  resultType="java.lang.String">
+		select SEQ_APP_USER.nextval id from dual
+	</select>
 	
+	<update id="updateByloginName" parameterType="AppUser">
+    update APP_USER
+    <set>
+      <if test="password != null">
+        password = #{password},
+      </if>
+      <if test="photo != null">
+        photo = #{photo},
+      </if>
+      <if test="name != null">
+        name = #{name},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName},
+      </if>
+      <if test="sex != null">
+        sex = #{sex},
+      </if>
+      <if test="phone != null">
+        phone = #{phone},
+      </if>
+      <if test="email != null">
+        email = #{email},
+      </if>
+      <if test="loginFlag != null">
+        login_flag = #{loginFlag},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks},
+      </if>
+    </set>
+    where login_name = #{loginName} and del_flag = 0
+  </update>
 </mapper>

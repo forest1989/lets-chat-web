@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.letschatapp.entity;
+package com.thinkgem.jeesite.modules.letsapi.entity;
 
 import org.hibernate.validator.constraints.Length;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
@@ -33,6 +33,16 @@ public class AppUser extends DataEntity<AppUser> {
 
 	public AppUser(String id){
 		super(id);
+	}
+
+	/**
+	 * @param loginName
+	 * @param password
+	 */
+	public AppUser(String loginName, String password) {
+		super();
+		this.loginName = loginName;
+		this.password = password;
 	}
 
 	@Length(min=1, max=100, message="登录名长度必须介于 1 和 100 之间")
@@ -123,5 +133,37 @@ public class AppUser extends DataEntity<AppUser> {
 	public void setLoginFlag(String loginFlag) {
 		this.loginFlag = loginFlag;
 	}
+	//返参
+		private String message;
+		private String code;
+		private String id;
+
+		public String getMessage() {
+			return message;
+		}
+
+		public void setMessage(String message) {
+			this.message = message;
+		}
+
+		public String getCode() {
+			return code;
+		}
+
+		public void setCode(String code) {
+			this.code = code;
+		}
+
+		public static long getSerialversionuid() {
+			return serialVersionUID;
+		}
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
 	
 }

@@ -154,7 +154,7 @@ public abstract class BaseController {
 	 */
 	protected String renderString(HttpServletResponse response, String string, String type) {
 		try {
-			response.reset();
+			//response.reset();
 	        response.setContentType(type);
 	        response.setCharacterEncoding("utf-8");
 			response.getWriter().print(string);

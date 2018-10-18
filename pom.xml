@@ -598,6 +598,16 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/UserAgentUtils-1.13.jar</systemPath>
 		</dependency>
+		<dependency>
+		  <groupId>io.jsonwebtoken</groupId>
+		  <artifactId>jjwt</artifactId>
+		  <version>0.7.0</version>
+		</dependency>
+	   <dependency>
+		  <groupId>com.google.code.gson</groupId>
+		  <artifactId>gson</artifactId>
+		  <version>2.4</version>
+		</dependency>
 		
 		<!-- 自定义jar依赖包
 		<dependency>
@@ -624,7 +634,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency> -->
-		
+		<dependency>
+		    <groupId>net.sf.json-lib</groupId>
+		    <artifactId>json-lib</artifactId>
+		    <version>2.4</version>
+		    <classifier>jdk15</classifier>
+		</dependency>
 	</dependencies>
 
 	<build>
