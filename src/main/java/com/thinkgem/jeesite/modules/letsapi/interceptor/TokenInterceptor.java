@@ -45,7 +45,7 @@ public class TokenInterceptor implements HandlerInterceptor{
 		//请求URL
 		//String url =request.getServletPath().toString();
 				
-		String tokenStr = request.getParameter("token");
+		String tokenStr = request.getHeader("Authorization");
 		if (tokenStr == null || tokenStr.equals("")) {
 			PrintWriter printWriter = response.getWriter();
 			printWriter.print(ResponseMgr.noLogin());
