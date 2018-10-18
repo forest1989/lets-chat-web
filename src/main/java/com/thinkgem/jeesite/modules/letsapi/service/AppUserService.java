@@ -11,10 +11,13 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
+import com.thinkgem.jeesite.modules.letsapi.jwt.utils.OpenFireActionUtil;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
 
 /**
@@ -59,6 +62,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	 * @author zhai_shaobo
 	 * app注册service
 	 */
+	@Transactional
 	public AppUser register(List<Map<String,Object>> orderIds) {
 		AppUser appVo = new AppUser();
 		AppUser appVores = new AppUser();
@@ -82,21 +86,20 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			if (orderIds.size()>0 && orderIds != null) {
 				id = appUserDao.getid();
 				Map<String, Object> parmMap = new HashMap<String, Object>();
-				parmMap.put("id", id);//用户名(登录名称)
+				parmMap.put("id", id);//用户表唯一id
 				parmMap.put("loginName", (String) orderIds.get(0).get("loginName"));//用户名(登录名称)
 				parmMap.put("passWord", (String) orderIds.get(0).get("passWord"));//(密码)
-				parmMap.put("photo", (String) orderIds.get(0).get("photo"));//图像路径
-				parmMap.put("name", (String) orderIds.get(0).get("name"));//用户姓名
-				parmMap.put("nickName", (String) orderIds.get(0).get("nickName"));//用户昵称
-				parmMap.put("sex", (String) orderIds.get(0).get("sex"));//用户性别
-				parmMap.put("phone", (String) orderIds.get(0).get("phone"));//用户电话号码
-				parmMap.put("email", (String) orderIds.get(0).get("email"));//用户邮箱
-				/** 区域 */
-				parmMap.put("areaid", (String) orderIds.get(0).get("areaid"));//用户地区编码
-				parmMap.put("remarks", (String) orderIds.get(0).get("remarks"));//用户地区编码
 				
 				int i = appUserDao.register(parmMap);
 				if (i>0) {
+					//此處調用openfier真正註冊
+					OpenFireActionUtil smack = new OpenFireActionUtil();
+			        //创建用户的信息
+			        Map<String,String> map = new HashMap<String, String>();
+			        map.put("email","");
+			        map.put("name", "name");
+			        smack.register((String) orderIds.get(0).get("loginName"),(String) orderIds.get(0).get("passWord"),map,smack.getXMPPConnection());
+			        smack.destory();					
 					appVo.setMessage("注册成功");
 					appVo.setCode("0000");
 				}else {
@@ -106,11 +109,11 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("openfire注册异常------"+e.getMessage());
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			appVo.setMessage("注册异常");
 			appVo.setCode("8401");
-			e.printStackTrace();
-			logger.error("注册出现异常"+e.getMessage());
-			System.out.println("注册出现异常"+e.getMessage());
 		}
 		return appVo;
 	}
@@ -150,6 +153,38 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			appVo.setMessage("修改异常");
 			appVo.setCode("8401");
 			logger.error("修改出现异常"+e.getMessage());
+		}
+		return appVo;
+	}
+	/**
+	 * @author zhai_shaobo
+	 * app注册 成功之后 完善用户信息
+	 */
+	public AppUser perfect(List<Map<String,Object>> orderIds) {
+		AppUser appVo = new AppUser();
+		AppUser user = new AppUser();
+		Area area = new Area();
+		try {
+			area.setId((String) orderIds.get(0).get("areaid"));
+			user.setArea(area);
+			user.setLoginName((String) orderIds.get(0).get("loginName"));
+			user.setNickName((String) orderIds.get(0).get("nickName"));
+			user.setPhone((String) orderIds.get(0).get("phone"));
+			user.setPhoto((String) orderIds.get(0).get("photo"));
+			int i = appUserDao.perfect(user);
+			if (i>=1) {
+				appVo.setMessage("信息完善成功!");
+				appVo.setCode("0000");
+			}else {
+				appVo.setMessage("信息完善失败!");
+				appVo.setCode("8401");
+			}
+		} catch (Exception e) {
+			appVo.setMessage("信息完善异常!");
+			appVo.setCode("8401");
+			e.printStackTrace();
+			logger.error("perfect---信息完善异常"+e.getMessage());
+			return appVo;
 		}
 		return appVo;
 	}
