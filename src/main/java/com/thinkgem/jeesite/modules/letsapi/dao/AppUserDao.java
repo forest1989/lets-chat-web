@@ -37,5 +37,10 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 * 修改密码
 	 */
 	int updateByloginName(AppUser user);
+	/**
+	 * @author zhai_shaobo
+	 * 完善用户信息
+	 */
+	public int perfect(AppUser user);
 	
 }

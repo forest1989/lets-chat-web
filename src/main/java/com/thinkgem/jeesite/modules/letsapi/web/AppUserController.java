@@ -183,4 +183,32 @@ public class AppUserController extends BaseController {
 		}
 		return renderString(response, model);
 	}
+	/**
+	 * @author zhai_shaobo
+	 * app注册 成功之后 完善用户信息
+	 */
+	
+	@RequestMapping(value = "perfect",method = RequestMethod.POST)
+	public String perfect(HttpServletRequest request, HttpServletResponse response, Model model) {
+		try {
+			String jsonStr = request.getParameter("data");
+			 JSONArray myJsonArray = JSONArray.fromObject(jsonStr);
+			 List<Map<String,Object>> orderIds = (List)myJsonArray;
+
+			 AppUser res = appUserService.perfect(orderIds);
+			 if (res.getCode().equals("0000")) {
+				 model.addAttribute("message", "信息完善成功!");
+				 model.addAttribute("code", "1");
+			} else {
+				 model.addAttribute("message", "信息完善失败!");
+				 model.addAttribute("code", "0");
+			}
+		} catch (Exception e) {
+			 model.addAttribute("message", "信息完善异常!");
+			 model.addAttribute("code", "0");
+			 e.printStackTrace();
+			 logger.error("perfect---信息完善异常"+e.getMessage());
+		}
+		return renderString(response, model);
+	}
 }
