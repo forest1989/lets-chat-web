@@ -1,6 +1,8 @@
 package com.thinkgem.jeesite.modules.letsapi.jwt.utils;
 import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 
@@ -9,7 +11,10 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class OpenFireActionUtil {
-
+	/**
+	 * 日志对象
+	 */
+	protected Logger logger = LoggerFactory.getLogger(getClass());
 	private Connection connection;
     private ConnectionConfiguration config;
     /** openfire服务器address */
@@ -115,7 +120,7 @@ public class OpenFireActionUtil {
     
     public XMPPConnection getXMPPConnection() {
         try {
-            ConnectionConfiguration config = new ConnectionConfiguration("127.0.0.1", 5222, server);
+            ConnectionConfiguration config = new ConnectionConfiguration("192.168.1.105", 5222, server);
             config.setReconnectionAllowed(false);
             config.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
             config.setSendPresence(true);
@@ -145,5 +150,44 @@ public class OpenFireActionUtil {
         } catch (XMPPException e) {
             e.printStackTrace();
         }
+    }
+    /**
+     * 修改密码
+     * newPassword 新密码
+     * XMPPConnection 是连接通道
+     * by tao_yonggang
+     */
+    public void changePassword(String newPassword,XMPPConnection XMPPConnection) {
+        try {
+            if (newPassword != null && !newPassword.isEmpty()) {
+                //统一默认密码
+                if(XMPPConnection!=null) {
+                   //"1"为账号密码，默认都为
+                    connection.getAccountManager().changePassword(newPassword);
+                }
+            }
+        } catch (XMPPException e) {
+        	logger.error("修改openfier密码异常--------------------->>>>>"+e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 修改密码
+     * newPassword 新密码
+     * XMPPConnection 是连接通道
+     * by tao_yonggang
+     */
+    public void loginOpenfier(String loginName, String oldPassWord) {
+        init();
+        System.out.println("开始发送openfier--------------------->>>>>");
+        logger.info("开始发送openfier--------------------->>>>>");
+        try {
+            connection.login(loginName, oldPassWord);
+            System.out.println("连接成功--------------------->>>>>");
+            logger.info("连接成功--------------------->>>>>");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+     
     }
 }

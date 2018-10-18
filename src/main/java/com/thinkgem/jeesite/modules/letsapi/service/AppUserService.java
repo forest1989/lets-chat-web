@@ -122,6 +122,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	 * @param mp 修改密码
 	 * @return tyg
 	 */
+	@Transactional
 	public AppUser updatePassword(List<Map<String,Object>> mp) {
 		AppUser appVo = new AppUser();
 		try {
@@ -138,6 +139,11 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 					AppUser user=new AppUser((String)mp.get(0).get("loginName"), newPassWord);
 					int n=appUserDao.updateByloginName(user);
 					if(n>0){
+						//此處調用openfier修改密码
+						OpenFireActionUtil smack = new OpenFireActionUtil();
+						smack.loginOpenfier((String)mp.get(0).get("loginName"), oldPassWord);
+				        smack.changePassword(newPassWord, smack.getXMPPConnection());
+				        smack.destory();					
 						appVo.setMessage("密码修改成功");
 						appVo.setCode("0000");
 					}else {
@@ -150,6 +156,8 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 				appVo.setCode("8401");
 			}
 		} catch (Exception e) {
+			logger.error("openfire修改密码异常------"+e.getMessage());
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			appVo.setMessage("修改异常");
 			appVo.setCode("8401");
 			logger.error("修改出现异常"+e.getMessage());
