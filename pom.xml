@@ -599,6 +599,20 @@
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/UserAgentUtils-1.13.jar</systemPath>
 		</dependency>
 		<dependency>
+			<groupId>openFire.smack</groupId>
+			<artifactId>smack</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/smack.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>openFire.smackx</groupId>
+			<artifactId>smackx</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/smackx.jar</systemPath>
+		</dependency>
+		<dependency>
 		  <groupId>io.jsonwebtoken</groupId>
 		  <artifactId>jjwt</artifactId>
 		  <version>0.7.0</version>
