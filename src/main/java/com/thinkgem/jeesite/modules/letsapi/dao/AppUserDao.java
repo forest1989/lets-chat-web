@@ -32,5 +32,10 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 * 查询序列值
 	 */
 	public String getid();
+	/**
+	 * @author tao_yonggang
+	 * 修改密码
+	 */
+	int updateByloginName(AppUser user);
 	
 }

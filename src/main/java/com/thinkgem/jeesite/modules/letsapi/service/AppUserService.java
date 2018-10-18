@@ -114,4 +114,43 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 		}
 		return appVo;
 	}
+
+	/**
+	 * @param mp 修改密码
+	 * @return tyg
+	 */
+	public AppUser updatePassword(List<Map<String,Object>> mp) {
+		AppUser appVo = new AppUser();
+		try {
+			String oldPassWord=(String)mp.get(0).get("oldPassWord");
+			String newPassWord=(String)mp.get(0).get("newPassWord");
+			AppUser userold=new AppUser();
+			userold.setLoginName((String)mp.get(0).get("loginName"));
+			AppUser s= appUserDao.getByLoginName(userold);//通过账号查出密码判断旧密码是否正确
+			if(s!=null) {
+				if(!s.getPassword().equals(oldPassWord)) {
+					appVo.setMessage("您的旧密码输入错误");
+					appVo.setCode("8401");
+				}else {//旧密码是正确的然后通过账号修改新密码
+					AppUser user=new AppUser((String)mp.get(0).get("loginName"), newPassWord);
+					int n=appUserDao.updateByloginName(user);
+					if(n>0){
+						appVo.setMessage("密码修改成功");
+						appVo.setCode("0000");
+					}else {
+						appVo.setMessage("密码修改失败");
+						appVo.setCode("0000");
+					}
+				}
+			}else {
+				appVo.setMessage("您的账号错误");
+				appVo.setCode("8401");
+			}
+		} catch (Exception e) {
+			appVo.setMessage("修改异常");
+			appVo.setCode("8401");
+			logger.error("修改出现异常"+e.getMessage());
+		}
+		return appVo;
+	}
 }

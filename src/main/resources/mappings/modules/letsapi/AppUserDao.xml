@@ -147,4 +147,41 @@
 	<select id="getid"  resultType="java.lang.String">
 		select SEQ_APP_USER.nextval id from dual
 	</select>
+	
+	<update id="updateByloginName" parameterType="AppUser">
+    update APP_USER
+    <set>
+      <if test="password != null">
+        password = #{password},
+      </if>
+      <if test="photo != null">
+        photo = #{photo},
+      </if>
+      <if test="name != null">
+        name = #{name},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName},
+      </if>
+      <if test="sex != null">
+        sex = #{sex},
+      </if>
+      <if test="phone != null">
+        phone = #{phone},
+      </if>
+      <if test="email != null">
+        email = #{email},
+      </if>
+      <if test="loginFlag != null">
+        login_flag = #{loginFlag},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks},
+      </if>
+    </set>
+    where login_name = #{loginName}
+  </update>
 </mapper>

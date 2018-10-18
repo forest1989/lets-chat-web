@@ -35,6 +35,16 @@ public class AppUser extends DataEntity<AppUser> {
 		super(id);
 	}
 
+	/**
+	 * @param loginName
+	 * @param password
+	 */
+	public AppUser(String loginName, String password) {
+		super();
+		this.loginName = loginName;
+		this.password = password;
+	}
+
 	@Length(min=1, max=100, message="登录名长度必须介于 1 和 100 之间")
 	public String getLoginName() {
 		return loginName;

@@ -29,6 +29,7 @@ import com.thinkgem.jeesite.modules.letsapi.jwt.api.TokenMgr;
 import com.thinkgem.jeesite.modules.letsapi.jwt.config.Constant;
 import com.thinkgem.jeesite.modules.letsapi.jwt.model.SubjectModel;
 import com.thinkgem.jeesite.modules.letsapi.service.AppUserService;
+import com.thinkgem.jeesite.modules.letsapi.utils.JsonUtils;
 
 import net.sf.json.JSONArray;
 
@@ -156,6 +157,31 @@ public class AppUserController extends BaseController {
 			 model.addAttribute("code", "0");
 		}
 //		return JsonMapper.toJsonString(model);
+		return renderString(response, model);
+	}
+	/**  
+	* <p>Description:修改密码 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月18日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/updatePassword", method = RequestMethod.POST)
+	public String  updatePassword(HttpServletRequest request,HttpServletResponse response, Model model){
+		try {
+			String jsonStr = request.getParameter("data");
+			List<Map<String,Object>> listmp= new JsonUtils().getListMap(jsonStr);
+			AppUser appUser=appUserService.updatePassword(listmp);
+			if (appUser.getCode().equals("0000")) {
+				 model.addAttribute("message", appUser.getMessage());
+				 model.addAttribute("code", "0000");
+			}else{
+				 model.addAttribute("message", appUser.getMessage());
+				 model.addAttribute("code", "500");
+			}
+		} catch (Exception e) {
+			model.addAttribute("message", "修改异常");
+			model.addAttribute("code", "500");
+		}
 		return renderString(response, model);
 	}
 }
