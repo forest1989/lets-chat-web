@@ -46,7 +46,7 @@ public class UploadUtils {
 	public static final String FILE_FIELDS = "file_fields";
 
 	// 最大文件大小
-	private long maxSize = 1000000;
+	private long maxSize = 10000000;
 	// 定义允许上传的文件扩展名
 	private Map<String, String> extMap = new HashMap<String, String>();
 	// 文件保存目录相对路径
@@ -102,8 +102,7 @@ public class UploadUtils {
 			infos[3] = saveUrl;
 			infos[4] = fileUrl;
 		}*/
-		List<Map<String,Object>> listmp= new JsonUtils().getListMap(request);
-		String imgStr=(String)listmp.get(0).get("base64");
+		String imgStr=request.getParameter("base64");
 		String imgName=IdGen.uuid()+".jpg";
 		String saveInfo=this.generateImage(imgStr,imgName);
 		if (infos[0].equals("true")&&saveInfo.equals("true")) {
