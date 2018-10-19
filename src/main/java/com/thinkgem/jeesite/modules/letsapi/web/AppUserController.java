@@ -30,6 +30,7 @@ import com.thinkgem.jeesite.modules.letsapi.jwt.config.Constant;
 import com.thinkgem.jeesite.modules.letsapi.jwt.model.SubjectModel;
 import com.thinkgem.jeesite.modules.letsapi.service.AppUserService;
 import com.thinkgem.jeesite.modules.letsapi.utils.JsonUtils;
+import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UploadUtils;
 
 import net.sf.json.JSONArray;
@@ -99,34 +100,37 @@ public class AppUserController extends BaseController {
 	* @version 1.0  
 	*/ 
 	@RequestMapping(value="/login", method = RequestMethod.POST)
-	public String  login(String password,String loginName, HttpServletResponse response, Model model){
+	public String  login(HttpServletRequest request, HttpServletResponse response, Model model){
+		RtnData rtn=new RtnData();
+		List<Map<String,Object>> listmp= new JsonUtils().getListMap(request);
 		AppUser user=new AppUser();
-		user.setLoginName(loginName);
+		user.setLoginName((String)listmp.get(0).get("loginName"));
 		AppUser appUser=appUserService.login(user);
 		if(appUser!=null){
-			if(StringUtils.equals(password, appUser.getPassword())){
+			if(StringUtils.equals((String)listmp.get(0).get("passWord"), appUser.getPassword())){
 				if(StringUtils.equals(appUser.getLoginFlag(), "1")) {
-					model.addAttribute("code", "500");
-					model.addAttribute("message", "您已经被禁止登录");
-					return renderString(response, model);
+					rtn.setMessage("您已经被禁止登录");
+					rtn.setCode("500");
+					return renderString(response, rtn);
 				}
 				// 生成TOKEN
 				SubjectModel sub = new SubjectModel(appUser.getId(), appUser.getLoginName());//用户信息
 				String token = TokenMgr.createJWT(IdGen.uuid(), Constant.JWT_ISS,TokenMgr.generalSubject(sub), Constant.JWT_TTL);
 				response.addHeader("Authorization", token);
-				model.addAttribute("code", "0000");
-				model.addAttribute("message", "登陆成功");
 				model.addAttribute("appUser", appUser);
-				return renderString(response, model);
+				rtn.setModel(model);
+				rtn.setMessage("登陆成功");
+				rtn.setCode("0000");
+				return renderString(response, rtn);
 			}else {
-				model.addAttribute("code", "500");
-				model.addAttribute("message", "密码错误");
-				return renderString(response, model);
+				rtn.setMessage("密码错误");
+				rtn.setCode("500");
+				return renderString(response, rtn);
 			}
 		}else{
-			model.addAttribute("code", "500");
-			model.addAttribute("message", "账号错误");
-			return renderString(response, model);
+			rtn.setMessage("账号错误");
+			rtn.setCode("500");
+			return renderString(response, rtn);
 		}
 	}
 
@@ -137,6 +141,7 @@ public class AppUserController extends BaseController {
 	
 	@RequestMapping(value = "register",method = RequestMethod.POST)
 	public String register(HttpServletRequest request, HttpServletResponse response, Model model) {
+		RtnData rtn=new RtnData();
 		try {
 			String jsonStr = request.getParameter("data");
 			 JSONArray myJsonArray = JSONArray.fromObject(jsonStr);
@@ -148,20 +153,20 @@ public class AppUserController extends BaseController {
 				 SubjectModel sub = new SubjectModel(res.getId(), res.getLoginName());//用户信息
 				 String token = TokenMgr.createJWT(IdGen.uuid(), Constant.JWT_ISS,TokenMgr.generalSubject(sub), Constant.JWT_TTL);
 				 response.addHeader("Authorization", token);
-				 model.addAttribute("message", "注册成功");
-				 model.addAttribute("code", "1");
+				 rtn.setMessage("注册成功");
+				 rtn.setCode("0000");
 			}else if(res.getCode().equals("0001")){
-				 model.addAttribute("message", "该用户名已被注册!");
-				 model.addAttribute("code", "0");
+				 rtn.setMessage("该用户名已被注册!");
+				 rtn.setCode("500");
 			} else {
-				 model.addAttribute("message", "注册失败");
-				 model.addAttribute("code", "0");
+				 rtn.setMessage("注册失败");
+				 rtn.setCode("500");
 			}
 		} catch (Exception e) {
-			model.addAttribute("message", "注册异常");
-			 model.addAttribute("code", "0");
+			 rtn.setMessage("注册异常");
+			 rtn.setCode("500");
 		}
-		return renderString(response, model);
+		return renderString(response, rtn);
 	}
 	/**  
 	* <p>Description:修改密码 </p>      
@@ -171,21 +176,22 @@ public class AppUserController extends BaseController {
 	*/ 
 	@RequestMapping(value="/updatePassword", method = RequestMethod.POST)
 	public String  updatePassword(HttpServletRequest request,HttpServletResponse response, Model model){
+		RtnData rtn=new RtnData();
 		try {
 			List<Map<String,Object>> listmp= new JsonUtils().getListMap(request);
 			AppUser appUser=appUserService.updatePassword(listmp);
 			if (appUser.getCode().equals("0000")) {
-				 model.addAttribute("message", appUser.getMessage());
-				 model.addAttribute("code", "0000");
+				 rtn.setMessage(appUser.getMessage());
+				 rtn.setCode("0000");
 			}else{
-				 model.addAttribute("message", appUser.getMessage());
-				 model.addAttribute("code", "500");
+				 rtn.setMessage(appUser.getMessage());
+				 rtn.setCode("500");
 			}
 		} catch (Exception e) {
-			model.addAttribute("message", "修改异常");
-			model.addAttribute("code", "500");
+			 rtn.setMessage("修改异常");
+			 rtn.setCode("500");
 		}
-		return renderString(response, model);
+		return renderString(response, rtn);
 	}
 	/**
 	 * @author zhai_shaobo
@@ -194,6 +200,7 @@ public class AppUserController extends BaseController {
 	
 	@RequestMapping(value = "perfect",method = RequestMethod.POST)
 	public String perfect(HttpServletRequest request, HttpServletResponse response, Model model) {
+		RtnData rtn=new RtnData();
 		try {
 			String jsonStr = request.getParameter("data");
 			 JSONArray myJsonArray = JSONArray.fromObject(jsonStr);
@@ -201,19 +208,19 @@ public class AppUserController extends BaseController {
 
 			 AppUser res = appUserService.perfect(orderIds);
 			 if (res.getCode().equals("0000")) {
-				 model.addAttribute("message", "信息完善成功!");
-				 model.addAttribute("code", "1");
+				 rtn.setMessage("信息完善成功!");
+				 rtn.setCode("0000");
 			} else {
-				 model.addAttribute("message", "信息完善失败!");
-				 model.addAttribute("code", "0");
+				 rtn.setMessage("信息完善失败!");
+				 rtn.setCode("500");
 			}
 		} catch (Exception e) {
-			 model.addAttribute("message", "信息完善异常!");
-			 model.addAttribute("code", "0");
+			 rtn.setMessage("信息完善异常!");
+			 rtn.setCode("500");
 			 e.printStackTrace();
 			 logger.error("perfect---信息完善异常"+e.getMessage());
 		}
-		return renderString(response, model);
+		return renderString(response, rtn);
 	}
 	/**  
 	* <p>Description:上传文件 </p>      
@@ -223,6 +230,7 @@ public class AppUserController extends BaseController {
 	*/ 
 	@RequestMapping(value="/uploadFile", method = RequestMethod.POST)
 	public String  uploadFile(HttpServletRequest request,HttpServletResponse response, Model model){
+		RtnData rtn=new RtnData();
 		List<Map<String,Object>> listmp= new JsonUtils().getListMap(request);
 		AppUser appUser=null;
 		UploadUtils up=new UploadUtils();
@@ -232,9 +240,9 @@ public class AppUserController extends BaseController {
 			String savePath=infos[2];
 			String saveUrl =infos[3];
 			String fileUrl =infos[4];
-			String photo =infos[6];
+			String fileName =infos[6];
 			listmp.get(0).put("saveUrl", saveUrl);
-			listmp.get(0).put("photo", photo);
+			listmp.get(0).put("fileName", fileName);
 			if(errorInfo.equals("true")) {
 				appUser=appUserService.updatePhoto(listmp);
 				if (appUser.getCode().equals("0000")) {
@@ -242,24 +250,26 @@ public class AppUserController extends BaseController {
 					model.addAttribute("savePath", savePath);
 					model.addAttribute("saveUrl", saveUrl);
 					model.addAttribute("fileUrl", fileUrl);
-					model.addAttribute("fileName", photo);
-					model.addAttribute("message", "文件上传成功");
-					model.addAttribute("code", "0000");
+					model.addAttribute("fileName", fileName);
+					rtn.setModel(model);
+					rtn.setMessage("文件上传成功");
+					rtn.setCode("0000");
 				}else{
-					 model.addAttribute("message", appUser.getMessage());
-					 model.addAttribute("code", "500");
+					 rtn.setMessage(appUser.getMessage());
+					 rtn.setCode("500");
 				}
 				
 			}else {
 				model.addAttribute("errorInfo", errorInfo);
-				model.addAttribute("message", "文件上传失败");
-				model.addAttribute("code", "500");
+				rtn.setModel(model);
+				rtn.setMessage("文件上传失败");
+				rtn.setCode("500");
 			}
 			
 		} catch (Exception e) {
-			model.addAttribute("message", "文件夹创建异常");
-			model.addAttribute("code", "500");
+			rtn.setMessage("文件夹创建异常");
+			rtn.setCode("500");
 		}
-		return renderString(response, model);
+		return renderString(response, rtn);
 	}
 }

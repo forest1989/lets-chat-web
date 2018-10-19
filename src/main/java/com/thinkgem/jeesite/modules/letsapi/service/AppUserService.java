@@ -205,13 +205,14 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	public AppUser updatePhoto(List<Map<String, Object>> mp) {
 		AppUser appVo = new AppUser();
 		try {
+			String photo=null;
 			String saveUrl=(String)mp.get(0).get("saveUrl");
-			String photo=(String)mp.get(0).get("photo");
+			String fileName=(String)mp.get(0).get("fileName");
 			String loginName=(String)mp.get(0).get("loginName");
-			if(!photo.contains(".jpg")) {
-				photo=photo+".jpg";
+			if(!fileName.contains(".jpg")) {
+				fileName=fileName+".jpg";
 			}
-			photo=saveUrl+photo;
+			photo=saveUrl+fileName;
 			AppUser user=new AppUser();
 			user.setLoginName(loginName);
 			user.setPhoto(photo);
