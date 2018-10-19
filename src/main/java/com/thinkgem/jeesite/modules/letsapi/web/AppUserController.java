@@ -30,6 +30,7 @@ import com.thinkgem.jeesite.modules.letsapi.jwt.config.Constant;
 import com.thinkgem.jeesite.modules.letsapi.jwt.model.SubjectModel;
 import com.thinkgem.jeesite.modules.letsapi.service.AppUserService;
 import com.thinkgem.jeesite.modules.letsapi.utils.JsonUtils;
+import com.thinkgem.jeesite.modules.letsapi.utils.UploadUtils;
 
 import net.sf.json.JSONArray;
 
@@ -143,6 +144,10 @@ public class AppUserController extends BaseController {
 
 			 AppUser res = appUserService.register(orderIds);
 			 if (res.getCode().equals("0000")) {
+			     // 生成TOKEN
+				 SubjectModel sub = new SubjectModel(res.getId(), res.getLoginName());//用户信息
+				 String token = TokenMgr.createJWT(IdGen.uuid(), Constant.JWT_ISS,TokenMgr.generalSubject(sub), Constant.JWT_TTL);
+				 response.addHeader("Authorization", token);
 				 model.addAttribute("message", "注册成功");
 				 model.addAttribute("code", "1");
 			}else if(res.getCode().equals("0001")){
@@ -156,7 +161,6 @@ public class AppUserController extends BaseController {
 			model.addAttribute("message", "注册异常");
 			 model.addAttribute("code", "0");
 		}
-//		return JsonMapper.toJsonString(model);
 		return renderString(response, model);
 	}
 	/**  
@@ -208,6 +212,53 @@ public class AppUserController extends BaseController {
 			 model.addAttribute("code", "0");
 			 e.printStackTrace();
 			 logger.error("perfect---信息完善异常"+e.getMessage());
+		}
+		return renderString(response, model);
+	}
+	/**  
+	* <p>Description:上传文件 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月19日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/uploadFile", method = RequestMethod.POST)
+	public String  uploadFile(HttpServletRequest request,HttpServletResponse response, Model model){
+		List<Map<String,Object>> listmp= new JsonUtils().getListMap(request);
+		AppUser appUser=null;
+		UploadUtils up=new UploadUtils();
+		try {
+			String[] infos=up.uploadFile(request);
+			String errorInfo=infos[0];
+			String savePath=infos[2];
+			String saveUrl =infos[3];
+			String fileUrl =infos[4];
+			String photo =infos[6];
+			listmp.get(0).put("saveUrl", saveUrl);
+			listmp.get(0).put("photo", photo);
+			if(errorInfo.equals("true")) {
+				appUser=appUserService.updatePhoto(listmp);
+				if (appUser.getCode().equals("0000")) {
+					model.addAttribute("errorInfo", errorInfo);
+					model.addAttribute("savePath", savePath);
+					model.addAttribute("saveUrl", saveUrl);
+					model.addAttribute("fileUrl", fileUrl);
+					model.addAttribute("fileName", photo);
+					model.addAttribute("message", "文件上传成功");
+					model.addAttribute("code", "0000");
+				}else{
+					 model.addAttribute("message", appUser.getMessage());
+					 model.addAttribute("code", "500");
+				}
+				
+			}else {
+				model.addAttribute("errorInfo", errorInfo);
+				model.addAttribute("message", "文件上传失败");
+				model.addAttribute("code", "500");
+			}
+			
+		} catch (Exception e) {
+			model.addAttribute("message", "文件夹创建异常");
+			model.addAttribute("code", "500");
 		}
 		return renderString(response, model);
 	}

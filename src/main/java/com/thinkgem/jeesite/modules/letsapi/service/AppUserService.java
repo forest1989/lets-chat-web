@@ -196,4 +196,38 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 		}
 		return appVo;
 	}
+
+	/**
+	 * @param listmp
+	 * @return tyg
+	 */
+	@Transactional
+	public AppUser updatePhoto(List<Map<String, Object>> mp) {
+		AppUser appVo = new AppUser();
+		try {
+			String saveUrl=(String)mp.get(0).get("saveUrl");
+			String photo=(String)mp.get(0).get("photo");
+			String loginName=(String)mp.get(0).get("loginName");
+			if(!photo.contains(".jpg")) {
+				photo=photo+".jpg";
+			}
+			photo=saveUrl+photo;
+			AppUser user=new AppUser();
+			user.setLoginName(loginName);
+			user.setPhoto(photo);
+			int n=appUserDao.updateByloginName(user);
+			if(n>0){
+				appVo.setMessage("图片地址修改成功");
+				appVo.setCode("0000");
+			}else {
+				appVo.setMessage("图片地址失败");
+				appVo.setCode("8401");
+			}
+		} catch (Exception e) {
+			appVo.setMessage("修改异常");
+			appVo.setCode("8401");
+			logger.error("修改出现异常"+e.getMessage());
+		}
+		return appVo;
+	}
 }
