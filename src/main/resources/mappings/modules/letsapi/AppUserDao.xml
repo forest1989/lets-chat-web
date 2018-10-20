@@ -191,13 +191,13 @@
 	      PHOTO = #{photo},
 	    </if>
 	    <if test="phone != null">
-	      PHONE =#{phone}
-	    </if>,
+	      PHONE =#{phone},
+	    </if>
 	    <if test="nickName != null">
-	      NICK_NAME =#{nickName}
-	    </if>,
-	    <if test="nickName != null">
-	      area_id = #{area.id}
+	      NICK_NAME =#{nickName},
+	    </if>
+	    <if test="area.id != null">
+	      area_id = #{area.id},
 	    </if> 
     </set> 
      where LOGIN_NAME = #{loginName} and del_flag = 0
