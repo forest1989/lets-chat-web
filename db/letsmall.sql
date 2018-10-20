@@ -784,3 +784,7 @@ alter table SHIPPING_ADDRESS enable all triggers;
 set feedback on
 set define on
 prompt Done.
+
+--修改表字段执行此sql
+-- Add/modify columns 
+alter table MALL_ORDER rename column "OUT_TRADE_NO/ESCROW_TRADE_NO" to ESCROW_TRADE_NO;
