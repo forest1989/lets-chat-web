@@ -171,7 +171,7 @@
         remarks = #{remarks},
       </if>
     </set>
-    where login_name = #{loginName} and del_flag = 0
+    where id = #{id} and del_flag = 0
   </update>
       <!-- app用户注册  -->
 	<insert id="register" parameterType="map">
@@ -200,6 +200,6 @@
 	      area_id = #{area.id},
 	    </if> 
     </set> 
-     where LOGIN_NAME = #{loginName} and del_flag = 0
+     where id = #{id} and del_flag = 0
 	</update>
 </mapper>

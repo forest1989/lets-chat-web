@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsim.utils.OpenFireActionUtil;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
@@ -63,14 +66,14 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	 * app注册service
 	 */
 	@Transactional
-	public AppUser register(List<Map<String,Object>> orderIds) {
+	public AppUser register(HttpServletRequest request,List<Map<String,Object>> orderIds) {
 		AppUser appVo = new AppUser();
 		AppUser appVores = new AppUser();
 		String id = null;
 		try {
 			//注册前先验证 用户名是否可用。1 不能重复
 			Map<String, String> parmMapin = null;
-			appVo.setLoginName((String) orderIds.get(0).get("loginName"));
+			appVo.setId(request.getParameter("userId"));
 			appVores = appUserDao.getByLoginName(appVo);
 			if (appVores!=null) {
 				appVo.setMessage("用户名已被注册!");
@@ -84,9 +87,9 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 		}
 		try {
 			if (orderIds.size()>0 && orderIds != null) {
-				id = appUserDao.getid();
+				/*id = appUserDao.getid();*/
 				Map<String, Object> parmMap = new HashMap<String, Object>();
-				parmMap.put("id", id);//用户表唯一id
+				parmMap.put("id", IdGen.uuid());//用户表唯一id
 				parmMap.put("loginName", (String) orderIds.get(0).get("loginName"));//用户名(登录名称)
 				parmMap.put("passWord", (String) orderIds.get(0).get("passWord"));//(密码)
 				
@@ -123,20 +126,20 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	 * @return tyg
 	 */
 	@Transactional
-	public AppUser updatePassword(List<Map<String,Object>> mp) {
+	public AppUser updatePassword(HttpServletRequest request,List<Map<String,Object>> mp) {
 		AppUser appVo = new AppUser();
 		try {
 			String oldPassWord=(String)mp.get(0).get("oldPassWord");
 			String newPassWord=(String)mp.get(0).get("newPassWord");
 			AppUser userold=new AppUser();
-			userold.setLoginName((String)mp.get(0).get("loginName"));
+			userold.setId(request.getParameter("userId"));
 			AppUser s= appUserDao.getByLoginName(userold);//通过账号查出密码判断旧密码是否正确
 			if(s!=null) {
 				if(!s.getPassword().equals(oldPassWord)) {
 					appVo.setMessage("您的旧密码输入错误");
 					appVo.setCode("8401");
 				}else {//旧密码是正确的然后通过账号修改新密码
-					AppUser user=new AppUser((String)mp.get(0).get("loginName"), newPassWord);
+					AppUser user=new AppUser(request.getParameter("userId"), newPassWord);
 					int n=appUserDao.updateByloginName(user);
 					if(n>0){
 						//此處調用openfier修改密码
@@ -168,14 +171,14 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	 * @author zhai_shaobo
 	 * app注册 成功之后 完善用户信息
 	 */
-	public AppUser perfect(List<Map<String,Object>> orderIds) {
+	public AppUser perfect(HttpServletRequest request,List<Map<String,Object>> orderIds) {
 		AppUser appVo = new AppUser();
 		AppUser user = new AppUser();
 		Area area = new Area();
 		try {
 			area.setId((String) orderIds.get(0).get("areaid"));
 			user.setArea(area);
-			user.setLoginName((String) orderIds.get(0).get("loginName"));
+			user.setId(request.getParameter("userId"));;
 			user.setNickName((String) orderIds.get(0).get("nickName"));
 			user.setPhone((String) orderIds.get(0).get("phone"));
 			user.setPhoto((String) orderIds.get(0).get("photo"));

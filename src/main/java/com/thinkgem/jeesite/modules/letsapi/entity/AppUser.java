@@ -35,14 +35,15 @@ public class AppUser extends DataEntity<AppUser> {
 		super(id);
 	}
 
+
 	/**
-	 * @param loginName
 	 * @param password
+	 * @param id
 	 */
-	public AppUser(String loginName, String password) {
+	public AppUser(String password, String id) {
 		super();
-		this.loginName = loginName;
 		this.password = password;
+		this.id = id;
 	}
 
 	@Length(min=1, max=100, message="登录名长度必须介于 1 和 100 之间")
