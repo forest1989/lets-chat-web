@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.letsapi.dao.MallProductInfoDao">
+    
+	<sql id="mallProductInfoColumns">
+		a.id AS "id",
+		a.product_no AS "productNo",
+		a.product_name AS "productName",
+		a.product_ico1 AS "productIco1",
+		a.product_ico2 AS "productIco2",
+		a.product_ico3 AS "productIco3",
+		a.product_ico4 AS "productIco4",
+		a.product_ico5 AS "productIco5",
+		a.product_ico6 AS "productIco6",
+		a.product_img1 AS "productImg1",
+		a.product_img2 AS "productImg2",
+		a.product_img3 AS "productImg3",
+		a.product_detail AS "productDetail",
+		a.specification_id AS "specificationId",
+		a.product_type_id AS "productTypeId",
+		a.stock_num AS "stockNum",
+		a.stauts AS "stauts",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="mallProductInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="MallProductInfo">
+		SELECT 
+			<include refid="mallProductInfoColumns"/>
+		FROM mall_product_info a
+		<include refid="mallProductInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MallProductInfo">
+		SELECT 
+			<include refid="mallProductInfoColumns"/>
+		FROM mall_product_info a
+		<include refid="mallProductInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MallProductInfo">
+		SELECT 
+			<include refid="mallProductInfoColumns"/>
+		FROM mall_product_info a
+		<include refid="mallProductInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mall_product_info(
+			id,
+			product_no,
+			product_name,
+			product_ico1,
+			product_ico2,
+			product_ico3,
+			product_ico4,
+			product_ico5,
+			product_ico6,
+			product_img1,
+			product_img2,
+			product_img3,
+			product_detail,
+			specification_id,
+			product_type_id,
+			stock_num,
+			stauts,
+			del_flag,
+			create_by,
+			create_date,
+			update_date,
+			update_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{productNo},
+			#{productName},
+			#{productIco1},
+			#{productIco2},
+			#{productIco3},
+			#{productIco4},
+			#{productIco5},
+			#{productIco6},
+			#{productImg1},
+			#{productImg2},
+			#{productImg3},
+			#{productDetail},
+			#{specificationId},
+			#{productTypeId},
+			#{stockNum},
+			#{stauts},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateDate},
+			#{updateBy.id},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mall_product_info SET 	
+			product_no = #{productNo},
+			product_name = #{productName},
+			product_ico1 = #{productIco1},
+			product_ico2 = #{productIco2},
+			product_ico3 = #{productIco3},
+			product_ico4 = #{productIco4},
+			product_ico5 = #{productIco5},
+			product_ico6 = #{productIco6},
+			product_img1 = #{productImg1},
+			product_img2 = #{productImg2},
+			product_img3 = #{productImg3},
+			product_detail = #{productDetail},
+			specification_id = #{specificationId},
+			product_type_id = #{productTypeId},
+			stock_num = #{stockNum},
+			stauts = #{stauts},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE mall_product_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
