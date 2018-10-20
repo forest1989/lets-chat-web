@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.letsapi.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -231,7 +232,7 @@ public class AppUserController extends BaseController {
 	@RequestMapping(value="/uploadFile", method = RequestMethod.POST)
 	public String  uploadFile(HttpServletRequest request,HttpServletResponse response, Model model){
 		RtnData rtn=new RtnData();
-		List<Map<String,Object>> listmp= new JsonUtils().getListMap(request);
+		Map<String,Object> mp=new HashMap<String, Object>();
 		AppUser appUser=null;
 		UploadUtils up=new UploadUtils();
 		try {
@@ -241,10 +242,10 @@ public class AppUserController extends BaseController {
 			String saveUrl =infos[3];
 			String fileUrl =infos[4];
 			String fileName =infos[6];
-			listmp.get(0).put("saveUrl", saveUrl);
-			listmp.get(0).put("fileName", fileName);
+			mp.put("saveUrl", saveUrl);
+			mp.put("fileName", fileName);
 			if(errorInfo.equals("true")) {
-				appUser=appUserService.updatePhoto(request,listmp);
+				appUser=appUserService.updatePhoto(request,mp);
 				if (appUser.getCode().equals("0000")) {
 					model.addAttribute("errorInfo", errorInfo);
 					model.addAttribute("savePath", savePath);

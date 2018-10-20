@@ -120,7 +120,7 @@ public class OpenFireActionUtil {
     
     public XMPPConnection getXMPPConnection() {
         try {
-            ConnectionConfiguration config = new ConnectionConfiguration("192.168.1.105", 5222, server);
+            ConnectionConfiguration config = new ConnectionConfiguration("192.168.1.138", 5222, server);
             config.setReconnectionAllowed(false);
             config.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
             config.setSendPresence(true);

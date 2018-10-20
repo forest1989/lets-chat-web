@@ -70,11 +70,11 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	public AppUser register(HttpServletRequest request,List<Map<String,Object>> orderIds) {
 		AppUser appVo = new AppUser();
 		AppUser appVores = new AppUser();
-		String id = null;
+		String id = IdGen.uuid();
 		try {
 			//注册前先验证 用户名是否可用。1 不能重复
 			Map<String, String> parmMapin = null;
-			appVo.setId(UserUtils.getUser(request).getUserId());
+			appVo.setLoginName((String) orderIds.get(0).get("loginName"));
 			appVores = appUserDao.getByLoginName(appVo);
 			if (appVores!=null) {
 				appVo.setMessage("用户名已被注册!");
@@ -90,7 +90,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			if (orderIds.size()>0 && orderIds != null) {
 				/*id = appUserDao.getid();*/
 				Map<String, Object> parmMap = new HashMap<String, Object>();
-				parmMap.put("id", IdGen.uuid());//用户表唯一id
+				parmMap.put("id", id);//用户表唯一id
 				parmMap.put("loginName", (String) orderIds.get(0).get("loginName"));//用户名(登录名称)
 				parmMap.put("passWord", (String) orderIds.get(0).get("passWord"));//(密码)
 				
@@ -103,7 +103,8 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			        map.put("email","");
 			        map.put("name", "name");
 			        smack.register((String) orderIds.get(0).get("loginName"),(String) orderIds.get(0).get("passWord"),map,smack.getXMPPConnection());
-			        smack.destory();					
+			        smack.destory();
+			        appVo.setId(id);
 					appVo.setMessage("注册成功");
 					appVo.setCode("0000");
 				}else {
@@ -133,14 +134,14 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			String oldPassWord=(String)mp.get(0).get("oldPassWord");
 			String newPassWord=(String)mp.get(0).get("newPassWord");
 			AppUser userold=new AppUser();
-			userold.setId(UserUtils.getUser(request).getUserId());
+			userold.setLoginName((String)mp.get(0).get("loginName"));
 			AppUser s= appUserDao.getByLoginName(userold);//通过账号查出密码判断旧密码是否正确
 			if(s!=null) {
 				if(!s.getPassword().equals(oldPassWord)) {
 					appVo.setMessage("您的旧密码输入错误");
 					appVo.setCode("8401");
 				}else {//旧密码是正确的然后通过账号修改新密码
-					AppUser user=new AppUser(UserUtils.getUser(request).getUserId(), newPassWord);
+					AppUser user=new AppUser(newPassWord, UserUtils.getUser(request).getUserId());
 					int n=appUserDao.updateByloginName(user);
 					if(n>0){
 						//此處調用openfier修改密码
@@ -206,13 +207,12 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	 * @return tyg
 	 */
 	@Transactional
-	public AppUser updatePhoto(HttpServletRequest request,List<Map<String, Object>> mp) {
+	public AppUser updatePhoto(HttpServletRequest request,Map<String, Object> mp) {
 		AppUser appVo = new AppUser();
 		try {
 			String photo=null;
-			String saveUrl=(String)mp.get(0).get("saveUrl");
-			String fileName=(String)mp.get(0).get("fileName");
-			String loginName=(String)mp.get(0).get("loginName");
+			String saveUrl=(String)mp.get("saveUrl");
+			String fileName=(String)mp.get("fileName");
 			if(!fileName.contains(".jpg")) {
 				fileName=fileName+".jpg";
 			}
