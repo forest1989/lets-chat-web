@@ -244,7 +244,7 @@ public class AppUserController extends BaseController {
 			listmp.get(0).put("saveUrl", saveUrl);
 			listmp.get(0).put("fileName", fileName);
 			if(errorInfo.equals("true")) {
-				appUser=appUserService.updatePhoto(listmp);
+				appUser=appUserService.updatePhoto(request,listmp);
 				if (appUser.getCode().equals("0000")) {
 					model.addAttribute("errorInfo", errorInfo);
 					model.addAttribute("savePath", savePath);

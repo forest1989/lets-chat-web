@@ -19,6 +19,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
+import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
 import com.thinkgem.jeesite.modules.letsim.utils.OpenFireActionUtil;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
@@ -73,7 +74,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 		try {
 			//注册前先验证 用户名是否可用。1 不能重复
 			Map<String, String> parmMapin = null;
-			appVo.setId(request.getParameter("userId"));
+			appVo.setId(UserUtils.getUser(request).getUserId());
 			appVores = appUserDao.getByLoginName(appVo);
 			if (appVores!=null) {
 				appVo.setMessage("用户名已被注册!");
@@ -132,14 +133,14 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			String oldPassWord=(String)mp.get(0).get("oldPassWord");
 			String newPassWord=(String)mp.get(0).get("newPassWord");
 			AppUser userold=new AppUser();
-			userold.setId(request.getParameter("userId"));
+			userold.setId(UserUtils.getUser(request).getUserId());
 			AppUser s= appUserDao.getByLoginName(userold);//通过账号查出密码判断旧密码是否正确
 			if(s!=null) {
 				if(!s.getPassword().equals(oldPassWord)) {
 					appVo.setMessage("您的旧密码输入错误");
 					appVo.setCode("8401");
 				}else {//旧密码是正确的然后通过账号修改新密码
-					AppUser user=new AppUser(request.getParameter("userId"), newPassWord);
+					AppUser user=new AppUser(UserUtils.getUser(request).getUserId(), newPassWord);
 					int n=appUserDao.updateByloginName(user);
 					if(n>0){
 						//此處調用openfier修改密码
@@ -178,7 +179,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 		try {
 			area.setId((String) orderIds.get(0).get("areaid"));
 			user.setArea(area);
-			user.setId(request.getParameter("userId"));;
+			user.setId(UserUtils.getUser(request).getUserId());;
 			user.setNickName((String) orderIds.get(0).get("nickName"));
 			user.setPhone((String) orderIds.get(0).get("phone"));
 			user.setPhoto((String) orderIds.get(0).get("photo"));
@@ -205,7 +206,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	 * @return tyg
 	 */
 	@Transactional
-	public AppUser updatePhoto(List<Map<String, Object>> mp) {
+	public AppUser updatePhoto(HttpServletRequest request,List<Map<String, Object>> mp) {
 		AppUser appVo = new AppUser();
 		try {
 			String photo=null;
@@ -217,7 +218,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			}
 			photo=saveUrl+fileName;
 			AppUser user=new AppUser();
-			user.setLoginName(loginName);
+			user.setId(UserUtils.getUser(request).getUserId());
 			user.setPhoto(photo);
 			int n=appUserDao.updateByloginName(user);
 			if(n>0){
