@@ -22,24 +22,23 @@ public class OpenFireActionUtil {
     
     public void init() {
         try {
-		
-				ConnectionConfiguration 
-				 config = new ConnectionConfiguration(server,5222);
-				 config.setCompressionEnabled(true); 
-				/** 是否启用安全验证 */ 
-				config.setSASLAuthenticationEnabled(true); 
-				/** 是否启用调试 */ 
-				config.setDebuggerEnabled(false);
-//            //config = new ConnectionConfiguration(server,5222);
-//            ConnectionConfiguration config = new ConnectionConfiguration("127.0.0.1", 5222, server);
-//            /*config.setCompressionEnabled(true);
-//            *//** 是否启用安全验证 *//*
-//            config.setSASLAuthenticationEnabled(true);
-//            *//** 是否启用调试 *//*
-//            config.setDebuggerEnabled(false);*/
-//            config.setReconnectionAllowed(false);
-//            config.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
-//            config.setSendPresence(true);
+			ConnectionConfiguration 
+			config = new ConnectionConfiguration(server,5222);
+			config.setCompressionEnabled(true); 
+			/** 是否启用安全验证 */ 
+			config.setSASLAuthenticationEnabled(true); 
+			/** 是否启用调试 */ 
+			config.setDebuggerEnabled(false);
+//          //config = new ConnectionConfiguration(server,5222);
+//          ConnectionConfiguration config = new ConnectionConfiguration("127.0.0.1", 5222, server);
+//          /*config.setCompressionEnabled(true);
+//          *//** 是否启用安全验证 *//*
+//          config.setSASLAuthenticationEnabled(true);
+//          *//** 是否启用调试 *//*
+//          config.setDebuggerEnabled(false);*/
+//          config.setReconnectionAllowed(false);
+//          config.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
+//          config.setSendPresence(true);
             /** 创建connection链接 */
             connection = new XMPPConnection(config);
             /** 建立连接 */

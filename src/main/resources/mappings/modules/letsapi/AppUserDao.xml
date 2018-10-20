@@ -173,16 +173,19 @@
     </set>
     where login_name = #{loginName} and del_flag = 0
   </update>
-      <!-- app用户注册  -->
+  
+    <!-- app用户注册  -->
 	<insert id="register" parameterType="map">
 		insert into APP_USER(id,login_name,password,photo,name,nick_name,sex,phone,email,area_id,del_flag,login_flag,update_date,create_date,remarks) 
 		values(
 		#{id},#{loginName},#{passWord},'','',#{loginName},'','','','','0','0',sysdate,sysdate,'')
 	</insert>
+	
 	<!-- app查询序列SEQ_APP_USER  -->
 	<select id="getid"  resultType="java.lang.String">
 		select SEQ_APP_USER.nextval id from dual
 	</select>
+	
 	 <!-- app注册用户信息完善  -->
 	<update id="perfect">
 		update APP_USER 

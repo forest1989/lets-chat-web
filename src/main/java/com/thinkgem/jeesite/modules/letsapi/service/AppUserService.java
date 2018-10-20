@@ -7,18 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsim.utils.OpenFireActionUtil;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
-import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
 
 /**
  * 用户信息Service
@@ -111,7 +109,6 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("openfire注册异常------"+e.getMessage());
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			appVo.setMessage("注册异常");
 			appVo.setCode("8401");
 		}
@@ -157,7 +154,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			}
 		} catch (Exception e) {
 			logger.error("openfire修改密码异常------"+e.getMessage());
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			//TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			appVo.setMessage("修改异常");
 			appVo.setCode("8401");
 			logger.error("修改出现异常"+e.getMessage());
