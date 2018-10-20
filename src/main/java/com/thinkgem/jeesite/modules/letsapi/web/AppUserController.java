@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.letsapi.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -147,7 +148,7 @@ public class AppUserController extends BaseController {
 			 JSONArray myJsonArray = JSONArray.fromObject(jsonStr);
 			 List<Map<String,Object>> orderIds = (List)myJsonArray;
 
-			 AppUser res = appUserService.register(orderIds);
+			 AppUser res = appUserService.register(request,orderIds);
 			 if (res.getCode().equals("0000")) {
 			     // 生成TOKEN
 				 SubjectModel sub = new SubjectModel(res.getId(), res.getLoginName());//用户信息
@@ -179,7 +180,7 @@ public class AppUserController extends BaseController {
 		RtnData rtn=new RtnData();
 		try {
 			List<Map<String,Object>> listmp= new JsonUtils().getListMap(request);
-			AppUser appUser=appUserService.updatePassword(listmp);
+			AppUser appUser=appUserService.updatePassword(request,listmp);
 			if (appUser.getCode().equals("0000")) {
 				 rtn.setMessage(appUser.getMessage());
 				 rtn.setCode("0000");
@@ -206,7 +207,7 @@ public class AppUserController extends BaseController {
 			 JSONArray myJsonArray = JSONArray.fromObject(jsonStr);
 			 List<Map<String,Object>> orderIds = (List)myJsonArray;
 
-			 AppUser res = appUserService.perfect(orderIds);
+			 AppUser res = appUserService.perfect(request,orderIds);
 			 if (res.getCode().equals("0000")) {
 				 rtn.setMessage("信息完善成功!");
 				 rtn.setCode("0000");
@@ -231,7 +232,7 @@ public class AppUserController extends BaseController {
 	@RequestMapping(value="/uploadFile", method = RequestMethod.POST)
 	public String  uploadFile(HttpServletRequest request,HttpServletResponse response, Model model){
 		RtnData rtn=new RtnData();
-		List<Map<String,Object>> listmp= new JsonUtils().getListMap(request);
+		Map<String,Object> mp=new HashMap<String, Object>();
 		AppUser appUser=null;
 		UploadUtils up=new UploadUtils();
 		try {
@@ -241,10 +242,10 @@ public class AppUserController extends BaseController {
 			String saveUrl =infos[3];
 			String fileUrl =infos[4];
 			String fileName =infos[6];
-			listmp.get(0).put("saveUrl", saveUrl);
-			listmp.get(0).put("fileName", fileName);
+			mp.put("saveUrl", saveUrl);
+			mp.put("fileName", fileName);
 			if(errorInfo.equals("true")) {
-				appUser=appUserService.updatePhoto(listmp);
+				appUser=appUserService.updatePhoto(request,mp);
 				if (appUser.getCode().equals("0000")) {
 					model.addAttribute("errorInfo", errorInfo);
 					model.addAttribute("savePath", savePath);
