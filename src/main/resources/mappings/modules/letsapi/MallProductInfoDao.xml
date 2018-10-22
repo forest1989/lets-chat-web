@@ -156,5 +156,18 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<!-- 获取首页轮播图地址 -->
+	<sql id="appSilderImgColumns">
+		a.img_url AS "imgUrl",
+		a.img_status AS "imgStatus"
+	</sql>
+	<sql id="appSilderImgJoins">
+	</sql>
+	<select id="getAppSilderImg" resultType="AppSilderImg">
+		SELECT 
+			<include refid="appSilderImgColumns"/>
+		FROM app_silder_img a
+		<include refid="appSilderImgJoins"/>
+		WHERE a.img_status = 1 and  a.del_flag= 0
+	</select>
 </mapper>

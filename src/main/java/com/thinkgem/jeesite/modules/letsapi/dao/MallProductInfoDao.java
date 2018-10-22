@@ -3,8 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.letsapi.dao;
 
+import java.util.List;
+
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
+import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
 
 /**
@@ -14,5 +17,11 @@ import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
  */
 @MyBatisDao
 public interface MallProductInfoDao extends CrudDao<MallProductInfo> {
+
+	/**
+	 * 获取首页轮播图地址
+	 * @return 
+	 */
+	public List<AppSilderImg> getAppSilderImg();
 	
 }
