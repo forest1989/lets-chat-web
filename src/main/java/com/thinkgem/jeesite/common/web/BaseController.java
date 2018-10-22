@@ -26,9 +26,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thinkgem.jeesite.common.beanvalidator.BeanValidators;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 
 /**
  * 控制器支持类
@@ -144,6 +147,17 @@ public abstract class BaseController {
 	 */
 	protected String renderString(HttpServletResponse response, Object object) {
 		return renderString(response, JsonMapper.toJsonString(object), "application/json");
+	}
+	
+	/**
+	 * 客户端返回JSON字符串[null值参加序列化]
+	 * @param response
+	 * @param object
+	 * @return
+	 */
+	protected String toJsonByALWAYS(HttpServletResponse response, Object object) {
+		
+		return renderString(response, new JsonMapper(Include.ALWAYS).toJson(object), "application/json");
 	}
 	
 	/**
