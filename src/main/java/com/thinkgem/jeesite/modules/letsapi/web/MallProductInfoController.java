@@ -23,6 +23,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
 import com.thinkgem.jeesite.modules.letsapi.service.MallProductInfoService;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
+import com.thinkgem.jeesite.modules.sys.entity.Dict;
 
 /**
  * 商品信息Controller
@@ -98,5 +99,21 @@ public class MallProductInfoController extends BaseController {
 		}
 		return renderString(response, rtn);
 	}
-
+	/**  
+	* <p>Description:查询字典 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月22日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/getDict", method = RequestMethod.POST)
+	public String  getDict(HttpServletRequest request,HttpServletResponse response,Dict dic){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.getDict(dic);
+		} catch (Exception e) {
+			 rtn.setMessage("查询异常");
+			 rtn.setCode("500");
+		}
+		return renderString(response, rtn);
+	}
 }

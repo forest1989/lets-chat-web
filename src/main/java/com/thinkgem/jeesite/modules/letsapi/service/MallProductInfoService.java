@@ -16,6 +16,8 @@ import com.thinkgem.jeesite.modules.letsapi.dao.MallProductInfoDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
+import com.thinkgem.jeesite.modules.sys.dao.DictDao;
+import com.thinkgem.jeesite.modules.sys.entity.Dict;
 
 /**
  * 商品信息Service
@@ -28,6 +30,8 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	
 	@Autowired
 	private MallProductInfoDao mallProductInfoDao;
+	@Autowired
+	private DictDao dictDao;
 	
 	public MallProductInfo get(String id) {
 		return super.get(id);
@@ -79,6 +83,31 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 			rtn.setCode("500");
 			rtn.setMessage(e.getMessage());
 			logger.error("首页轮播图查询异常------"+e.getMessage());
+		}
+		return rtn;
+	}
+
+	/**
+	 * 获取字典数据模块
+	 * @return
+	 */
+	public RtnData getDict(Dict dic) {
+		RtnData rtn = new RtnData();
+		List<Dict> list=null;
+		try {
+			list=dictDao.findList(dic);
+			if(list != null && list.size() > 0) {
+				rtn.setData(list);
+				rtn.setCode("0000");
+				rtn.setMessage("查询成功");
+			}else {
+				rtn.setCode("1020");
+				rtn.setMessage("暂无数据");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("查询异常------"+e.getMessage());
 		}
 		return rtn;
 	}
