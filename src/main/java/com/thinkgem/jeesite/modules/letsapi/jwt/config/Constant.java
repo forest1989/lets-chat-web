@@ -30,6 +30,6 @@ public class Constant {
 	 */
 	public static final String JWT_ISS = "jwt-lets";	//jwt签发者
 	public static final String JWT_SECERT = "46cc793c53dc451b8a4fe2cd0bb00847";//密匙
-	public static final long JWT_TTL = 2 * 60 * 60 * 1000;//token有效时间,单位毫秒
+	public static final long JWT_TTL = 365 * 24 * 60 * 60 * 1000;//token有效时间,单位毫秒
 	
 }

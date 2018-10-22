@@ -97,7 +97,7 @@ public class MallProductInfoController extends BaseController {
 			 rtn.setMessage("查询异常");
 			 rtn.setCode("500");
 		}
-		return renderString(response, rtn);
+		return toJsonByALWAYS(response, rtn);
 	}
 	/**  
 	* <p>Description:查询字典 </p>      
@@ -114,6 +114,6 @@ public class MallProductInfoController extends BaseController {
 			 rtn.setMessage("查询异常");
 			 rtn.setCode("500");
 		}
-		return renderString(response, rtn);
+		return toJsonByALWAYS(response, rtn);
 	}
 }

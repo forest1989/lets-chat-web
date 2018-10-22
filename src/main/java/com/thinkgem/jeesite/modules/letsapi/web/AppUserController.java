@@ -56,7 +56,7 @@ public class AppUserController extends BaseController {
 					if(StringUtils.equals(appUser.getLoginFlag(), "1")) {
 						rtn.setMessage("您已经被禁止登录");
 						rtn.setCode("1007");
-						return renderString(response, rtn);
+						return toJsonByALWAYS(response, rtn);
 					}
 					// 生成TOKEN
 					SubjectModel sub = new SubjectModel(appUser.getId(), appUser.getLoginName());//用户信息
@@ -65,16 +65,16 @@ public class AppUserController extends BaseController {
 					rtn.setData(appUser);
 					rtn.setMessage("登陆成功");
 					rtn.setCode("0000");
-					return renderString(response, rtn);
+					return toJsonByALWAYS(response, rtn);
 				}else {
 					rtn.setMessage("密码错误");
 					rtn.setCode("1008");
-					return renderString(response, rtn);
+					return toJsonByALWAYS(response, rtn);
 				}
 			}else{
 				rtn.setMessage("账号错误");
 				rtn.setCode("1009");
-				return renderString(response, rtn);
+				return toJsonByALWAYS(response, rtn);
 			}
 		} catch (Exception e) {
 			logger.error("登录异常:"+e.getMessage());
