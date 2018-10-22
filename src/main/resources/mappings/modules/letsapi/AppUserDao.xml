@@ -201,8 +201,8 @@
 	    <if test="nickName != null">
 	      NICK_NAME =#{nickName},
 	    </if>
-	    <if test="area.id != null">
-	      area_id = #{area.id},
+	    <if test="areaId != null">
+	      area_id = #{areaId},
 	    </if> 
     </set> 
      where id = #{id} and del_flag = 0
