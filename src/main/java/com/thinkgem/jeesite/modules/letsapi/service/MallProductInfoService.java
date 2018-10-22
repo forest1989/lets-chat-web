@@ -14,6 +14,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.letsapi.dao.MallProductInfoDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
+import com.thinkgem.jeesite.modules.letsapi.entity.HotProduct;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.sys.dao.DictDao;
@@ -96,6 +97,31 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 		List<Dict> list=null;
 		try {
 			list=dictDao.findList(dic);
+			if(list != null && list.size() > 0) {
+				rtn.setData(list);
+				rtn.setCode("0000");
+				rtn.setMessage("查询成功");
+			}else {
+				rtn.setCode("1020");
+				rtn.setMessage("暂无数据");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("查询异常------"+e.getMessage());
+		}
+		return rtn;
+	}
+
+	/**
+	 * 热门优选
+	 * @return
+	 */
+	public RtnData findAllHotList() {
+		RtnData rtn = new RtnData();
+		List<HotProduct> list=null;
+		try {
+			list=mallProductInfoDao.findAllHotList();
 			if(list != null && list.size() > 0) {
 				rtn.setData(list);
 				rtn.setCode("0000");

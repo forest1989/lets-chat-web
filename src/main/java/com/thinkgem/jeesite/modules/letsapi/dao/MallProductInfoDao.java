@@ -8,7 +8,9 @@ import java.util.List;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
+import com.thinkgem.jeesite.modules.letsapi.entity.HotProduct;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
+import com.thinkgem.jeesite.modules.sys.entity.Dict;
 
 /**
  * 商品信息DAO接口
@@ -23,5 +25,11 @@ public interface MallProductInfoDao extends CrudDao<MallProductInfo> {
 	 * @return 
 	 */
 	public List<AppSilderImg> getAppSilderImg();
+
+	/**
+	 * 获取首页热门优选
+	 * @return
+	 */
+	public List<HotProduct> findAllHotList();
 	
 }

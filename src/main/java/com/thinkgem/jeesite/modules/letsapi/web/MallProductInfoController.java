@@ -116,4 +116,21 @@ public class MallProductInfoController extends BaseController {
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
+	/**  
+	* <p>Description:首页轮播图查询 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月22日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/findAllHotList", method = RequestMethod.POST)
+	public String  findAllHotList(HttpServletRequest request,HttpServletResponse response){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.findAllHotList();
+		} catch (Exception e) {
+			 rtn.setMessage("查询异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
 }
