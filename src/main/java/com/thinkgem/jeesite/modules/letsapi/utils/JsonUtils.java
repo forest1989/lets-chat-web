@@ -32,8 +32,8 @@ public class JsonUtils {
 	public List<Map<String,Object>> getListMap(HttpServletRequest request) {
 		String jsonStr = request.getParameter("data");
 		JSONArray myJsonArray = JSONArray.fromObject(jsonStr);
-		 List<Map<String,Object>> listmp=null;
-		 try {
+		List<Map<String,Object>> listmp = null;
+		try {
 			listmp = (List)myJsonArray;
 		} catch (Exception e) {
 			logger.error(e.getMessage());

@@ -22,21 +22,25 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 * @return
 	 */
 	AppUser getByLoginName(AppUser user);
+	
 	/**
 	 * @author zhai_shaobo
 	 * app注册dao
 	 */
-	public int register(Map<String, Object> parmMap);
+	public int register(AppUser user);
+	
 	/**
 	 * @author zhai_shaobo
 	 * 查询序列值
 	 */
 	public String getid();
+	
 	/**
 	 * @author tao_yonggang
 	 * 修改密码
 	 */
 	int updateByloginName(AppUser user);
+	
 	/**
 	 * @author zhai_shaobo
 	 * 完善用户信息

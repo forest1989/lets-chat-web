@@ -61,6 +61,8 @@ public class TokenInterceptor implements HandlerInterceptor{
 			logger.info("token校检通过checkResult："+ GsonUtil.objectToJsonStr(checkResult));
 			SubjectModel user = GsonUtil.jsonStrToObject(claims.getSubject(), SubjectModel.class);
 			logger.info("token校检通过user："+GsonUtil.objectToJsonStr(user));
+			// 校验用户信息是否合法
+			
 			return true;
 		} else {
 			switch (checkResult.getErrCode()) {
