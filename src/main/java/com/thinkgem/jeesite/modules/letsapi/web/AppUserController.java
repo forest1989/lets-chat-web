@@ -80,7 +80,7 @@ public class AppUserController extends BaseController {
 			logger.error("登录异常:"+e.getMessage());
 			rtn.setMessage("登录异常");
 			rtn.setCode("500");
-			return renderString(response, rtn);
+			return toJsonByALWAYS(response, rtn);
 		}
 	}
 
@@ -106,7 +106,7 @@ public class AppUserController extends BaseController {
 			rtn.setMessage("注册异常");
 			rtn.setCode("500");
 		}
-		return renderString(response, rtn);
+		return toJsonByALWAYS(response, rtn);
 	}
 	/**  
 	* <p>Description:修改密码 </p>      
@@ -124,7 +124,7 @@ public class AppUserController extends BaseController {
 			 rtn.setMessage("修改异常");
 			 rtn.setCode("500");
 		}
-		return renderString(response, rtn);
+		return toJsonByALWAYS(response, rtn);
 	}
 	/**
 	 * @author zhai_shaobo
@@ -142,7 +142,7 @@ public class AppUserController extends BaseController {
 			rtn.setCode("500");
 			logger.error("perfect---信息完善异常"+e.getMessage());
 		}
-		return renderString(response, rtn);
+		return toJsonByALWAYS(response, rtn);
 	}
 	/**  
 	* <p>Description:上传文件 </p>      
@@ -188,6 +188,6 @@ public class AppUserController extends BaseController {
 			rtn.setMessage("文件夹创建异常");
 			rtn.setCode("500");
 		}
-		return renderString(response, rtn);
+		return toJsonByALWAYS(response, rtn);
 	}
 }
