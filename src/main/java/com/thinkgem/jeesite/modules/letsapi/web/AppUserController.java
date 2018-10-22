@@ -103,33 +103,40 @@ public class AppUserController extends BaseController {
 	@RequestMapping(value="/login", method = RequestMethod.POST)
 	public String  login(HttpServletRequest request, HttpServletResponse response, Model model){
 		RtnData rtn=new RtnData();
-		List<Map<String,Object>> listmp= new JsonUtils().getListMap(request);
-		AppUser user=new AppUser();
-		user.setLoginName((String)listmp.get(0).get("loginName"));
-		AppUser appUser=appUserService.login(user);
-		if(appUser!=null){
-			if(StringUtils.equals((String)listmp.get(0).get("passWord"), appUser.getPassword())){
-				if(StringUtils.equals(appUser.getLoginFlag(), "1")) {
-					rtn.setMessage("您已经被禁止登录");
+		try {
+			List<Map<String,Object>> listmp= new JsonUtils().getListMap(request);
+			AppUser user=new AppUser();
+			user.setLoginName((String)listmp.get(0).get("loginName"));
+			AppUser appUser=appUserService.login(user);
+			if(appUser!=null){
+				if(StringUtils.equals((String)listmp.get(0).get("passWord"), appUser.getPassword())){
+					if(StringUtils.equals(appUser.getLoginFlag(), "1")) {
+						rtn.setMessage("您已经被禁止登录");
+						rtn.setCode("500");
+						return renderString(response, rtn);
+					}
+					// 生成TOKEN
+					SubjectModel sub = new SubjectModel(appUser.getId(), appUser.getLoginName());//用户信息
+					String token = TokenMgr.createJWT(IdGen.uuid(), Constant.JWT_ISS,TokenMgr.generalSubject(sub), Constant.JWT_TTL);
+					response.addHeader("Authorization", token);
+					model.addAttribute("appUser", appUser);
+					rtn.setModel(model);
+					rtn.setMessage("登陆成功");
+					rtn.setCode("0000");
+					return renderString(response, rtn);
+				}else {
+					rtn.setMessage("密码错误");
 					rtn.setCode("500");
 					return renderString(response, rtn);
 				}
-				// 生成TOKEN
-				SubjectModel sub = new SubjectModel(appUser.getId(), appUser.getLoginName());//用户信息
-				String token = TokenMgr.createJWT(IdGen.uuid(), Constant.JWT_ISS,TokenMgr.generalSubject(sub), Constant.JWT_TTL);
-				response.addHeader("Authorization", token);
-				model.addAttribute("appUser", appUser);
-				rtn.setModel(model);
-				rtn.setMessage("登陆成功");
-				rtn.setCode("0000");
-				return renderString(response, rtn);
-			}else {
-				rtn.setMessage("密码错误");
+			}else{
+				rtn.setMessage("账号错误");
 				rtn.setCode("500");
 				return renderString(response, rtn);
 			}
-		}else{
-			rtn.setMessage("账号错误");
+		} catch (Exception e) {
+			logger.error("登录异常:"+e.getMessage());
+			rtn.setMessage("登录异常");
 			rtn.setCode("500");
 			return renderString(response, rtn);
 		}
