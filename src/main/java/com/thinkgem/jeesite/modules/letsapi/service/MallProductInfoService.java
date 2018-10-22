@@ -62,19 +62,25 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	 */
 	public RtnData getAppSilderImg(Model model) {
 		RtnData rtn=new RtnData();
-		List<AppSilderImg> listImg=new ArrayList<AppSilderImg>();
+		List<AppSilderImg> listImg=null;
 		try {
 			listImg=mallProductInfoDao.getAppSilderImg();
 			if(listImg!=null) {
-				model.addAttribute(listImg);
-				model.addAttribute("mallProductInfo",null);
-				rtn.setModel(model);
-				rtn.setCode("0000");
-				rtn.setMessage("首页轮播图查询成功");
+				if(listImg.size() > 0) {
+					model.addAttribute(listImg);
+					model.addAttribute("mallProductInfo",null);
+					rtn.setModel(model);
+					rtn.setCode("0000");
+					rtn.setMessage("首页轮播图查询成功");
+				}else {
+					rtn.setCode("0000");
+					rtn.setMessage("暂无数据");
+				}
 			}else {
 				rtn.setCode("500");
 				rtn.setMessage("首页轮播图查询失败");
 			}
+			
 		} catch (Exception e) {
 			rtn.setCode("500");
 			rtn.setMessage(e.getMessage());
