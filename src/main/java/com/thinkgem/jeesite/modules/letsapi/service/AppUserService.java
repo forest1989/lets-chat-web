@@ -51,7 +51,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			appVo = appUserDao.getByLoginName(user);
 			if (appVo != null) {
 				rtn.setMessage("用户名已被注册!");
-				rtn.setCode("0001");
+				rtn.setCode("1018");
 			}else {
 				int i = appUserDao.register(user);
 				if (i > 0) {
@@ -67,12 +67,12 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 					rtn.setCode("0000");
 				}else {
 					rtn.setMessage("注册失败");
-					rtn.setCode("8401");
+					rtn.setCode("1019");
 				}
 			}
 		} catch (Exception e) {
 			rtn.setMessage("注册异常");
-			rtn.setCode("8401");
+			rtn.setCode("500");
 		}
 		return rtn;
 	}
