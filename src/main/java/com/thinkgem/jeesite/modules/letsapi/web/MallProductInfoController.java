@@ -88,10 +88,10 @@ public class MallProductInfoController extends BaseController {
 	* @version 1.0  
 	*/ 
 	@RequestMapping(value="/getAppSilderImg", method = RequestMethod.POST)
-	public String  getAppSilderImg(HttpServletRequest request,HttpServletResponse response, Model model){
+	public String  getAppSilderImg(HttpServletRequest request,HttpServletResponse response){
 		RtnData rtn=new RtnData();
 		try {
-			rtn = mallProductInfoService.getAppSilderImg(model);
+			rtn = mallProductInfoService.getAppSilderImg();
 		} catch (Exception e) {
 			 rtn.setMessage("查询异常");
 			 rtn.setCode("500");

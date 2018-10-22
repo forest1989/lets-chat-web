@@ -56,7 +56,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	 * @param listmp
 	 * @return
 	 */
-	public RtnData getAppSilderImg(Model model) {
+	public RtnData getAppSilderImg() {
 		RtnData rtn = new RtnData();
 		List<AppSilderImg> listImg = null;
 		try {
