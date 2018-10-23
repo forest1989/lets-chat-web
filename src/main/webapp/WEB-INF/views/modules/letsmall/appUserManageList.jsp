@@ -26,7 +26,10 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
 			<li><label>用户姓名：</label>
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium"/>
+				<form:input path="loginName" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
+			<li><label>电话号码：</label>
+				<form:input path="phone" htmlEscape="false" maxlength="100" class="input-medium"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -36,9 +39,9 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>用户姓名</th>
-				<th>更新时间</th>
-				<th>备注信息</th>
+				<th>用户账号</th>
+				<th>用户昵称</th>
+				<th>电话号码</th>
 				<shiro:hasPermission name="letsmall:appUserManage:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -46,13 +49,14 @@
 		<c:forEach items="${page.list}" var="appUserManage">
 			<tr>
 				<td><a href="${ctx}/letsmall/appUserManage/form?id=${appUserManage.id}">
-					${appUserManage.name}
+					${appUserManage.loginName}
 				</a></td>
 				<td>
-					<fmt:formatDate value="${appUserManage.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					${appUserManage.nickName}
+					<%-- <fmt:formatDate value="${appUserManage.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/> --%>
 				</td>
 				<td>
-					${appUserManage.remarks}
+					${appUserManage.phone}
 				</td>
 				<shiro:hasPermission name="letsmall:appUserManage:edit"><td>
     				<a href="${ctx}/letsmall/appUserManage/form?id=${appUserManage.id}">修改</a>

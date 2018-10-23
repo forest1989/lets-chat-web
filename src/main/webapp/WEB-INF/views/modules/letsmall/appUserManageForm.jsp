@@ -34,29 +34,25 @@
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
-			<label class="control-label">登录名：</label>
+			<label class="control-label">登录账户：</label>
 			<div class="controls">
-				<form:input path="loginName" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
+				<form:input path="loginName" htmlEscape="false" maxlength="100" class="input-xlarge required" readonly="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">密码：</label>
 			<div class="controls">
 				<form:input path="password" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
+		</div> --%>
 		<div class="control-group">
 			<label class="control-label">用户图像：</label>
+			
 			<div class="controls">
-				<form:input path="photo" htmlEscape="false" maxlength="1000" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">用户姓名：</label>
-			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:hidden id="nameImage" path="photo" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+				<sys:ckfinder input="nameImage" type="images" uploadPath="/app/photo" selectMultiple="false" maxWidth="100" maxHeight="100"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -65,12 +61,7 @@
 				<form:input path="nickName" htmlEscape="false" maxlength="100" class="input-xlarge "/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">性别：</label>
-			<div class="controls">
-				<form:input path="sex" htmlEscape="false" maxlength="10" class="input-xlarge "/>
-			</div>
-		</div>
+		
 		<div class="control-group">
 			<label class="control-label">手机号码：</label>
 			<div class="controls">
@@ -91,10 +82,20 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">是否可登陆（0：正常  1：禁止登录）：</label>
+			<label class="control-label">性别：</label>
 			<div class="controls">
-				<form:input path="loginFlag" htmlEscape="false" maxlength="64" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:select path="sex">
+					<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">是否允许登录:</label>
+			<div class="controls">
+				<form:select path="loginFlag">
+					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> “是”代表此账号允许登录，“否”则表示此账号不允许登录</span>
 			</div>
 		</div>
 		<div class="control-group">

@@ -40,11 +40,11 @@
 		<include refid="appUserManageJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="name != null and name != ''">
-				AND a.name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			<if test="loginName != null and loginName != ''">
+				AND a.login_name LIKE '%'||#{loginName}||'%'
+			</if>
+			<if test="phone != null and phone != ''">
+				AND a.phone = #{phone}
 			</if>
 		</where>
 		<choose>
@@ -112,11 +112,8 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE app_user SET 	
-			login_name = #{loginName},
-			password = #{password},
-			photo = #{photo},
-			name = #{name},
+		UPDATE app_user SET 				
+			photo = #{photo},	
 			nick_name = #{nickName},
 			sex = #{sex},
 			phone = #{phone},
