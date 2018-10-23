@@ -21,6 +21,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.ShoppingAddress;
 import com.thinkgem.jeesite.modules.letsapi.service.MallProductInfoService;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
@@ -119,7 +120,7 @@ public class MallProductInfoController extends BaseController {
 	/**  
 	* <p>Description:首页轮播图查询 </p>      
 	* @author tao_yonggang  
-	* @date 2018年10月22日  
+	* @date 2018年10月23日  
 	* @version 1.0  
 	*/ 
 	@RequestMapping(value="/findAllHotList", method = RequestMethod.POST)
@@ -136,7 +137,7 @@ public class MallProductInfoController extends BaseController {
 	/**  
 	* <p>Description:获取 </p>      
 	* @author tao_yonggang  
-	* @date 2018年10月22日  
+	* @date 2018年10月23日  
 	* @version 1.0  
 	*/ 
 	@RequestMapping(value="/getShippingAdsList", method = RequestMethod.POST)
@@ -144,6 +145,57 @@ public class MallProductInfoController extends BaseController {
 		RtnData rtn=new RtnData();
 		try {
 			rtn = mallProductInfoService.getShippingAdsList(request);
+		} catch (Exception e) {
+			 rtn.setMessage("查询异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	/**  
+	* <p>Description:删除地址 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/delAddress", method = RequestMethod.POST)
+	public String  delAddress(HttpServletRequest request,HttpServletResponse response,ShoppingAddress sAdd){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.delAddress(sAdd);
+		} catch (Exception e) {
+			 rtn.setMessage("查询异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	/**  
+	* <p>Description:设置默认地址 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/updateDefaultAds", method = RequestMethod.POST)
+	public String  updateDefaultAds(HttpServletRequest request,HttpServletResponse response,ShoppingAddress sAdd){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.updateDefaultAds(sAdd);
+		} catch (Exception e) {
+			 rtn.setMessage("查询异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	/**  
+	* <p>Description:设置默认地址 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/updateAds", method = RequestMethod.POST)
+	public String  updateAds(HttpServletRequest request,HttpServletResponse response,ShoppingAddress sAdd){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.updateAds(sAdd);
 		} catch (Exception e) {
 			 rtn.setMessage("查询异常");
 			 rtn.setCode("500");

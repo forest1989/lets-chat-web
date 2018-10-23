@@ -133,7 +133,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 				rtn.setCode("0000");
 				rtn.setMessage("查询成功");
 			}else {
-				rtn.setCode("1020");
+				rtn.setCode("1021");
 				rtn.setMessage("暂无数据");
 			}
 		} catch (Exception e) {
@@ -158,13 +158,87 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 				rtn.setCode("0000");
 				rtn.setMessage("查询成功");
 			}else {
-				rtn.setCode("1020");
+				rtn.setCode("1022");
 				rtn.setMessage("暂无数据");
 			}
 		} catch (Exception e) {
 			rtn.setCode("500");
 			rtn.setMessage(e.getMessage());
 			logger.error("查询异常------"+e.getMessage());
+		}
+		return rtn;
+	}
+
+	/**
+	 * @param sAdd删除地址
+	 * @return
+	 */
+	public RtnData delAddress(ShoppingAddress sAdd) {
+		RtnData rtn = new RtnData();
+		int n=0;
+		try {
+			n=shoppingAddressDao.delete(sAdd);
+			if(n > 0) {
+				rtn.setCode("0000");
+				rtn.setMessage("删除成功");
+			}else {
+				rtn.setCode("1023");
+				rtn.setMessage("删除失败");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("删除异常------"+e.getMessage());
+		}
+		
+		return rtn;
+	}
+
+	/**
+	 * @param sAdd修改默认地址
+	 * @return
+	 */
+	public RtnData updateDefaultAds(ShoppingAddress sAdd) {
+		RtnData rtn = new RtnData();
+		int n=0;
+		try {
+			sAdd.setIsDefault("0");
+			n=shoppingAddressDao.updateById(sAdd);
+			if( n > 0 ) {
+				rtn.setCode("0000");
+				rtn.setMessage("修改成功");
+			}else {
+				rtn.setCode("1024");
+				rtn.setMessage("修改失败");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("修改异常------"+e.getMessage());
+		}
+		return rtn;
+	}
+
+	/**
+	 * @param sAdd修改地址
+	 * @return
+	 */
+	public RtnData updateAds(ShoppingAddress sAdd) {
+		RtnData rtn = new RtnData();
+		int n=0;
+		try {
+			n=shoppingAddressDao.updateById(sAdd);
+			if(n > 0) {
+				rtn.setCode("0000");
+				rtn.setMessage("修改成功");
+			}else {
+				rtn.setCode("1025");
+				rtn.setMessage("修改失败");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("修改异常------"+e.getMessage());
 		}
 		return rtn;
 	}

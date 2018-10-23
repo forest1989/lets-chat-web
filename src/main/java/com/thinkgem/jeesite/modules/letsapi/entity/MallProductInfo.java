@@ -27,7 +27,7 @@ public class MallProductInfo extends DataEntity<MallProductInfo> {
 	private String productImg1;		// 商品图片1
 	private String productImg2;		// 商品图片2
 	private String productImg3;		// 商品图片3
-	private String productDetail;		// 商品描述（存储富文本）
+	private String productDetailImg;		// 商品描述（存储富文本）
 	private String specificationId;		// 商品规格ID(多个规格以逗号隔开方式存储)
 	private String productTypeId;		// 商品类别ID（商品类别使用系统已有的字典管理模块）
 	private Long stockNum;		// 库存数量
@@ -140,14 +140,20 @@ public class MallProductInfo extends DataEntity<MallProductInfo> {
 		this.productImg3 = productImg3;
 	}
 	
-	public String getProductDetail() {
-		return productDetail;
+	/**
+	 * @return the productDetailImg
+	 */
+	public String getProductDetailImg() {
+		return productDetailImg;
 	}
 
-	public void setProductDetail(String productDetail) {
-		this.productDetail = productDetail;
+	/**
+	 * @param productDetailImg the productDetailImg to set
+	 */
+	public void setProductDetailImg(String productDetailImg) {
+		this.productDetailImg = productDetailImg;
 	}
-	
+
 	@Length(min=0, max=200, message="商品规格ID(多个规格以逗号隔开方式存储)长度必须介于 0 和 200 之间")
 	public String getSpecificationId() {
 		return specificationId;

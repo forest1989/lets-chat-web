@@ -22,5 +22,11 @@ public interface ShoppingAddressDao extends CrudDao<ShoppingAddress> {
 	 * @return
 	 */
 	List<ShoppingAddress> getShippingAdsList(String userId);
+
+	/**
+	 * @param sAdd
+	 * @return
+	 */
+	int updateById(ShoppingAddress sAdd);
 	
 }
