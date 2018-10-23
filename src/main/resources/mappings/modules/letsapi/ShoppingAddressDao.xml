@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.letsapi.dao.ShoppingAddressDao">
+    
+	<sql id="shoppingAddressColumns">
+		a.id AS "id",
+		a.user_id AS "user.id",
+		a.shop_user_name AS "shopUserName",
+		a.phone AS "phone",
+		a.arear AS "arear",
+		a.address_detail AS "addressDetail",
+		a.is_default AS "isDefault",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		u2.name AS "user.name"
+	</sql>
+	
+	<sql id="shoppingAddressJoins">
+		LEFT JOIN sys_user u2 ON u2.id = a.user_id
+	</sql>
+    
+	<select id="get" resultType="ShoppingAddress">
+		SELECT 
+			<include refid="shoppingAddressColumns"/>
+		FROM shopping_address a
+		<include refid="shoppingAddressJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ShoppingAddress">
+		SELECT 
+			<include refid="shoppingAddressColumns"/>
+		FROM shopping_address a
+		<include refid="shoppingAddressJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ShoppingAddress">
+		SELECT 
+			<include refid="shoppingAddressColumns"/>
+		FROM shopping_address a
+		<include refid="shoppingAddressJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO shopping_address(
+			id,
+			user_id,
+			shop_user_name,
+			phone,
+			arear,
+			address_detail,
+			is_default,
+			create_date,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{user.id},
+			#{shopUserName},
+			#{phone},
+			#{arear},
+			#{addressDetail},
+			#{isDefault},
+			#{createDate},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE shopping_address SET 	
+			user_id = #{user.id},
+			shop_user_name = #{shopUserName},
+			phone = #{phone},
+			arear = #{arear},
+			address_detail = #{addressDetail},
+			is_default = #{isDefault},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE shopping_address SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<!-- 通过id查询用户收货地址 -->
+	<select id="getShippingAdsList" resultType="ShoppingAddress">
+		SELECT * FROM shopping_address a WHERE a.user_id = #{userId} and del_flag = 0
+	</select>
+</mapper>
