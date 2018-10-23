@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.modules.letsapi.dao.MallProductInfoDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.ShoppingAddressDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
@@ -239,6 +240,33 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 			rtn.setCode("500");
 			rtn.setMessage(e.getMessage());
 			logger.error("修改异常------"+e.getMessage());
+		}
+		return rtn;
+	}
+
+	/**
+	 * @param sAdd 增加收货地址
+	 * @return
+	 */
+	public RtnData insertAds(HttpServletRequest request,ShoppingAddress sAdd) {
+		RtnData rtn = new RtnData();
+		int n=0;
+		try {
+			sAdd.setId(IdGen.uuid());
+			sAdd.setUserId(UserUtils.getUser(request).getUserId());
+			sAdd.setIsDefault("1");
+			n=shoppingAddressDao.insertAddress(sAdd);
+			if(n > 0) {
+				rtn.setCode("0000");
+				rtn.setMessage("添加成功");
+			}else {
+				rtn.setCode("1026");
+				rtn.setMessage("添加失败");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("添加异常------"+e.getMessage());
 		}
 		return rtn;
 	}

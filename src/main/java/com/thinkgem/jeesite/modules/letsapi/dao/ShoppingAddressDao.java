@@ -24,9 +24,15 @@ public interface ShoppingAddressDao extends CrudDao<ShoppingAddress> {
 	List<ShoppingAddress> getShippingAdsList(String userId);
 
 	/**
-	 * @param sAdd
+	 * @param sAdd设为用户默认收货地址和修改地址
 	 * @return
 	 */
 	int updateById(ShoppingAddress sAdd);
+
+	/**
+	 * @param sAdd增加收货地址
+	 * @return
+	 */
+	int insertAddress(ShoppingAddress sAdd);
 	
 }

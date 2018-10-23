@@ -115,28 +115,52 @@
 	<update id="updateById">
 	UPDATE shopping_address
     <set>
-      <if test="userId != null">
+      <if test="userId != null and userId !=''">
         user_id = #{userId},
       </if>
-      <if test="shopUserName != null">
+      <if test="shopUserName != null and shopUserName !=''">
         shop_user_name = #{shopUserName},
       </if>
-      <if test="phone != null">
+      <if test="phone != null and phone !=''">
         phone = #{phone},
       </if>
-      <if test="arear != null">
+      <if test="arear != null and arear !=''">
         arear = #{arear},
       </if>
-      <if test="addressDetail != null">
+      <if test="addressDetail != null and addressDetail !=''">
         address_detail = #{addressDetail},
       </if>
-      <if test="isDefault != null">
+      <if test="isDefault != null and isDefault !=''">
         is_default = #{isDefault},
       </if>
-      <if test="updateDate != null">
-        update_date = #{updateDate},
-      </if>
+      update_date = sysdate
     </set>
-		WHERE id = #{id} and del_flag = 0
+		  WHERE id = #{id} and del_flag = 0
 	</update>
+	<!-- 增加收货地址 -->
+	<insert id="insertAddress">
+		INSERT INTO shopping_address(
+			id,
+			user_id,
+			shop_user_name,
+			phone,
+			arear,
+			address_detail,
+			is_default,
+			create_date,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{userId},
+			#{shopUserName},
+			#{phone},
+			#{arear},
+			#{addressDetail},
+			#{isDefault},
+			sysdate,
+			sysdate,
+			#{delFlag}
+		)
+	</insert>
 </mapper>

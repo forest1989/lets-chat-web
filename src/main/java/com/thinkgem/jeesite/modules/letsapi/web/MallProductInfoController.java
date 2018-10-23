@@ -163,13 +163,13 @@ public class MallProductInfoController extends BaseController {
 		try {
 			rtn = mallProductInfoService.delAddress(sAdd);
 		} catch (Exception e) {
-			 rtn.setMessage("查询异常");
+			 rtn.setMessage("删除异常");
 			 rtn.setCode("500");
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
 	/**  
-	* <p>Description:设置默认地址 </p>      
+	* <p>Description:设置默认收货地址 </p>      
 	* @author tao_yonggang  
 	* @date 2018年10月23日  
 	* @version 1.0  
@@ -180,13 +180,13 @@ public class MallProductInfoController extends BaseController {
 		try {
 			rtn = mallProductInfoService.updateDefaultAds(sAdd);
 		} catch (Exception e) {
-			 rtn.setMessage("查询异常");
+			 rtn.setMessage("修改异常");
 			 rtn.setCode("500");
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
 	/**  
-	* <p>Description:设置默认地址 </p>      
+	* <p>Description:修改收货地址 </p>      
 	* @author tao_yonggang  
 	* @date 2018年10月23日  
 	* @version 1.0  
@@ -197,7 +197,24 @@ public class MallProductInfoController extends BaseController {
 		try {
 			rtn = mallProductInfoService.updateAds(sAdd);
 		} catch (Exception e) {
-			 rtn.setMessage("查询异常");
+			 rtn.setMessage("修改异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	/**  
+	* <p>Description:增加收货地址 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/insertAds", method = RequestMethod.POST)
+	public String  insertAds(HttpServletRequest request,HttpServletResponse response,ShoppingAddress sAdd){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.insertAds(request,sAdd);
+		} catch (Exception e) {
+			 rtn.setMessage("添加异常");
 			 rtn.setCode("500");
 		}
 		return toJsonByALWAYS(response, rtn);
