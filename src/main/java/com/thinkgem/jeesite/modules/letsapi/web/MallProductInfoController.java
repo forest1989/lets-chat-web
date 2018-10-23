@@ -133,4 +133,21 @@ public class MallProductInfoController extends BaseController {
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
+	/**  
+	* <p>Description:获取 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月22日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/getShippingAdsList", method = RequestMethod.POST)
+	public String  getShippingAdsList(HttpServletRequest request,HttpServletResponse response){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.getShippingAdsList(request);
+		} catch (Exception e) {
+			 rtn.setMessage("查询异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
 }

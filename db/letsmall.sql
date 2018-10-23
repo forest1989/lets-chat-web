@@ -639,11 +639,12 @@ alter table PRODUCT_SPECIFICATIONS
   initrans 2
   maxtrans 255;
 
-prompt Creating SHIPPING_ADDRESS...
-create table SHIPPING_ADDRESS
+prompt Creating SHOPPING_ADDRESS...
+create table SHOPPING_ADDRESS
 (
   id             VARCHAR2(64) not null,
   user_id        VARCHAR2(64) not null,
+  SHOP_USER_NAME VARCHAR2(200) not null,
   phone          VARCHAR2(50) not null,
   arear          VARCHAR2(200) not null,
   address_detail VARCHAR2(200) not null,
@@ -656,33 +657,36 @@ tablespace WEBDATA
   pctfree 10
   initrans 1
   maxtrans 255;
-comment on table SHIPPING_ADDRESS
+comment on table SHOPPING_ADDRESS
   is '收货地址';
-comment on column SHIPPING_ADDRESS.id
+comment on column SHOPPING_ADDRESS.id
   is '收货地址ID
 ';
-comment on column SHIPPING_ADDRESS.user_id
+comment on column SHOPPING_ADDRESS.user_id
   is '用户ID（APP_USER表主键ID）
 ';
-comment on column SHIPPING_ADDRESS.phone
+comment on column SHOPPING_ADDRESS.SHOP_USER_NAME
+  is '收货人
+';
+comment on column SHOPPING_ADDRESS.phone
   is '收货电话
 ';
-comment on column SHIPPING_ADDRESS.arear
+comment on column SHOPPING_ADDRESS.arear
   is '所在地区
 ';
-comment on column SHIPPING_ADDRESS.address_detail
+comment on column SHOPPING_ADDRESS.address_detail
   is '详细地址
 ';
-comment on column SHIPPING_ADDRESS.is_default
+comment on column SHOPPING_ADDRESS.is_default
   is '是否设为默认收货地址（0：是 1：否）
 ';
-comment on column SHIPPING_ADDRESS.create_date
+comment on column SHOPPING_ADDRESS.create_date
   is '创建时间
 ';
-comment on column SHIPPING_ADDRESS.update_date
+comment on column SHOPPING_ADDRESS.update_date
   is '更新时间
 ';
-comment on column SHIPPING_ADDRESS.del_flag
+comment on column SHOPPING_ADDRESS.del_flag
   is '删除标记（0：正常  1：已删除）
 ';
 
@@ -704,10 +708,10 @@ prompt Disabling triggers for OPERATION_MONEY_LOG...
 alter table OPERATION_MONEY_LOG disable all triggers;
 prompt Disabling triggers for PRODUCT_SPECIFICATIONS...
 alter table PRODUCT_SPECIFICATIONS disable all triggers;
-prompt Disabling triggers for SHIPPING_ADDRESS...
-alter table SHIPPING_ADDRESS disable all triggers;
-prompt Deleting SHIPPING_ADDRESS...
-delete from SHIPPING_ADDRESS;
+prompt Disabling triggers for SHOPPING_ADDRESS...
+alter table SHOPPING_ADDRESS disable all triggers;
+prompt Deleting SHOPPING_ADDRESS...
+delete from SHOPPING_ADDRESS;
 commit;
 prompt Deleting PRODUCT_SPECIFICATIONS...
 delete from PRODUCT_SPECIFICATIONS;
@@ -759,7 +763,7 @@ prompt Loading OPERATION_MONEY_LOG...
 prompt Table is empty
 prompt Loading PRODUCT_SPECIFICATIONS...
 prompt Table is empty
-prompt Loading SHIPPING_ADDRESS...
+prompt Loading SHOPPING_ADDRESS...
 prompt Table is empty
 prompt Enabling triggers for APP_SILDER_IMG...
 alter table APP_SILDER_IMG enable all triggers;
@@ -779,8 +783,8 @@ prompt Enabling triggers for OPERATION_MONEY_LOG...
 alter table OPERATION_MONEY_LOG enable all triggers;
 prompt Enabling triggers for PRODUCT_SPECIFICATIONS...
 alter table PRODUCT_SPECIFICATIONS enable all triggers;
-prompt Enabling triggers for SHIPPING_ADDRESS...
-alter table SHIPPING_ADDRESS enable all triggers;
+prompt Enabling triggers for SHOPPING_ADDRESS...
+alter table SHOPPING_ADDRESS enable all triggers;
 set feedback on
 set define on
 prompt Done.

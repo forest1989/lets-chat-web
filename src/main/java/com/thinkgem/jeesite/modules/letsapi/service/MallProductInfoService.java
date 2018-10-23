@@ -5,18 +5,22 @@ package com.thinkgem.jeesite.modules.letsapi.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.letsapi.dao.MallProductInfoDao;
+import com.thinkgem.jeesite.modules.letsapi.dao.ShoppingAddressDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
 import com.thinkgem.jeesite.modules.letsapi.entity.HotProduct;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.ShoppingAddress;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
+import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
 import com.thinkgem.jeesite.modules.sys.dao.DictDao;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 
@@ -33,6 +37,8 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	private MallProductInfoDao mallProductInfoDao;
 	@Autowired
 	private DictDao dictDao;
+	@Autowired
+	private ShoppingAddressDao shoppingAddressDao;
 	
 	public MallProductInfo get(String id) {
 		return super.get(id);
@@ -137,5 +143,29 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 		}
 		return rtn;
 	}
-	
+
+	/**
+	 * @param sAddr通过id查询用户购物车地址
+	 * @return
+	 */
+	public RtnData getShippingAdsList(HttpServletRequest request) {
+		RtnData rtn = new RtnData();
+		List<ShoppingAddress> listShopping=null;
+		try {
+			listShopping=shoppingAddressDao.getShippingAdsList(UserUtils.getUser(request).getUserId());
+			if(listShopping != null && listShopping.size() > 0) {
+				rtn.setData(listShopping);
+				rtn.setCode("0000");
+				rtn.setMessage("查询成功");
+			}else {
+				rtn.setCode("1020");
+				rtn.setMessage("暂无数据");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("查询异常------"+e.getMessage());
+		}
+		return rtn;
+	}
 }
