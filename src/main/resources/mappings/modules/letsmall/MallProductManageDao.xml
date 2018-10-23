@@ -15,7 +15,7 @@
 		a.product_img1 AS "productImg1",
 		a.product_img2 AS "productImg2",
 		a.product_img3 AS "productImg3",
-		a.product_detail AS "productDetail",
+		a.product_detail_img AS "productDetailImg",
 		a.specification_id AS "specificationId",
 		a.product_type_id AS "productTypeId",
 		a.stock_num AS "stockNum",
@@ -47,6 +47,18 @@
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>
+		<if test="productNo != null and productNo != ''">
+			AND a.product_no LIKE '%'||#{productNo}||'%'
+		</if>
+		<if test="productName != null and productName != ''">
+			AND a.product_name LIKE '%'||#{productName}||'%'
+		</if>
+		<if test="productTypeId != null and productTypeId != ''">
+			AND a.product_type_id = #{productTypeId}
+		</if>
+		<if test="stauts != null and stauts != ''">
+			AND a.stauts = #{stauts}
+		</if>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
