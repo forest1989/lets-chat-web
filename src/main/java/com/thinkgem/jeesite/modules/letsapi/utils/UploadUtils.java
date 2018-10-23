@@ -22,6 +22,8 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.utils.FileUtils;
 import com.thinkgem.jeesite.common.utils.IdGen;
 
 import net.sf.json.JSONObject;
@@ -50,7 +52,7 @@ public class UploadUtils {
 	// 定义允许上传的文件扩展名
 	private Map<String, String> extMap = new HashMap<String, String>();
 	// 文件保存目录相对路径
-	private String basePath = "upload";
+	private String basePath = "userfiles";
 	// 文件的目录名
 	private String dirName = "images";
 	// 上传临时路径
@@ -83,10 +85,10 @@ public class UploadUtils {
 	 * @return infos info[0] 验证文件域返回错误信息 info[1] 上传文件错误信息 info[2] savePath info[3] saveUrl info[4] fileUrl
 	 */
 	@SuppressWarnings("unchecked")
-	public String[] uploadFile(HttpServletRequest request) {
+	public String[] uploadFile(HttpServletRequest request,String[] type) {
 		String[] infos = new String[7];
 		// 验证
-		infos[0] = this.validateFields(request);
+		infos[0] = this.validateFields(request,type);
 		/*// 初始化表单元素
 		Map<String, Object> fieldsMap = new HashMap<String, Object>();
 		if (infos[0].equals("true")) {
@@ -120,7 +122,7 @@ public class UploadUtils {
 	 * 
 	 * @param request
 	 */
-	private String validateFields(HttpServletRequest request) {
+	private String validateFields(HttpServletRequest request,String[] type) {
 		String errorInfo = "true";
 		// boolean errorFlag = true;
 		// 获取内容类型
@@ -130,10 +132,12 @@ public class UploadUtils {
 		savePath = request.getSession().getServletContext().getRealPath("/") + basePath + "/";
 		// 文件保存目录URL
 		saveUrl = request.getContextPath() + "/" + basePath + "/";
+		// 文件保存目录路径
+		savePath =savePath + type[0] + "/app/"+ type[1]+"/";
+		// 文件保存目录URL
+		saveUrl =saveUrl + type[0] + "/app/"+ type[1]+"/";
 		File uploadDir = new File(savePath);
-		if (!uploadDir.exists()) {
-			uploadDir.mkdirs();
-		}
+		FileUtils.createDirectory(FileUtils.path(savePath));
 		if (contentType == null || !contentType.startsWith("multipart")) {
 			// TODO
 			System.out.println("请求不包含multipart/form-data流");
@@ -157,22 +161,23 @@ public class UploadUtils {
 		} else {
 			// .../basePath/dirName/
 			// 创建文件夹
-			savePath += dirName + "/";
-			saveUrl += dirName + "/";
-			File saveDirFile = new File(savePath);
-			if (!saveDirFile.exists()) {
-				saveDirFile.mkdirs();
-			}
 			// .../basePath/dirName/yyyyMMdd/
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-			String ymd = sdf.format(new Date());
-			savePath += ymd + "/";
-			saveUrl += ymd + "/";
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+			String yy = sdf.format(new Date());
+			savePath += yy + "/";
+			saveUrl += yy + "/";
 			File dirFile = new File(savePath);
 			if (!dirFile.exists()) {
 				dirFile.mkdirs();
 			}
-
+			SimpleDateFormat sdf1 = new SimpleDateFormat("MM");
+			String mm = sdf1.format(new Date());
+			savePath += mm + "/";
+			saveUrl += mm + "/";
+			File dirFile1 = new File(savePath);
+			if (!dirFile1.exists()) {
+				dirFile1.mkdirs();
+			}
 			// 获取上传临时路径
 			tempPath = request.getSession().getServletContext().getRealPath("/") + tempPath + "/";
 			File file = new File(tempPath);

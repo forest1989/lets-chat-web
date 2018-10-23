@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.thinkgem.jeesite.common.utils.FileUtils;
 import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
@@ -53,7 +54,7 @@ public class AppUserController extends BaseController {
 			AppUser appUser = appUserService.login(user);
 			if(appUser!=null){
 				if(StringUtils.equals(user.getPassword(), appUser.getPassword())){
-					if(StringUtils.equals(appUser.getLoginFlag(), "1")) {
+					if(StringUtils.equals(appUser.getLoginFlag(), "0")) {
 						rtn.setMessage("您已经被禁止登录");
 						rtn.setCode("1007");
 						return toJsonByALWAYS(response, rtn);
@@ -157,7 +158,8 @@ public class AppUserController extends BaseController {
 		Map<String,Object> retMap = new HashMap<String, Object>();
 		UploadUtils up = new UploadUtils();
 		try {
-			String[] infos = up.uploadFile(request);
+			String[] type= {"images","photo"};
+			String[] infos = up.uploadFile(request,type);
 			String errorInfo = infos[0];
 			String savePath = infos[2];
 			String saveUrl = infos[3];
