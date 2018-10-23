@@ -16,22 +16,22 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class MallProductManage extends DataEntity<MallProductManage> {
 	
 	private static final long serialVersionUID = 1L;
-	private String productNo;		// 商品编号
-	private String productName;		// 商品名称
-	private String productIco1;		// 商品图标1
-	private String productIco2;		// 商品图标2
-	private String productIco3;		// 商品图标3
-	private String productIco4;		// 商品图标4
-	private String productIco5;		// 商品图标5
-	private String productIco6;		// 商品图标6
-	private String productImg1;		// 商品图片1
-	private String productImg2;		// 商品图片2
-	private String productImg3;		// 商品图片3
-	private String productDetailImg;		// 商品描述图片
+	private String productNo;			// 商品编号
+	private String productName;			// 商品名称
+	private String productIco1;			// 商品图标1
+	private String productIco2;			// 商品图标2
+	private String productIco3;			// 商品图标3
+	private String productIco4;			// 商品图标4
+	private String productIco5;			// 商品图标5
+	private String productIco6;			// 商品图标6
+	private String productImg1;			// 商品图片1
+	private String productImg2;		    // 商品图片2
+	private String productImg3;		    // 商品图片3
+	private String productDetailImg;    // 商品描述图片
 	private String specificationId;		// 商品规格ID(多个规格以逗号隔开方式存储)
 	private String productTypeId;		// 商品类别ID（商品类别使用系统已有的字典管理模块）
-	private Long stockNum;		// 库存数量
-	private String stauts;		// 商品状态（0：上架  1：下架  2：待定  3：待定）
+	private Long stockNum;		        // 库存数量
+	private String stauts;		        // 商品状态（0：上架  1：下架  2：待定  3：待定）
 	
 	public MallProductManage() {
 		super();
