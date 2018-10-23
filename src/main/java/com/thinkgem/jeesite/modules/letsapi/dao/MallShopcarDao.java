@@ -8,31 +8,37 @@ import java.util.List;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallShopcar;
-import com.thinkgem.jeesite.modules.letsapi.entity.ShoppingAddress;
 
 /**
- * 收货地址DAO接口
+ * 购物车DAO接口
  * @author tao_yonggang
  * @version 2018-10-23
  */
 @MyBatisDao
-public interface ShoppingAddressDao extends CrudDao<ShoppingAddress> {
+public interface MallShopcarDao extends CrudDao<MallShopcar> {
 
 	/**
-	 * @param userId获取收货地址
+	 * @param shopCar添加购物车
 	 * @return
 	 */
-	List<ShoppingAddress> getShippingAdsList(String userId);
+	int insertShopCar(MallShopcar shopCar);
 
 	/**
-	 * @param sAdd设为用户默认收货地址和修改地址
+	 * @param mallShopcar修改购物车商品数量
 	 * @return
 	 */
-	int updateById(ShoppingAddress sAdd);
+	int updateCountById(MallShopcar mallShopcar);
 
 	/**
-	 * @param sAdd增加收货地址
+	 * @param shopCar查询购物车是否有该商品
 	 * @return
 	 */
-	int insertAddress(ShoppingAddress sAdd);
+	MallShopcar selectProductIsExist(MallShopcar shopCar);
+
+	/**
+	 * @param userId查询购物车数据
+	 * @return
+	 */
+	List<MallShopcar> getShopCarList(String userId);
+	
 }

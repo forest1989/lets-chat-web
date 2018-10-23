@@ -21,6 +21,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.MallShopcar;
 import com.thinkgem.jeesite.modules.letsapi.entity.ShoppingAddress;
 import com.thinkgem.jeesite.modules.letsapi.service.MallProductInfoService;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
@@ -215,6 +216,74 @@ public class MallProductInfoController extends BaseController {
 			rtn = mallProductInfoService.insertAds(request,sAdd);
 		} catch (Exception e) {
 			 rtn.setMessage("添加异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	/**  
+	* <p>Description:添加购物车 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/insertShopCar", method = RequestMethod.POST)
+	public String  insertShopCar(HttpServletRequest request,HttpServletResponse response,MallShopcar shopCar){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.insertShopCar(request,shopCar);
+		} catch (Exception e) {
+			 rtn.setMessage("添加异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	/**  
+	* <p>Description:修改购物车商品数量 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/updateCarCount", method = RequestMethod.POST)
+	public String  updateCarCount(HttpServletRequest request,HttpServletResponse response,MallShopcar mallShopcar){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.updateCarCount(mallShopcar);
+		} catch (Exception e) {
+			 rtn.setMessage("修改异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	/**  
+	* <p>Description:查询购物车数据 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/getShopCarList", method = RequestMethod.POST)
+	public String  getShopCarList(HttpServletRequest request,HttpServletResponse response){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.getShopCarList(request);
+		} catch (Exception e) {
+			 rtn.setMessage("添加异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	/**  
+	* <p>Description:删除购物车 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/delShopCar", method = RequestMethod.POST)
+	public String  delShopCar(HttpServletRequest request,HttpServletResponse response,MallShopcar mallShopcar){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.delShopCar(mallShopcar);
+		} catch (Exception e) {
+			 rtn.setMessage("删除异常");
 			 rtn.setCode("500");
 		}
 		return toJsonByALWAYS(response, rtn);

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.letsapi.dao.MallShopcarDao">
+    
+	<sql id="mallShopcarColumns">
+		a.id AS "id",
+		a.user_id AS "userId",
+		a.product_id AS "productId",
+		a.product_count AS "productCount",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="mallShopcarJoins">
+		LEFT JOIN sys_user u2 ON u2.id = a.user_id
+	</sql>
+    
+	<select id="get" resultType="MallShopcar">
+		SELECT 
+			<include refid="mallShopcarColumns"/>
+		FROM mall_shopcar a
+		<include refid="mallShopcarJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MallShopcar">
+		SELECT 
+			<include refid="mallShopcarColumns"/>
+		FROM mall_shopcar a
+		<include refid="mallShopcarJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MallShopcar">
+		SELECT 
+			<include refid="mallShopcarColumns"/>
+		FROM mall_shopcar a
+		<include refid="mallShopcarJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mall_shopcar(
+			id,
+			user_id,
+			product_id,
+			product_count,
+			create_date,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{userId},
+			#{productId},
+			#{productCount},
+			#{createDate},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mall_shopcar SET 	
+			user_id = #{userId},
+			product_id = #{productId},
+			product_count = #{productCount},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE mall_shopcar SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	<!--加入购物车-->
+	<insert id="insertShopCar">
+		INSERT INTO mall_shopcar(
+			id,
+			user_id,
+			product_id,
+			product_count,
+			create_date,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{userId},
+			#{productId},
+			#{productCount},
+			sysdate,
+			sysdate,
+			#{delFlag}
+		)
+	</insert>
+	<!-- 修改购物车商品数量 -->
+	<update id="updateCountById">
+	UPDATE mall_shopcar SET 
+			product_count = #{productCount},
+			update_date = sysdate
+		WHERE id = #{id} and del_flag = 0
+	</update>
+	<!-- 查询购物车是否有该商品 -->
+	<select id="selectProductIsExist" resultType="MallShopcar">
+		SELECT * FROM mall_shopcar 
+	    WHERE product_id = #{productId} and user_id=#{userId} and del_flag = 0
+	</select>
+	<!-- 查询购物车数据 -->
+	<select id="getShopCarList" resultType="MallShopcar">
+		SELECT * FROM mall_shopcar 
+	    WHERE  user_id=#{userId} and del_flag = 0
+	</select>
+</mapper>

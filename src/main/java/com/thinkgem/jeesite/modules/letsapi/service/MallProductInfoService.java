@@ -15,10 +15,12 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.modules.letsapi.dao.MallProductInfoDao;
+import com.thinkgem.jeesite.modules.letsapi.dao.MallShopcarDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.ShoppingAddressDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
 import com.thinkgem.jeesite.modules.letsapi.entity.HotProduct;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.MallShopcar;
 import com.thinkgem.jeesite.modules.letsapi.entity.ShoppingAddress;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
@@ -40,6 +42,8 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	private DictDao dictDao;
 	@Autowired
 	private ShoppingAddressDao shoppingAddressDao;
+	@Autowired
+	private MallShopcarDao shopcarDao;
 	
 	public MallProductInfo get(String id) {
 		return super.get(id);
@@ -174,6 +178,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	 * @param sAdd删除地址
 	 * @return
 	 */
+	@Transactional
 	public RtnData delAddress(ShoppingAddress sAdd) {
 		RtnData rtn = new RtnData();
 		int n=0;
@@ -199,6 +204,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	 * @param sAdd修改默认地址
 	 * @return
 	 */
+	@Transactional
 	public RtnData updateDefaultAds(ShoppingAddress sAdd) {
 		RtnData rtn = new RtnData();
 		int n=0;
@@ -224,6 +230,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	 * @param sAdd修改地址
 	 * @return
 	 */
+	@Transactional
 	public RtnData updateAds(ShoppingAddress sAdd) {
 		RtnData rtn = new RtnData();
 		int n=0;
@@ -248,6 +255,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	 * @param sAdd 增加收货地址
 	 * @return
 	 */
+	@Transactional
 	public RtnData insertAds(HttpServletRequest request,ShoppingAddress sAdd) {
 		RtnData rtn = new RtnData();
 		int n=0;
@@ -267,6 +275,123 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 			rtn.setCode("500");
 			rtn.setMessage(e.getMessage());
 			logger.error("添加异常------"+e.getMessage());
+		}
+		return rtn;
+	}
+
+	/**
+	 * @param request添加购物车
+	 * @param shopCar
+	 * @return
+	 */
+	@Transactional
+	public RtnData insertShopCar(HttpServletRequest request, MallShopcar shopCar) {
+		RtnData rtn = new RtnData();
+		int n=0;
+		try {
+			shopCar.setUserId(UserUtils.getUser(request).getUserId());
+			MallShopcar shopCars= shopcarDao.selectProductIsExist(shopCar);
+			if(shopCars!=null) {
+				shopCar.setProductCount(shopCars.getProductCount()+shopCar.getProductCount());
+				n=shopcarDao.updateCountById(shopCar);
+				if(n > 0) {
+					rtn.setCode("0000");
+					rtn.setMessage("添加成功");
+				}else {
+					rtn.setCode("1027");
+					rtn.setMessage("添加失败");
+				}
+			}else {
+				shopCar.setId(IdGen.uuid());
+				shopCar.setUserId(UserUtils.getUser(request).getUserId());
+				n=shopcarDao.insertShopCar(shopCar);
+				if(n > 0) {
+					rtn.setCode("0000");
+					rtn.setMessage("添加成功");
+				}else {
+					rtn.setCode("1027");
+					rtn.setMessage("添加失败");
+				}
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("添加异常------"+e.getMessage());
+		}
+		return rtn;
+	}
+
+	/**
+	 * @param mallShopcar修改购物车商品数量
+	 * @return
+	 */
+	@Transactional
+	public RtnData updateCarCount(MallShopcar mallShopcar) {
+		RtnData rtn = new RtnData();
+		int n=0;
+		try {
+			n=shopcarDao.updateCountById(mallShopcar);
+			if(n > 0) {
+				rtn.setCode("0000");
+				rtn.setMessage("修改成功");
+			}else {
+				rtn.setCode("1028");
+				rtn.setMessage("修改失败");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("修改异常------"+e.getMessage());
+		}
+		return rtn;
+	}
+
+	/**
+	 * @param request查询购物车数据
+	 * @return
+	 */
+	public RtnData getShopCarList(HttpServletRequest request) {
+		RtnData rtn = new RtnData();
+		List<MallShopcar> shopCarList=null;
+		try {
+			shopCarList=shopcarDao.getShopCarList(UserUtils.getUser(request).getUserId());
+			if(shopCarList != null && shopCarList.size() > 0) {
+				rtn.setData(shopCarList);
+				rtn.setCode("0000");
+				rtn.setMessage("查询成功");
+			}else {
+				rtn.setCode("1029");
+				rtn.setMessage("暂无数据");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("查询异常------"+e.getMessage());
+		}
+		return rtn;
+	}
+
+	/**
+	 * @param mallShopcar删除购物车
+	 * @return
+	 */
+	@Transactional
+	public RtnData delShopCar(MallShopcar mallShopcar) {
+		RtnData rtn = new RtnData();
+		int n=0;
+		try {
+			n=shopcarDao.delete(mallShopcar);
+			if(n > 0) {
+				rtn.setCode("0000");
+				rtn.setMessage("删除成功");
+			}else {
+				rtn.setCode("1030");
+				rtn.setMessage("删除失败");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("删除异常------"+e.getMessage());
 		}
 		return rtn;
 	}
