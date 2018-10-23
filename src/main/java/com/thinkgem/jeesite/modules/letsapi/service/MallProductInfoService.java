@@ -292,6 +292,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 			shopCar.setUserId(UserUtils.getUser(request).getUserId());
 			MallShopcar shopCars= shopcarDao.selectProductIsExist(shopCar);
 			if(shopCars!=null) {
+				shopCar.setId(shopCars.getId());
 				shopCar.setProductCount(shopCars.getProductCount()+shopCar.getProductCount());
 				n=shopcarDao.updateCountById(shopCar);
 				if(n > 0) {
