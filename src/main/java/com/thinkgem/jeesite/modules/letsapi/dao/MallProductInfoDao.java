@@ -10,6 +10,7 @@ import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
 import com.thinkgem.jeesite.modules.letsapi.entity.HotProduct;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.ProductSpecifications;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 
 /**
@@ -37,5 +38,11 @@ public interface MallProductInfoDao extends CrudDao<MallProductInfo> {
 	 * @return
 	 */
 	public List<MallProductInfo> getProductInfoList(MallProductInfo mpi);
+
+	/**
+	 * @param mpi查询规格数据
+	 * @return
+	 */
+	public List<ProductSpecifications> getProductSpecificaList(MallProductInfo mpi);
 	
 }

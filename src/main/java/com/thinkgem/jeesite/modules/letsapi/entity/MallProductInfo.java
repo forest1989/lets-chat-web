@@ -4,6 +4,9 @@
 package com.thinkgem.jeesite.modules.letsapi.entity;
 
 import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
@@ -35,6 +38,7 @@ public class MallProductInfo extends DataEntity<MallProductInfo> {
 	private String specId;		// 规格id
 	private String specName;		// 规格名称
 	private String specPrice;		// 规格价格
+	private List<ProductSpecifications> productSpecList;		// 规格实体
 	
 	public MallProductInfo() {
 		super();
@@ -234,5 +238,23 @@ public class MallProductInfo extends DataEntity<MallProductInfo> {
 	public void setStauts(String stauts) {
 		this.stauts = stauts;
 	}
+
+	/**
+	 * @return the productSpecList
+	 */
+	public List<ProductSpecifications> getProductSpecList() {
+		return productSpecList;
+	}
+
+	/**
+	 * @param productSpecList the productSpecList to set
+	 */
+	public void setProductSpecList(List<ProductSpecifications> productSpecList) {
+		this.productSpecList = productSpecList;
+	}
+
+	
+
+	
 	
 }

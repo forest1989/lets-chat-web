@@ -220,4 +220,11 @@
 		   AND A.DEL_FLAG = #{DEL_FLAG_NORMAL}
 		</where>		
 	</select>
+	<!-- 查询对应商品all规格数据 -->
+	<select id="getProductSpecificaList" resultType="ProductSpecifications">
+		SELECT *
+		  FROM PRODUCT_SPECIFICATIONS P
+		 WHERE P.PRODUCT_ID = #{id}
+		   AND P.DEL_FLAG = 0
+	</select>
 </mapper>
