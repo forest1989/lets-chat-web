@@ -27,7 +27,20 @@
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks"
 	</sql>
-	
+	<sql id="getProductInfoColumns">
+	   A.ID                 AS "id",
+       A.PRODUCT_NO         AS "productNo",
+       A.PRODUCT_NAME       AS "productName",
+       A.PRODUCT_ICO1       AS "productIco1",
+       A.PRODUCT_IMG1       AS "productImg1",
+       A.PRODUCT_DETAIL_IMG AS "productDetailImg",
+       A.STOCK_NUM          AS "stockNum",
+       A.STAUTS             AS "stauts",
+       A.REMARKS            AS "remarks",
+       P.ID                 AS "specId",
+       P.SPEC_NAME          AS "specName",
+       P.SPEC_PRICE         AS "specPrice"
+	</sql>
 	<sql id="mallProductInfoJoins">
 	</sql>
     
@@ -193,5 +206,18 @@
 				ORDER BY a.update_date DESC
 			</otherwise>
 		</choose>
+	</select>
+	<!-- 查询商品列表数据 -->
+	<select id="getProductInfoList" resultType="MallProductInfo">
+		SELECT 
+			<include refid="getProductInfoColumns"/>
+		FROM mall_product_info a, PRODUCT_SPECIFICATIONS P
+		<where>
+	       A.PRODUCT_TYPE_ID = #{productTypeId}
+		   AND A.STAUTS = 2
+		   AND P.PRODUCT_ID = A.ID
+		   AND P.SORT = 1
+		   AND A.DEL_FLAG = #{DEL_FLAG_NORMAL}
+		</where>		
 	</select>
 </mapper>

@@ -396,4 +396,30 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 		}
 		return rtn;
 	}
+
+	/**
+	 * @param request
+	 * @param mpi 查询商品列表数据
+	 * @return
+	 */
+	public RtnData getProductInfoList(HttpServletRequest request, MallProductInfo mpi) {
+		RtnData rtn = new RtnData();
+		List<MallProductInfo> shopCarList=null;
+		try {
+			shopCarList=mallProductInfoDao.getProductInfoList(mpi);
+			if(shopCarList != null && shopCarList.size() > 0) {
+				rtn.setData(shopCarList);
+				rtn.setCode("0000");
+				rtn.setMessage("查询成功");
+			}else {
+				rtn.setCode("1031");
+				rtn.setMessage("暂无数据");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("查询异常------"+e.getMessage());
+		}
+		return rtn;
+	}
 }

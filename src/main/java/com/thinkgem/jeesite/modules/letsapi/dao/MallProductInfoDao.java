@@ -31,5 +31,11 @@ public interface MallProductInfoDao extends CrudDao<MallProductInfo> {
 	 * @return
 	 */
 	public List<HotProduct> findAllHotList();
+
+	/**
+	 * @param mpi查询商品列表数据
+	 * @return
+	 */
+	public List<MallProductInfo> getProductInfoList(MallProductInfo mpi);
 	
 }

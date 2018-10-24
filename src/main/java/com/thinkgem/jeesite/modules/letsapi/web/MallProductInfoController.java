@@ -288,4 +288,21 @@ public class MallProductInfoController extends BaseController {
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
+	/**  
+	* <p>Description:查询商品列表数据 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月24日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/getProductInfoList", method = RequestMethod.POST)
+	public String  getProductInfoList(HttpServletRequest request,HttpServletResponse response,MallProductInfo mpi){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.getProductInfoList(request,mpi);
+		} catch (Exception e) {
+			 rtn.setMessage("查询异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
 }

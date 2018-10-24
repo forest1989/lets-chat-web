@@ -32,6 +32,9 @@ public class MallProductInfo extends DataEntity<MallProductInfo> {
 	private String productTypeId;		// 商品类别ID（商品类别使用系统已有的字典管理模块）
 	private Long stockNum;		// 库存数量
 	private String stauts;		// 商品状态（0：上架  1：下架  2：待定  3：待定）
+	private String specId;		// 规格id
+	private String specName;		// 规格名称
+	private String specPrice;		// 规格价格
 	
 	public MallProductInfo() {
 		super();
@@ -140,6 +143,48 @@ public class MallProductInfo extends DataEntity<MallProductInfo> {
 		this.productImg3 = productImg3;
 	}
 	
+	/**
+	 * @return the specId
+	 */
+	public String getSpecId() {
+		return specId;
+	}
+
+	/**
+	 * @param specId the specId to set
+	 */
+	public void setSpecId(String specId) {
+		this.specId = specId;
+	}
+
+	/**
+	 * @return the specName
+	 */
+	public String getSpecName() {
+		return specName;
+	}
+
+	/**
+	 * @param specName the specName to set
+	 */
+	public void setSpecName(String specName) {
+		this.specName = specName;
+	}
+
+	/**
+	 * @return the specPrice
+	 */
+	public String getSpecPrice() {
+		return specPrice;
+	}
+
+	/**
+	 * @param specPrice the specPrice to set
+	 */
+	public void setSpecPrice(String specPrice) {
+		this.specPrice = specPrice;
+	}
+
 	/**
 	 * @return the productDetailImg
 	 */
