@@ -4,6 +4,9 @@
 package com.thinkgem.jeesite.modules.letsmall.entity;
 
 import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
@@ -16,22 +19,40 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class MallProductManage extends DataEntity<MallProductManage> {
 	
 	private static final long serialVersionUID = 1L;
+	
 	private String productNo;			// 商品编号
+	
 	private String productName;			// 商品名称
+	
 	private String productIco1;			// 商品图标1
+	
 	private String productIco2;			// 商品图标2
+	
 	private String productIco3;			// 商品图标3
+	
 	private String productIco4;			// 商品图标4
+	
 	private String productIco5;			// 商品图标5
+	
 	private String productIco6;			// 商品图标6
+	
 	private String productImg1;			// 商品图片1
+	
 	private String productImg2;		    // 商品图片2
+	
 	private String productImg3;		    // 商品图片3
+	
 	private String productDetailImg;    // 商品描述图片
-	private String specificationId;		// 商品规格ID(多个规格以逗号隔开方式存储)
+	
 	private String productTypeId;		// 商品类别ID（商品类别使用系统已有的字典管理模块）
+	
 	private Long stockNum;		        // 库存数量
+	
 	private String stauts;		        // 商品状态（0：上架  1：下架  2：待定  3：待定）
+	
+	private ProductSpecifications proSpec;
+	
+	private List<ProductSpecifications> proSpecList;
 	
 	public MallProductManage() {
 		super();
@@ -41,7 +62,6 @@ public class MallProductManage extends DataEntity<MallProductManage> {
 		super(id);
 	}
 
-	@Length(min=1, max=100, message="商品编号长度必须介于 1 和 100 之间")
 	public String getProductNo() {
 		return productNo;
 	}
@@ -50,6 +70,7 @@ public class MallProductManage extends DataEntity<MallProductManage> {
 		this.productNo = productNo;
 	}
 	
+	@NotNull(message="商品名称不能为空")
 	@Length(min=1, max=200, message="商品名称长度必须介于 1 和 200 之间")
 	public String getProductName() {
 		return productName;
@@ -140,8 +161,6 @@ public class MallProductManage extends DataEntity<MallProductManage> {
 		this.productImg3 = productImg3;
 	}
 	
-	
-	
 	public String getProductDetailImg() {
 		return productDetailImg;
 	}
@@ -150,16 +169,6 @@ public class MallProductManage extends DataEntity<MallProductManage> {
 		this.productDetailImg = productDetailImg;
 	}
 
-	@Length(min=0, max=200, message="商品规格ID(多个规格以逗号隔开方式存储)长度必须介于 0 和 200 之间")
-	public String getSpecificationId() {
-		return specificationId;
-	}
-
-	public void setSpecificationId(String specificationId) {
-		this.specificationId = specificationId;
-	}
-	
-	@Length(min=0, max=1, message="商品类别ID（商品类别使用系统已有的字典管理模块）长度必须介于 0 和 1 之间")
 	public String getProductTypeId() {
 		return productTypeId;
 	}
@@ -177,7 +186,6 @@ public class MallProductManage extends DataEntity<MallProductManage> {
 		this.stockNum = stockNum;
 	}
 	
-	@Length(min=1, max=1, message="商品状态（0：上架  1：下架  2：待定  3：待定）长度必须介于 1 和 1 之间")
 	public String getStauts() {
 		return stauts;
 	}
@@ -185,5 +193,23 @@ public class MallProductManage extends DataEntity<MallProductManage> {
 	public void setStauts(String stauts) {
 		this.stauts = stauts;
 	}
+
+	public List<ProductSpecifications> getProSpecList() {
+		return proSpecList;
+	}
+
+	public void setProSpecList(List<ProductSpecifications> proSpecList) {
+		this.proSpecList = proSpecList;
+	}
+
+	public ProductSpecifications getProSpec() {
+		return proSpec;
+	}
+
+	public void setProSpec(ProductSpecifications proSpec) {
+		this.proSpec = proSpec;
+	}
+	
+	
 	
 }

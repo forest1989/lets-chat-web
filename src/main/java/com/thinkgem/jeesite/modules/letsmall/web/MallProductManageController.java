@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.letsmall.web;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,10 +19,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsmall.entity.MallProductManage;
+import com.thinkgem.jeesite.modules.letsmall.entity.ProductSpecifications;
 import com.thinkgem.jeesite.modules.letsmall.service.MallProductManageService;
+
+
 
 /**
  * 商品信息管理Controller
@@ -57,6 +62,9 @@ public class MallProductManageController extends BaseController {
 	@RequiresPermissions("letsmall:mallProductManage:view")
 	@RequestMapping(value = "form")
 	public String form(MallProductManage mallProductManage, Model model) {
+		ProductSpecifications ps = new ProductSpecifications();
+		ps.setProductId(mallProductManage.getId());
+		mallProductManage.setProSpecList(mallProductManageService.getProductSpecList(ps));
 		model.addAttribute("mallProductManage", mallProductManage);
 		return "modules/letsmall/mallProductManageForm";
 	}
@@ -77,6 +85,34 @@ public class MallProductManageController extends BaseController {
 	public String delete(MallProductManage mallProductManage, RedirectAttributes redirectAttributes) {
 		mallProductManageService.delete(mallProductManage);
 		addMessage(redirectAttributes, "删除商品信息管理成功");
+		return "redirect:"+Global.getAdminPath()+"/letsmall/mallProductManage/?repage";
+	}
+	
+	@RequiresPermissions("letsmall:mallProductManage:edit")
+	@RequestMapping(value = "batchOpt")
+	public String batchOpt(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		String ids = request.getParameter("ids");
+		String[] idArray = ids.split(",");
+		String otpType = request.getParameter("optType");
+		// 商品上架
+		if("1".equals(otpType)) {
+			mallProductManageService.batchUpdateStatus(Arrays.asList(idArray), "2");
+			addMessage(redirectAttributes, "商品上架成功成功");
+		}
+		// 商品下架
+		if("2".equals(otpType)) {
+			mallProductManageService.batchUpdateStatus(Arrays.asList(idArray), "3");
+			addMessage(redirectAttributes, "商品下架成功");
+		}
+		if("3".equals(otpType)) {
+			MallProductManage m = null;
+			for(String id : idArray) {
+				m = new MallProductManage();
+				m.setId(id);
+				mallProductManageService.delete(m);
+			}
+			addMessage(redirectAttributes, "商品删除成功");
+		}
 		return "redirect:"+Global.getAdminPath()+"/letsmall/mallProductManage/?repage";
 	}
 
