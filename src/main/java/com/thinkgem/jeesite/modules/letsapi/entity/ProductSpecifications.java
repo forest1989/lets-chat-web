@@ -19,7 +19,7 @@ public class ProductSpecifications extends DataEntity<ProductSpecifications> {
 	private String productId;		// 商品ID（MALL_PRODUCT_INFO表主键ID）
 	private String specName;		// 规格名称
 	private Double specPrice;		// 规格价格
-	private Integer sort;		// 排序（默认10）
+	private Integer sort;		  // 排序（默认10）
 	
 	public ProductSpecifications() {
 		super();
