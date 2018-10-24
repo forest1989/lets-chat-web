@@ -16,7 +16,6 @@
 		a.product_img2 AS "productImg2",
 		a.product_img3 AS "productImg3",
 		a.product_detail_img AS "productDetailImg",
-		a.specification_id AS "specificationId",
 		a.product_type_id AS "productTypeId",
 		a.stock_num AS "stockNum",
 		a.stauts AS "stauts",
@@ -25,10 +24,19 @@
 		a.create_date AS "createDate",
 		a.update_date AS "updateDate",
 		a.update_by AS "updateBy.id",
+		ps.spec_name AS "proSpec.specName",
+		ps.spec_price AS "proSpec.specPrice",
 		a.remarks AS "remarks"
 	</sql>
 	
+	<select id="getProductNo" resultType="String">
+		SELECT MAX(p.PRODUCT_NO) PRODUCT_NO from MALL_PRODUCT_INFO p where p.PRODUCT_TYPE_ID = #{productType} 
+	</select>
+	
 	<sql id="mallProductManageJoins">
+		INNER JOIN PRODUCT_SPECIFICATIONS ps on ps.PRODUCT_ID = a.ID 
+			AND ps.SORT = 1 
+			AND ps.DEL_FLAG = '0' 
 	</sql>
     
 	<select id="get" resultType="MallProductManage">
@@ -76,7 +84,19 @@
 		<include refid="mallProductManageJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-		</where>		
+		</where>	
+		<if test="productNo != null and productNo != ''">
+			AND a.product_no LIKE '%'||#{productNo}||'%'
+		</if>
+		<if test="productName != null and productName != ''">
+			AND a.product_name LIKE '%'||#{productName}||'%'
+		</if>
+		<if test="productTypeId != null and productTypeId != ''">
+			AND a.product_type_id = #{productTypeId}
+		</if>
+		<if test="stauts != null and stauts != ''">
+			AND a.stauts = #{stauts}
+		</if>	
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -101,8 +121,7 @@
 			product_img1,
 			product_img2,
 			product_img3,
-			product_detail,
-			specification_id,
+			product_detail_img,
 			product_type_id,
 			stock_num,
 			stauts,
@@ -125,8 +144,7 @@
 			#{productImg1},
 			#{productImg2},
 			#{productImg3},
-			#{productDetail},
-			#{specificationId},
+			#{productDetailImg},
 			#{productTypeId},
 			#{stockNum},
 			#{stauts},
@@ -139,9 +157,37 @@
 		)
 	</insert>
 	
+	<insert id="insertProductSpec">
+		INSERT INTO PRODUCT_SPECIFICATIONS(
+		ID, 
+		PRODUCT_ID, 
+		SPEC_NAME, 
+		SPEC_PRICE,
+		SORT,
+		DEL_FLAG) 
+		VALUES 
+		(#{id}, 
+		#{productId}, 
+		#{specName}, 
+		#{specPrice},
+		#{sort},
+		#{delFlag})
+	</insert>
+	
+	<update id="deleteProductSpec">
+		DELETE FROM PRODUCT_SPECIFICATIONS WHERE PRODUCT_ID = #{productId}
+	</update>
+	
+	<update id="updatePsDelFlag">
+		UPDATE PRODUCT_SPECIFICATIONS SET del_flag = 1 WHERE PRODUCT_ID = #{productId}
+	</update>
+	
+	<select id="getProductSpecList" resultType="ProductSpecifications">
+		SELECT SPEC_NAME, SPEC_PRICE FROM PRODUCT_SPECIFICATIONS 
+			WHERE PRODUCT_ID = #{productId} AND DEL_FLAG = #{DEL_FLAG_NORMAL}
+	</select>
 	<update id="update">
 		UPDATE mall_product_info SET 	
-			product_no = #{productNo},
 			product_name = #{productName},
 			product_ico1 = #{productIco1},
 			product_ico2 = #{productIco2},
@@ -152,8 +198,7 @@
 			product_img1 = #{productImg1},
 			product_img2 = #{productImg2},
 			product_img3 = #{productImg3},
-			product_detail = #{productDetail},
-			specification_id = #{specificationId},
+			product_detail_img = #{productDetailImg},
 			product_type_id = #{productTypeId},
 			stock_num = #{stockNum},
 			stauts = #{stauts},
@@ -169,4 +214,11 @@
 		WHERE id = #{id}
 	</update>
 	
+	<update id="batchUpdateStatus">
+		UPDATE MALL_PRODUCT_INFO SET stauts = #{stauts}
+		WHERE id IN 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+             #{item}
+         </foreach>
+	</update>
 </mapper>

@@ -19,7 +19,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/letsmall/appUserManage/">用户信息列表</a></li>
-		<shiro:hasPermission name="letsmall:appUserManage:edit"><li><a href="${ctx}/letsmall/appUserManage/form">用户信息添加</a></li></shiro:hasPermission>
+		<%-- <shiro:hasPermission name="letsmall:appUserManage:edit"><li><a href="${ctx}/letsmall/appUserManage/form">用户信息添加</a></li></shiro:hasPermission> --%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="appUserManage" action="${ctx}/letsmall/appUserManage/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
