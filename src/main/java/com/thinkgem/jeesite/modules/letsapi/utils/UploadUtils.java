@@ -89,24 +89,12 @@ public class UploadUtils {
 		String[] infos = new String[7];
 		// 验证
 		infos[0] = this.validateFields(request,type);
-		/*// 初始化表单元素
-		Map<String, Object> fieldsMap = new HashMap<String, Object>();
-		if (infos[0].equals("true")) {
-			fieldsMap = this.initFields(request);
-		}
-		// 上传
-		List<FileItem> fiList = (List<FileItem>) fieldsMap.get(UploadUtils.FILE_FIELDS);
-		if (fiList != null) {
-			for (FileItem item : fiList) {
-				infos[1] = this.saveFile(item);
-			}
-			infos[2] = savePath;
-			infos[3] = saveUrl;
-			infos[4] = fileUrl;
-		}*/
-		String imgStr=request.getParameter("base64");
+		String saveInfo="false";
 		String imgName=IdGen.uuid()+".jpg";
-		String saveInfo=this.generateImage(imgStr,imgName);
+		if (infos[0].equals("true")) {
+			String imgStr=request.getParameter("base64");
+			saveInfo=this.generateImage(imgStr,imgName);
+		}
 		if (infos[0].equals("true")&&saveInfo.equals("true")) {
 			infos[2] = savePath;
 			infos[3] = saveUrl;
