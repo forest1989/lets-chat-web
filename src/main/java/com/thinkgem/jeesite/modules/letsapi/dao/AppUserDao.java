@@ -3,11 +3,13 @@
  */
 package com.thinkgem.jeesite.modules.letsapi.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
+import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
 
 /**
  * 用户信息DAO接口
@@ -46,5 +48,26 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 * 完善用户信息
 	 */
 	public int perfect(AppUser user);
+	/**
+	 * @author zhai_shaobo
+	 * 获取用户好友信息列表
+	 */
+	List<FriendInfo> selectFriend(AppUser user);
+	/**
+	 * @author zhai_shaobo
+	 * app个性化定制好友信息(用户可以对好友个性化其 loginname，phone，photo)
+	 */
+	public int customizationFriend(FriendInfo user);
+	/**
+	 * @author zhai_shaobo
+	 * app个性化定制好友信息修改个性化定制信息
+	 */
+	public int updatecust(FriendInfo user);
 	
+	/**
+	 * @author zhai_shaobo
+	 *  app查询好友定制信息 用于判断是新增个性化定制信息 还是 修改个性化定制信息  
+	 */
+	public FriendInfo selectcust(FriendInfo user);
+
 }

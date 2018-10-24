@@ -3,7 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.letsapi.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
+import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
 import com.thinkgem.jeesite.modules.letsim.utils.OpenFireActionUtil;
@@ -176,4 +179,64 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 		}
 		return rtn;
 	}
+	
+	/**
+	 * @author zhai_shaobo
+	 * app获取用户好友信息列表
+	 */
+	public RtnData selectFriend(HttpServletRequest request, AppUser user) {
+		RtnData rtn = new RtnData();
+		List<FriendInfo> userres = new ArrayList<FriendInfo>();
+		try {
+			userres = appUserDao.selectFriend(user);
+			if (userres != null) {
+				rtn.setData(userres);
+			} 
+		} catch (Exception e) {
+			rtn.setMessage("好友列表信息异常!");
+			rtn.setCode("500");
+			logger.error("selectFriend---好友列表信息异常"+e.getMessage());
+		}
+		return rtn;
+	}
+	
+	/**
+	 * @author zhai_shaobo
+	 * app个性化定制好友信息(用户可以对好友个性化其 loginname，phone，photo)
+	 */
+	public RtnData customizationFriend(HttpServletRequest request, FriendInfo user) {
+		RtnData rtn = new RtnData();
+		FriendInfo selectFfiendInfo = null;
+		int i = 0;
+		int insertI = 0;
+		int updateI = 0;
+		try {
+			selectFfiendInfo = appUserDao.selectcust(user);
+			if (selectFfiendInfo != null) {
+				insertI = appUserDao.updatecust(user);
+				if (insertI<=0) {
+					rtn.setMessage("个性化定制新增好友信息成功!");
+					rtn.setCode("0000");
+				} else {
+					rtn.setMessage("个性化定制新增好友信息失败!");
+					rtn.setCode("500");
+				}
+			} else {
+				updateI = appUserDao.customizationFriend(user);
+				if (updateI > 0) {
+					rtn.setMessage("个性化定制修改好友信息成功!");
+					rtn.setCode("0000");
+				} else {
+					rtn.setMessage("个性化定制修改好友信息失败!");
+					rtn.setCode("500");
+				}
+			}
+		} catch (Exception e) {
+			rtn.setMessage("个性化定制好友信息异常!");
+			rtn.setCode("500");
+			logger.error("customizationFriend---个性化定制好友信息异常"+e.getMessage());
+		}
+		return rtn;
+	}
+
 }

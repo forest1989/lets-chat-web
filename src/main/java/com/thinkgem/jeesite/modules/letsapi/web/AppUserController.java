@@ -20,6 +20,7 @@ import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
+import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
 import com.thinkgem.jeesite.modules.letsapi.jwt.api.TokenMgr;
 import com.thinkgem.jeesite.modules.letsapi.jwt.config.Constant;
 import com.thinkgem.jeesite.modules.letsapi.jwt.model.SubjectModel;
@@ -192,4 +193,42 @@ public class AppUserController extends BaseController {
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
+	
+	/**
+	 * @author zhai_shaobo
+	 * app 获取好友列表信息
+	 */
+	
+	@RequestMapping(value = "selectFriend",method = RequestMethod.POST)
+	public String selectFriend(HttpServletRequest request, HttpServletResponse response, 
+			Model model, AppUser user) {
+		RtnData rtn = new RtnData();
+		try {
+			rtn = appUserService.selectFriend(request, user);	
+		} catch (Exception e) {
+			rtn.setMessage("获取好友列表信息异常!");
+			rtn.setCode("500");
+			logger.error("selectFriend---好友列表信息异常"+e.getMessage());
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	/**
+	 * @author zhai_shaobo
+	 * app 个性化定制好友信息(用户可以对好友个性化其 loginname，phone，photo)
+	 */
+	
+	@RequestMapping(value = "customizationFriend",method = RequestMethod.POST)
+	public String customizationFriend(HttpServletRequest request, HttpServletResponse response, 
+			Model model, FriendInfo user) {
+		RtnData rtn = new RtnData();
+		try {
+			rtn = appUserService.customizationFriend(request, user);	
+		} catch (Exception e) {
+			rtn.setMessage("获取好友列表信息异常!");
+			rtn.setCode("500");
+			logger.error("selectFriend---好友列表信息异常"+e.getMessage());
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+
 }

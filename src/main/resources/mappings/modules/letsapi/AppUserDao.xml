@@ -180,7 +180,7 @@
 	<insert id="register" parameterType="map">
 		insert into APP_USER(id,login_name,password,photo,name,nick_name,sex,phone,email,area_id,del_flag,login_flag,update_date,create_date,remarks) 
 		values(
-		#{id}, #{loginName}, #{password},'','',#{loginName},'','','','','0','0',sysdate,sysdate,'')
+		#{id}, #{loginName}, #{password},'','',#{loginName},'','','','','0','1',sysdate,sysdate,'')
 	</insert>
 	
 	<!-- app查询序列SEQ_APP_USER  -->
@@ -208,4 +208,53 @@
      where id = #{id} and del_flag = 0
 	</update>
 	
+	<!-- app获取用户好友列表信息  -->
+	<select id="selectFriend"  resultType="FriendInfo">
+				SELECT O1.REMARKS_NICK_NAME,
+		       O1.REMARKS_PHONE,
+		       O1.REMARKS_PHOTO,
+		       O2.PHOTO,
+		       O2.LOGIN_NAME,
+		       O2.NICK_NAME,
+		       O2.SEX,
+		       O2.PHONE
+		  FROM OFROSTER O
+		  LEFT JOIN APP_FRIEND_INFO O1 ON O.NICK = O1.FRIEND_LOGIN_NAME
+		                              AND O1.LOGIN_NAME = O.USERNAME
+		  JOIN APP_USER O2 ON O2.LOGIN_NAME = O.NICK
+		 WHERE O.USERNAME = #{loginName}
+		   AND O.SUB = '3'
+	</select>
+	<!-- app个性化定制好友信息  -->
+	<insert id="customizationFriend" parameterType="FriendInfo">
+		INSERT INTO APP_FRIEND_INFO
+		  (LOGIN_NAME,
+		   REMARKS_NICK_NAME,
+		   REMARKS_PHONE,
+		   REMARKS_PHOTO,
+		   FRIEND_LOGIN_NAME)
+		VALUES
+		  (#{loginName}, #{remarksNickName}, #{remarksPhone}, #{remarksPhoto}, #{friendLoginName})
+	</insert>
+	
+		 <!-- app个性化定制好友信息修改个性化定制信息  -->
+	<update id="updatecust" parameterType="FriendInfo">
+		update APP_FRIEND_INFO 
+		<set>
+    	<if test="remarksNickName != null">
+	      REMARKS_NICK_NAME = #{remarksNickName},
+	    </if>
+	    <if test="remarksPhone != null">
+	      REMARKS_PHONE =#{remarksPhone},
+	    </if>
+	    <if test="remarksPhoto != null">
+	      REMARKS_PHOTO =#{remarksPhoto},
+	    </if>
+    </set> 
+     where LOGIN_NAME = #{loginName} and FRIEND_LOGIN_NAME = #{friendLoginName}
+	</update>
+	<!-- app查询好友定制信息 用于判断是新增个性化定制信息 还是 修改个性化定制信息  -->
+	<select id="selectcust"  resultType="FriendInfo">
+		  SELECT friend_login_name from APP_FRIEND_INFO WHERE login_name = #{loginName} AND friend_login_name = #{friendLoginName}
+	</select>
 </mapper>
