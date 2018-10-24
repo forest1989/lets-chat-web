@@ -38,7 +38,7 @@ public class MallProductInfo extends DataEntity<MallProductInfo> {
 	private String specId;		// 规格id
 	private String specName;		// 规格名称
 	private String specPrice;		// 规格价格
-	private List<ProductSpecifications> productSpecList;		// 规格实体
+	private List<ProductSpecificationApi> productSpecList;		// 规格实体
 	
 	public MallProductInfo() {
 		super();
@@ -242,14 +242,14 @@ public class MallProductInfo extends DataEntity<MallProductInfo> {
 	/**
 	 * @return the productSpecList
 	 */
-	public List<ProductSpecifications> getProductSpecList() {
+	public List<ProductSpecificationApi> getProductSpecList() {
 		return productSpecList;
 	}
 
 	/**
 	 * @param productSpecList the productSpecList to set
 	 */
-	public void setProductSpecList(List<ProductSpecifications> productSpecList) {
+	public void setProductSpecList(List<ProductSpecificationApi> productSpecList) {
 		this.productSpecList = productSpecList;
 	}
 

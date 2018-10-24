@@ -21,7 +21,7 @@ import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
 import com.thinkgem.jeesite.modules.letsapi.entity.HotProduct;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallShopcar;
-import com.thinkgem.jeesite.modules.letsapi.entity.ProductSpecifications;
+import com.thinkgem.jeesite.modules.letsapi.entity.ProductSpecificationApi;
 import com.thinkgem.jeesite.modules.letsapi.entity.ShoppingAddress;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
@@ -430,7 +430,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	 */
 	public RtnData getProductDetailList(MallProductInfo mpi) {
 		RtnData rtn = new RtnData();
-		List<ProductSpecifications> psfList=null;
+		List<ProductSpecificationApi> psfList=null;
 		MallProductInfo mpis=null;
 		try {
 			mpis=mallProductInfoDao.get(mpi);

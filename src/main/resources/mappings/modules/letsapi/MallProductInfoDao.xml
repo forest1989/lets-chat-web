@@ -221,7 +221,7 @@
 		</where>		
 	</select>
 	<!-- 查询对应商品all规格数据 -->
-	<select id="getProductSpecificaList" resultType="ProductSpecifications">
+	<select id="getProductSpecificaList" resultType="ProductSpecificationApi">
 		SELECT *
 		  FROM PRODUCT_SPECIFICATIONS P
 		 WHERE P.PRODUCT_ID = #{id}

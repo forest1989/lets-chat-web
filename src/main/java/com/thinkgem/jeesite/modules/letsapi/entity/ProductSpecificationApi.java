@@ -13,7 +13,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
  * @author tao_yonggang
  * @version 2018-10-24
  */
-public class ProductSpecifications extends DataEntity<ProductSpecifications> {
+public class ProductSpecificationApi extends DataEntity<ProductSpecificationApi> {
 	
 	private static final long serialVersionUID = 1L;
 	private String productId;		// 商品ID（MALL_PRODUCT_INFO表主键ID）
@@ -21,11 +21,11 @@ public class ProductSpecifications extends DataEntity<ProductSpecifications> {
 	private Double specPrice;		// 规格价格
 	private Integer sort;		  // 排序（默认10）
 	
-	public ProductSpecifications() {
+	public ProductSpecificationApi() {
 		super();
 	}
 
-	public ProductSpecifications(String id){
+	public ProductSpecificationApi(String id){
 		super(id);
 	}
 
