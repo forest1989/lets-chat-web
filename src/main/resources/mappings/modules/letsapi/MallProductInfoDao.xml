@@ -171,28 +171,20 @@
 		WHERE a.img_status = 1 and  a.del_flag= 0
 	</select>
 	<!-- 热门优选 -->
-	<sql id="hotProductColumns">
-		a.id AS "id",
-		a.product_id AS "productId",
-		a.start_time AS "startTime",
-		a.edn_time AS "ednTime",
-		a.sort AS "sort",
-		a.create_by AS "createBy.id",
-		a.create_date AS "createDate",
-		a.update_date AS "updateDate",
-		a.update_by AS "updateBy.id",
-		a.del_flag AS "delFlag"
-	</sql>
-	<sql id="hotProductJoins">
-	</sql>
 	<select id="findAllHotList" resultType="HotProduct">
-		SELECT 
-			<include refid="hotProductColumns"/>
-		FROM hot_product a
-		<include refid="hotProductJoins"/>
-		<where>
-			a.del_flag = 0
-		</where>		
+		SELECT A.ID           AS "hotId",
+		       A.SORT         AS "sort",
+		       A.PRODUCT_ID   AS "productId",
+		       M.PRODUCT_NAME AS "productName",
+		       M.PRODUCT_ICO1 AS "productIco",
+		       P.ID           AS "specId",
+		       P.SPEC_NAME    AS "specName",
+		       P.SPEC_PRICE   AS "specPrice"
+  		FROM HOT_PRODUCT A, MALL_PRODUCT_INFO M, PRODUCT_SPECIFICATIONS P
+		 WHERE A.PRODUCT_ID = M.ID
+		   AND M.ID = P.PRODUCT_ID
+		   AND P.SORT = 1
+		   AND A.DEL_FLAG = 0
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}

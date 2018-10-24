@@ -101,6 +101,7 @@
 			user_id,
 			product_id,
 			product_count,
+			product_spec_id,
 			create_date,
 			update_date,
 			del_flag
@@ -109,6 +110,7 @@
 			#{userId},
 			#{productId},
 			#{productCount},
+			#{specId},
 			sysdate,
 			sysdate,
 			#{delFlag}
@@ -123,12 +125,26 @@
 	</update>
 	<!-- 查询购物车是否有该商品 -->
 	<select id="selectProductIsExist" resultType="MallShopcar">
-		SELECT * FROM mall_shopcar 
-	    WHERE product_id = #{productId} and user_id=#{userId} and del_flag = 0
+		SELECT * 
+		FROM mall_shopcar 
+	    WHERE product_id = #{productId} 
+	      and user_id=#{userId} 
+	      and product_spec_id=#{specId} 
+	      and del_flag = 0
 	</select>
 	<!-- 查询购物车数据 -->
 	<select id="getShopCarList" resultType="MallShopcar">
-		SELECT * FROM mall_shopcar 
-	    WHERE  user_id=#{userId} and del_flag = 0
+		SELECT S.ID            AS "id",
+		       S.PRODUCT_ID    AS "productId",
+		       S.PRODUCT_COUNT AS "productCount",
+		       M.PRODUCT_NAME  AS "productName",
+		       M.PRODUCT_ICO1  AS "productIco",
+		       P.ID            AS "specId",
+		       P.SPEC_NAME     AS "specName",
+		       P.SPEC_PRICE    AS "specPrice"
+  		FROM MALL_SHOPCAR S, MALL_PRODUCT_INFO M, PRODUCT_SPECIFICATIONS P
+		 WHERE S.PRODUCT_ID = M.ID
+		   AND S.PRODUCT_SPEC_ID = P.ID
+		   AND S.DEL_FLAG = 0
 	</select>
 </mapper>
