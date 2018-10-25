@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.thinkgem.jeesite.modules.letsmall.dao.MallOrderDao">
+<mapper namespace="com.thinkgem.jeesite.modules.letsmall.dao.MallOrderInfoDao">
     
 	<sql id="mallOrderColumns">
 		a.id AS "id",
@@ -29,7 +29,7 @@
 		LEFT JOIN APP_USER u3 ON u3.id = a.user_id
 	</sql>
     
-	<select id="get" resultType="MallOrder">
+	<select id="get" resultType="MallOrderManage">
 		SELECT 
 			<include refid="mallOrderColumns"/>
 		FROM mall_order a
@@ -37,7 +37,7 @@
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="MallOrder">
+	<select id="findList" resultType="MallOrderManage">
 		SELECT 
 			<include refid="mallOrderColumns"/>
 		FROM mall_order a
@@ -75,7 +75,7 @@
 		</choose>
 	</select>
 	
-	<select id="findAllList" resultType="MallOrder">
+	<select id="findAllList" resultType="MallOrderManage">
 		SELECT 
 			<include refid="mallOrderColumns"/>
 		FROM mall_order a

@@ -17,7 +17,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
  * @author forest
  * @version 2018-10-24
  */
-public class MallOrder extends DataEntity<MallOrder> {
+public class MallOrderManage extends DataEntity<MallOrderManage> {
 	
 	private static final long serialVersionUID = 1L;
 	private String orderNo;					// 订单编号
@@ -39,11 +39,11 @@ public class MallOrder extends DataEntity<MallOrder> {
 	private Date startDate;
 	private Date endDate;
 	
-	public MallOrder() {
+	public MallOrderManage() {
 		super();
 	}
 
-	public MallOrder(String id){
+	public MallOrderManage(String id){
 		super(id);
 	}
 

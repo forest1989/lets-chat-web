@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.letsmall.entity.MallOrder;
+import com.thinkgem.jeesite.modules.letsmall.entity.MallOrderManage;
 import com.thinkgem.jeesite.modules.letsmall.entity.MallShoppingAddress;
 
 /**
@@ -17,13 +17,13 @@ import com.thinkgem.jeesite.modules.letsmall.entity.MallShoppingAddress;
  * @version 2018-10-24
  */
 @MyBatisDao
-public interface MallOrderDao extends CrudDao<MallOrder> {
+public interface MallOrderInfoDao extends CrudDao<MallOrderManage> {
 	
 	public MallShoppingAddress getShopAddress(String id);
 	
 	public List<HashMap<String, Object>> getOrderProductList(String orderId);
 	
-	public int updateOrderStatus(MallOrder o);
+	public int updateOrderStatus(MallOrderManage o);
 	
-	public int updateSendGoodsInfo(MallOrder o);
+	public int updateSendGoodsInfo(MallOrderManage o);
 }

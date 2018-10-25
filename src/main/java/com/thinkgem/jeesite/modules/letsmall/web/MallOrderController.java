@@ -22,7 +22,7 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.letsmall.entity.MallOrder;
+import com.thinkgem.jeesite.modules.letsmall.entity.MallOrderManage;
 import com.thinkgem.jeesite.modules.letsmall.entity.MallShoppingAddress;
 import com.thinkgem.jeesite.modules.letsmall.service.MallOrderService;
 
@@ -39,28 +39,28 @@ public class MallOrderController extends BaseController {
 	private MallOrderService mallOrderService;
 	
 	@ModelAttribute
-	public MallOrder get(@RequestParam(required=false) String id) {
-		MallOrder entity = null;
+	public MallOrderManage get(@RequestParam(required=false) String id) {
+		MallOrderManage entity = null;
 		if (StringUtils.isNotBlank(id)){
 			entity = mallOrderService.get(id);
 		}
 		if (entity == null){
-			entity = new MallOrder();
+			entity = new MallOrderManage();
 		}
 		return entity;
 	}
 	
 	@RequiresPermissions("letsmall:mallOrder:view")
 	@RequestMapping(value = {"list", ""})
-	public String list(MallOrder mallOrder, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<MallOrder> page = mallOrderService.findPage(new Page<MallOrder>(request, response), mallOrder); 
+	public String list(MallOrderManage mallOrder, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<MallOrderManage> page = mallOrderService.findPage(new Page<MallOrderManage>(request, response), mallOrder); 
 		model.addAttribute("page", page);
 		return "modules/letsmall/mallOrderList";
 	}
 
 	@RequiresPermissions("letsmall:mallOrder:view")
 	@RequestMapping(value = "form")
-	public String form(MallOrder mallOrder, Model model) {
+	public String form(MallOrderManage mallOrder, Model model) {
 		MallShoppingAddress shopAddress = mallOrderService.getShopAddress(mallOrder.getAddressId());
 		List<HashMap<String, Object>> productList = mallOrderService.getOrderProductList(mallOrder.getId());
 		model.addAttribute("shopAddress", shopAddress);
@@ -71,7 +71,7 @@ public class MallOrderController extends BaseController {
 
 	@RequiresPermissions("letsmall:mallOrder:edit")
 	@RequestMapping(value = "save")
-	public String save(MallOrder mallOrder, Model model, RedirectAttributes redirectAttributes) {
+	public String save(MallOrderManage mallOrder, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, mallOrder)){
 			return form(mallOrder, model);
 		}
@@ -82,7 +82,7 @@ public class MallOrderController extends BaseController {
 	
 	@RequiresPermissions("letsmall:mallOrder:edit")
 	@RequestMapping(value = "delete")
-	public String delete(MallOrder mallOrder, RedirectAttributes redirectAttributes) {
+	public String delete(MallOrderManage mallOrder, RedirectAttributes redirectAttributes) {
 		mallOrderService.delete(mallOrder);
 		addMessage(redirectAttributes, "删除订单信息成功");
 		return "redirect:"+Global.getAdminPath()+"/letsmall/mallOrder/?repage";
@@ -90,7 +90,7 @@ public class MallOrderController extends BaseController {
 	
 	@RequiresPermissions("letsmall:mallOrder:edit")
 	@RequestMapping(value = "updateOrderStatus")
-	public String updateOrderStatus(MallOrder mallOrder, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+	public String updateOrderStatus(MallOrderManage mallOrder, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		String optType = request.getParameter("optType");
 		if("1".equals(optType)) { // 确认发货操作
 			mallOrder.setOrderStatus("03"); // 将订单状态置为已发货

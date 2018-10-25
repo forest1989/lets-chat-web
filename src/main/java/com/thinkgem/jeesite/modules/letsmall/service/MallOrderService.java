@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
-import com.thinkgem.jeesite.modules.letsmall.dao.MallOrderDao;
-import com.thinkgem.jeesite.modules.letsmall.entity.MallOrder;
+import com.thinkgem.jeesite.modules.letsmall.dao.MallOrderInfoDao;
+import com.thinkgem.jeesite.modules.letsmall.entity.MallOrderManage;
 import com.thinkgem.jeesite.modules.letsmall.entity.MallShoppingAddress;
 
 /**
@@ -22,27 +22,27 @@ import com.thinkgem.jeesite.modules.letsmall.entity.MallShoppingAddress;
  */
 @Service
 @Transactional(readOnly = true)
-public class MallOrderService extends CrudService<MallOrderDao, MallOrder> {
+public class MallOrderService extends CrudService<MallOrderInfoDao, MallOrderManage> {
 
-	public MallOrder get(String id) {
+	public MallOrderManage get(String id) {
 		return super.get(id);
 	}
 	
-	public List<MallOrder> findList(MallOrder mallOrder) {
+	public List<MallOrderManage> findList(MallOrderManage mallOrder) {
 		return super.findList(mallOrder);
 	}
 	
-	public Page<MallOrder> findPage(Page<MallOrder> page, MallOrder mallOrder) {
+	public Page<MallOrderManage> findPage(Page<MallOrderManage> page, MallOrderManage mallOrder) {
 		return super.findPage(page, mallOrder);
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(MallOrder mallOrder) {
+	public void save(MallOrderManage mallOrder) {
 		super.save(mallOrder);
 	}
 	
 	@Transactional(readOnly = false)
-	public void delete(MallOrder mallOrder) {
+	public void delete(MallOrderManage mallOrder) {
 		super.delete(mallOrder);
 	}
 	
@@ -55,12 +55,12 @@ public class MallOrderService extends CrudService<MallOrderDao, MallOrder> {
 	}
 	
 	@Transactional(readOnly = false)
-	public int updateOrderStatus(MallOrder o) {
+	public int updateOrderStatus(MallOrderManage o) {
 		return dao.updateOrderStatus(o);
 	}
 	
 	@Transactional(readOnly = false)
-	public int updateSendGoodsInfo(MallOrder o) {
+	public int updateSendGoodsInfo(MallOrderManage o) {
 		o.preUpdate();
 		return dao.updateSendGoodsInfo(o);
 	}

@@ -21,7 +21,7 @@
 		<li class="active"><a href="${ctx}/letsmall/mallOrder/">订单信息列表</a></li>
 		<%-- <shiro:hasPermission name="letsmall:mallOrder:edit"><li><a href="${ctx}/letsmall/mallOrder/form">订单信息添加</a></li></shiro:hasPermission> --%>
 	</ul>
-	<form:form id="searchForm" modelAttribute="mallOrder" action="${ctx}/letsmall/mallOrder/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="mallOrderManage" action="${ctx}/letsmall/mallOrder/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
