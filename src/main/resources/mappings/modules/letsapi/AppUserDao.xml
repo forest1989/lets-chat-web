@@ -210,18 +210,18 @@
 	
 	<!-- app获取用户好友列表信息  -->
 	<select id="selectFriend"  resultType="FriendInfo">
-				SELECT O1.REMARKS_NICK_NAME,
-		       O1.REMARKS_PHONE,
-		       O1.REMARKS_PHOTO,
-		       O2.PHOTO,
-		       O2.LOGIN_NAME,
-		       O2.NICK_NAME,
+		   SELECT O1.REMARKS_NICK_NAME,
+           O1.REMARKS_PHONE,
+           O1.REMARKS_PHOTO,
+           O2.PHOTO,
+           O2.LOGIN_NAME,
+           O2.NICK_NAME,
 		       O2.SEX,
 		       O2.PHONE
 		  FROM OFROSTER O
-		  LEFT JOIN APP_FRIEND_INFO O1 ON O.NICK = O1.FRIEND_LOGIN_NAME
+		  LEFT JOIN APP_FRIEND_INFO O1 ON  substr(O.jid,1,instr(O.jid,'@',-1)-1) = O1.FRIEND_LOGIN_NAME
 		                              AND O1.LOGIN_NAME = O.USERNAME
-		  JOIN APP_USER O2 ON O2.LOGIN_NAME = O.NICK
+		  JOIN APP_USER O2 ON O2.LOGIN_NAME = substr(O.jid,1,instr(O.jid,'@',-1)-1)
 		 WHERE O.USERNAME = #{loginName}
 		   AND O.SUB = '3'
 	</select>
@@ -256,5 +256,9 @@
 	<!-- app查询好友定制信息 用于判断是新增个性化定制信息 还是 修改个性化定制信息  -->
 	<select id="selectcust"  resultType="FriendInfo">
 		  SELECT friend_login_name from APP_FRIEND_INFO WHERE login_name = #{loginName} AND friend_login_name = #{friendLoginName}
+	</select>
+	<!-- app查询好友定制信息 用于判断是新增个性化定制信息 还是 修改个性化定制信息  -->
+	<select id="getuser"  resultType="String">
+		  SELECT login_name from APP_USER WHERE id = #{userid}
 	</select>
 </mapper>

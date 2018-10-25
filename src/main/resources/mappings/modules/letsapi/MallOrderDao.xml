@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.letsapi.dao.MallOrderDao">
+    
+    <!-- 新增订单 mall_rder -->
+	<insert id="insertOrder">
+		INSERT INTO MALL_ORDER
+       (ID,
+        ORDER_NO,
+        USER_ID,
+        ORDER_STATUS,
+        PRODUCT_AMOUNT_TOTAL,
+        ORDER_AMOUNT_TOTAL,
+        LOGISTICS_FEE,
+        ADDRESS_ID,
+        LOGISTICS_COMPANY_NAME,
+        ORDERLOGISTICS_ID,
+        PAY_CHANNEL,
+        PAY_TIME,
+        ESCROW_TRADE_NO,
+        CREATE_DATE,
+        REMARKS,
+        CONSIGN,
+        COLUMNS1,
+        COLUMNS2,
+        UPDATE_DATE,
+        DEL_FLAG)
+     VALUES
+       (#{id},
+        #{orderNo},
+        #{userId},
+        #{orderStatus},
+        #{productAmountTotal},
+        #{orderAmountTotal},
+        '',
+        #{addressId},
+        '',
+        '',
+        #{payChannel},
+        '',
+        '',
+        sysdate,
+        #{remarks},
+        '',
+        '',
+        '',
+        sysdate,
+        '0')
+	</insert>
+	
+	
+	<insert id="insertOrderInfo" parameterType="java.util.List" useGeneratedKeys="false">
+	 	insert into MALL_ORDER_INFO(id,order_id,product_id,product_count,del_flag,product_spec_id)
+	  	values
+	  	<foreach collection="list" item="item" index="index" separator=",">
+	   (#{item.id,jdbcType=VARCHAR},#{item.orderId,jdbcType=VARCHAR},#{item.productId,jdbcType=VARCHAR},
+	   #{item.productCount,jdbcType=VARCHAR},'0',#{item.productSpecId,jdbcType=VARCHAR})
+ 		 </foreach>
+	</insert>
+	
+</mapper>

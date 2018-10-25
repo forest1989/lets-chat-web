@@ -20,6 +20,7 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.letsapi.entity.MallOrder;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallShopcar;
 import com.thinkgem.jeesite.modules.letsapi.entity.ShoppingAddress;
@@ -318,6 +319,24 @@ public class MallProductInfoController extends BaseController {
 			rtn = mallProductInfoService.getProductDetailList(mpi);
 		} catch (Exception e) {
 			 rtn.setMessage("查询异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	
+	/**  
+	* <p>Description:新增订单 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/insertOrder", method = RequestMethod.POST)
+	public String  insertOrder(HttpServletRequest request,HttpServletResponse response,MallOrder mallOrder){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.insertOrder(request,mallOrder);
+		} catch (Exception e) {
+			 rtn.setMessage("添加异常");
 			 rtn.setCode("500");
 		}
 		return toJsonByALWAYS(response, rtn);

@@ -40,4 +40,15 @@ public class JsonUtils {
 		}
 		return listmp;
 	}
+	
+	/**
+	 * @author zhai_shaobo
+	 * 订单生成方法。时间戳+6位随机数
+	 */
+
+	public static String getOrderNo() {
+		String orderno1 = String.valueOf(System.currentTimeMillis());
+		String orderno2 = String.valueOf((int)((Math.random()*9+1)*100000));
+		return orderno1+orderno2;
+	}
 }

@@ -70,4 +70,10 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 */
 	public FriendInfo selectcust(FriendInfo user);
 
+	/**
+	 * @author zhai_shaobo
+	 *  根据userid 查询 loginname
+	 */
+	String getuser(String userid);
+
 }

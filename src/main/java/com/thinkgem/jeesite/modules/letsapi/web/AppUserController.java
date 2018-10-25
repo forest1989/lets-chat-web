@@ -230,5 +230,52 @@ public class AppUserController extends BaseController {
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
+	/**  
+	* <p>Description:上传文件--个性化定制头像图片</p>      
+	* @author zhai_shaobo
+	* @date 2018年10月24日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/uploadFilecust", method = RequestMethod.POST)
+	public String uploadFilecust(HttpServletRequest request,HttpServletResponse response, Model model){
+		RtnData rtn = new RtnData();
+		Map<String,Object> mp = new HashMap<String, Object>();
+		Map<String,Object> retMap = new HashMap<String, Object>();
+		UploadUtils up = new UploadUtils();
+		try {
+			String[] type= {"images","photo"};
+			String[] infos = up.uploadFile(request,type);
+			String errorInfo = infos[0];
+			String savePath = infos[2];
+			String saveUrl = infos[3];
+			String fileUrl = infos[4];
+			String fileName = infos[6];
+			mp.put("saveUrl", saveUrl);
+			mp.put("fileName", fileName);
+			if(errorInfo.equals("true")) {
+				rtn = appUserService.uploadFilecust(request,mp);
+				if (rtn.getCode().equals("0000")) {
+					retMap.put("errorInfo", errorInfo);
+					retMap.put("savePath", savePath);
+					retMap.put("saveUrl", saveUrl);
+					retMap.put("fileUrl", fileUrl);
+					retMap.put("fileName", fileName);
+					rtn.setData(retMap);
+					rtn.setMessage("文件上传成功");
+					rtn.setCode("0000");
+				}
+			}else {
+				retMap.put("errorInfo", errorInfo);
+				rtn.setData(retMap);
+				rtn.setMessage("文件上传失败");
+				rtn.setCode("1010");
+			}
+			
+		} catch (Exception e) {
+			rtn.setMessage("文件夹创建异常");
+			rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
 
 }

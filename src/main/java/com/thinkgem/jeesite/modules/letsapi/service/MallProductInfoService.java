@@ -14,15 +14,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.IdGen;
+import com.thinkgem.jeesite.modules.letsapi.dao.MallOrderDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.MallProductInfoDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.MallShopcarDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.ShoppingAddressDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
 import com.thinkgem.jeesite.modules.letsapi.entity.HotProduct;
+import com.thinkgem.jeesite.modules.letsapi.entity.MallOrder;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallShopcar;
 import com.thinkgem.jeesite.modules.letsapi.entity.ProductSpecificationApi;
 import com.thinkgem.jeesite.modules.letsapi.entity.ShoppingAddress;
+import com.thinkgem.jeesite.modules.letsapi.utils.JsonUtils;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
 import com.thinkgem.jeesite.modules.sys.dao.DictDao;
@@ -45,6 +48,8 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	private ShoppingAddressDao shoppingAddressDao;
 	@Autowired
 	private MallShopcarDao shopcarDao;
+	@Autowired
+	private MallOrderDao mallOrderDao;
 	
 	public MallProductInfo get(String id) {
 		return super.get(id);
@@ -448,6 +453,43 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 			rtn.setCode("500");
 			rtn.setMessage(e.getMessage());
 			logger.error("查询异常------"+e.getMessage());
+		}
+		return rtn;
+	}
+	/**
+	 * @param request新增订单
+	 * @param shopCar
+	 * @return
+	 */
+	@Transactional
+	public RtnData insertOrder(HttpServletRequest request, MallOrder mallOrder) {
+		RtnData rtn = new RtnData();
+		int mallOrderNo=0;
+		int mallOrderInfo=0;
+		try {
+			mallOrder.setUserId(UserUtils.getUser(request).getUserId());//用户id
+			mallOrder.setId(IdGen.uuid());//主键id
+			mallOrder.setOrderNo(JsonUtils.getOrderNo()); //订单编号
+			mallOrder.setOrderStatus("1");//新生成的订单是未支付的
+			
+			mallOrderNo= mallOrderDao.insertOrder(mallOrder);
+			
+			for (int i = 0; i < mallOrder.getMallOrderInfo().size(); i++) {
+				mallOrder.getMallOrderInfo().get(i).setId(IdGen.uuid());
+				mallOrder.getMallOrderInfo().get(i).setOrderId(mallOrder.getId());
+			}
+			mallOrderInfo = mallOrderDao.insertOrderInfo(mallOrder.getMallOrderInfo());
+			if (mallOrderNo>0 && mallOrderInfo>0) {
+				rtn.setCode("0000");
+				rtn.setMessage("新增订单成功");
+			} else {
+				rtn.setCode("500");
+				rtn.setMessage("新增订单失败");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("新增订单异常------"+e.getMessage());
 		}
 		return rtn;
 	}

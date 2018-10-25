@@ -191,7 +191,13 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			userres = appUserDao.selectFriend(user);
 			if (userres != null) {
 				rtn.setData(userres);
-			} 
+				rtn.setMessage("好友列表信息成功!");
+				rtn.setCode("0000");
+			} else {
+				rtn.setData(userres);
+				rtn.setMessage("未查询到好友信息!");
+				rtn.setCode("0000");
+			}
 		} catch (Exception e) {
 			rtn.setMessage("好友列表信息异常!");
 			rtn.setCode("500");
@@ -214,7 +220,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			selectFfiendInfo = appUserDao.selectcust(user);
 			if (selectFfiendInfo != null) {
 				insertI = appUserDao.updatecust(user);
-				if (insertI<=0) {
+				if (insertI>0) {
 					rtn.setMessage("个性化定制新增好友信息成功!");
 					rtn.setCode("0000");
 				} else {
@@ -238,5 +244,43 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 		}
 		return rtn;
 	}
-
+	/**
+	 * @param listmp
+	 * @return 个性化定制用户头像图片上传
+	 */
+	@Transactional
+	public RtnData uploadFilecust(HttpServletRequest request, Map<String, Object> mp) {
+		RtnData rtn = new RtnData();
+		try {
+			String photo = null;
+			String saveUrl = (String)mp.get("saveUrl");
+			String fileName = (String)mp.get("fileName");
+			if(!fileName.contains(".jpg")) {
+				fileName = fileName + ".jpg";
+			}
+			photo = saveUrl + fileName;
+			AppUser user = new AppUser();
+			FriendInfo usercust = new FriendInfo();
+			//用userid  查询出用户loginname (因为好友定制信息表是用loginname)
+			String loginName = appUserDao.getuser(UserUtils.getUser(request).getUserId());
+			usercust.setRemarksPhoto(photo);
+			usercust.setLoginName(loginName);
+			String friendLoginName = request.getParameter("friendLoginName");
+			usercust.setFriendLoginName(friendLoginName);
+			rtn = customizationFriend(request,usercust);
+//			int n = appUserDao.updateByloginName(user);
+			if(rtn.getCode().equals("0000")){
+				rtn.setMessage("图片地址修改成功");
+				rtn.setCode("0000");
+			}else {
+				rtn.setMessage("图片地址失败");
+				rtn.setCode("1015");
+			}
+		} catch (Exception e) {
+			rtn.setMessage("修改异常");
+			rtn.setCode("500");
+			logger.error("修改出现异常"+e.getMessage());
+		}
+		return rtn;
+	}
 }
