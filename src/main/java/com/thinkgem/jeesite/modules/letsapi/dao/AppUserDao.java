@@ -75,5 +75,10 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 *  根据userid 查询 loginname
 	 */
 	String getuser(String userid);
+	/**
+	 * @author zhai_shaobo
+	 * 获取好友信息 可以多个好友信息  不关openfier
+	 */
+	FriendInfo selectFriendInfos(FriendInfo user);
 
 }

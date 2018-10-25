@@ -223,6 +223,16 @@ public class AppUserController extends BaseController {
 		RtnData rtn = new RtnData();
 		try {
 			rtn = appUserService.customizationFriend(request, user);	
+			if (rtn.getCode().equals("0000")) {
+				FriendInfo userIn = new FriendInfo();
+				userIn.setLoginName(user.getFriendLoginName());
+				rtn = appUserService.selectFriendInfos(request, userIn);
+				if (!rtn.getCode().equals("0000")) {
+					rtn.setCode("500");
+					rtn.setMessage("获取好友列表信息失败");
+					rtn.setData("[]");
+				}
+			}
 		} catch (Exception e) {
 			rtn.setMessage("获取好友列表信息异常!");
 			rtn.setCode("500");
@@ -311,6 +321,24 @@ public class AppUserController extends BaseController {
 		} catch (Exception e) {
 			rtn.setMessage("文件夹创建异常");
 			rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	/**
+	 * @author zhai_shaobo
+	 * app 获取好友信息 可以多个好友信息  不关openfier
+	 */
+	
+	@RequestMapping(value = "selectFriendInfos",method = RequestMethod.POST)
+	public String selectFriendInfos(HttpServletRequest request, HttpServletResponse response, 
+			Model model, FriendInfo user) {
+		RtnData rtn = new RtnData();
+		try {
+			rtn = appUserService.selectFriendInfos(request, user);	
+		} catch (Exception e) {
+			rtn.setMessage("获取好友信息 异常!");
+			rtn.setCode("500");
+			logger.error("selectFriendInfos---获取好友信息 常"+e.getMessage());
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
