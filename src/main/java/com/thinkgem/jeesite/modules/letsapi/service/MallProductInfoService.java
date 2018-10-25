@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.letsapi.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -487,6 +488,36 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 			rtn.setCode("500");
 			rtn.setMessage(e.getMessage());
 			logger.error("新增订单异常------"+e.getMessage());
+		}
+		return rtn;
+	}
+	/**
+	 * @param request查询订单列表
+	 * @param shopCar
+	 * @return
+	 */
+	@Transactional
+	public RtnData selectOrder(HttpServletRequest request, MallOrder mallOrder) {
+		RtnData rtn = new RtnData();
+		List<MallOrder> res = new ArrayList<MallOrder>();
+		try {
+			mallOrder.setUserId(UserUtils.getUser(request).getUserId());
+			res = mallOrderDao.selectOrder(mallOrder);
+			if (res.size()>0) {
+				rtn.setCode("0000");
+				rtn.setMessage("订单列表获取成功!");
+				rtn.setData(res);
+				logger.info("订单列表获取成功------"+UserUtils.getUser(request).getUserId());
+			}else {
+				rtn.setCode("500");
+				rtn.setMessage("订单列表获取失败!");
+				logger.error("订单列表获取失败!");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage("订单列表获取异常!");
+			e.printStackTrace();
+			logger.error("订单列表获取异常!" + e.getMessage());
 		}
 		return rtn;
 	}

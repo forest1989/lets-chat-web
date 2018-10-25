@@ -12,6 +12,7 @@ public class FriendInfo extends DataEntity<FriendInfo> {
 	private String photo; // 好友图像
 	private String nickName; //好友昵称
 	private String sex; // 好友性别
+	private String phone; // 好友性别
 	private String areaId;//好友地区编码
 	
 	private String remarksNickName; // 好友个性化定制昵称
@@ -89,8 +90,12 @@ public class FriendInfo extends DataEntity<FriendInfo> {
 	public void setIsCustomization(String isCustomization) {
 		this.isCustomization = isCustomization;
 	}
-	
-	
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	public FriendInfo(String loginName, String photo, String nickName, String sex, String areaId) {
 		super();
 		this.loginName = loginName;
@@ -102,8 +107,9 @@ public class FriendInfo extends DataEntity<FriendInfo> {
 	@Override
 	public String toString() {
 		return "FriendInfo [loginName=" + loginName + ", photo=" + photo + ", nickName=" + nickName + ", sex=" + sex
-				+ ", areaId=" + areaId + ", remarksNickName=" + remarksNickName + ", remarksPhone=" + remarksPhone
-				+ ", remarksPhoto=" + remarksPhoto + ", friendLoginName=" + friendLoginName + "]";
+				+ ", phone=" + phone + ", areaId=" + areaId + ", remarksNickName=" + remarksNickName + ", remarksPhone="
+				+ remarksPhone + ", remarksPhoto=" + remarksPhoto + ", friendLoginName=" + friendLoginName
+				+ ", isCustomization=" + isCustomization + "]";
 	}
 	
 }

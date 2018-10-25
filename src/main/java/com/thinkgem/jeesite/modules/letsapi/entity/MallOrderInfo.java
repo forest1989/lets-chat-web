@@ -21,6 +21,16 @@ public class MallOrderInfo extends DataEntity<MallOrderInfo> {
 	private Long productCount;		// 购买数量
 	private String productSpecId;		// 规格id
 	
+	//订单列表查询 返参添加
+	/** 商品信息  */
+	private String productName;//商品名称
+	private String productDetaill;//商品简介
+	private String stockNum;//商品库存数量
+	private String productIco1;//商品图标
+	/** 规格信息 */
+	private String specName;//规格名称
+	private String specPrice;//规格价格
+	
 	public MallOrderInfo() {
 		super();
 	}
@@ -63,6 +73,58 @@ public class MallOrderInfo extends DataEntity<MallOrderInfo> {
 
 	public void setProductSpecId(String productSpecId) {
 		this.productSpecId = productSpecId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getProductDetaill() {
+		return productDetaill;
+	}
+
+	public void setProductDetaill(String productDetaill) {
+		this.productDetaill = productDetaill;
+	}
+
+	public String getStockNum() {
+		return stockNum;
+	}
+
+	public void setStockNum(String stockNum) {
+		this.stockNum = stockNum;
+	}
+
+	public String getProductIco1() {
+		return productIco1;
+	}
+
+	public void setProductIco1(String productIco1) {
+		this.productIco1 = productIco1;
+	}
+
+	public String getSpecName() {
+		return specName;
+	}
+
+	public void setSpecName(String specName) {
+		this.specName = specName;
+	}
+
+	public String getSpecPrice() {
+		return specPrice;
+	}
+
+	public void setSpecPrice(String specPrice) {
+		this.specPrice = specPrice;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 }

@@ -341,4 +341,21 @@ public class MallProductInfoController extends BaseController {
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
+	/**  
+	* <p>Description:获取订单</p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/selectOrder", method = RequestMethod.POST)
+	public String  selectOrder(HttpServletRequest request,HttpServletResponse response,MallOrder mallOrder){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.selectOrder(request,mallOrder);
+		} catch (Exception e) {
+			 rtn.setMessage("添加异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
 }

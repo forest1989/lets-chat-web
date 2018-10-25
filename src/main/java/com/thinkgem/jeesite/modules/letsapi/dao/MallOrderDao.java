@@ -26,10 +26,14 @@ public interface MallOrderDao extends CrudDao<MallOrder> {
 	int insertOrder(MallOrder mallOrder);
 	
 	/**
-	 * @param mallOrder新增订单表
+	 * @param mallOrder新增订单表(详情)
 	 * @return
 	 */
 	int insertOrderInfo(List<MallOrderInfo> mallOrderInfo);
 	
-	
+	/**
+	 * @param mallOrder获取订单列表
+	 * @return
+	 */
+	List<MallOrder> selectOrder(MallOrder mallOrderInfo);
 }

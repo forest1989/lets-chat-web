@@ -38,6 +38,16 @@ public class MallOrder extends DataEntity<MallOrder> {
 	private String columns1;		// 是否开票（预留字段）
 	private String columns2;		// 发票编号（预留字段）
 	
+	//查询订单返参添加
+	/** 通过订单表中的地址id查询出来的地址信息 */
+	private String phone;//收货电话
+	private String arear;//所在地区
+	private String addressDetail;//详细地址
+	private String isDefault;//是否设为默认地址(0是；1否)
+	private String delFlag;//删除标记(0正常；1已删除)
+	private String shopUserName;//收货人姓名
+	
+	
 	private List<MallOrderInfo>  mallOrderInfo; //订单信息详情
 	
 	public MallOrder() {
@@ -200,6 +210,54 @@ public class MallOrder extends DataEntity<MallOrder> {
 
 	public void setMallOrderInfo(List<MallOrderInfo> mallOrderInfo) {
 		this.mallOrderInfo = mallOrderInfo;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getArear() {
+		return arear;
+	}
+
+	public void setArear(String arear) {
+		this.arear = arear;
+	}
+
+	public String getAddressDetail() {
+		return addressDetail;
+	}
+
+	public void setAddressDetail(String addressDetail) {
+		this.addressDetail = addressDetail;
+	}
+
+	public String getIsDefault() {
+		return isDefault;
+	}
+
+	public void setIsDefault(String isDefault) {
+		this.isDefault = isDefault;
+	}
+
+	public String getDelFlag() {
+		return delFlag;
+	}
+
+	public void setDelFlag(String delFlag) {
+		this.delFlag = delFlag;
+	}
+
+	public String getShopUserName() {
+		return shopUserName;
+	}
+
+	public void setShopUserName(String shopUserName) {
+		this.shopUserName = shopUserName;
 	}
 	
 	
