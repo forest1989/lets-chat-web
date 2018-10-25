@@ -298,7 +298,7 @@ public class AppUserController extends BaseController {
 			if(errorInfo.equals("true")) {
 				retMap.put("errorInfo", errorInfo);
 				retMap.put("saveUrl", saveUrl+fileName);
-				retMap.put("thumbImg", saveUrl+thumbImg);
+				retMap.put("thumbImgUrl", saveUrl+thumbImg);
 				rtn.setData(retMap);
 				rtn.setCode("0000");
 				rtn.setMessage("文件上传成功");
