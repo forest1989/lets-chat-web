@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.letsapi.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -280,6 +281,35 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			rtn.setMessage("修改异常");
 			rtn.setCode("500");
 			logger.error("修改出现异常"+e.getMessage());
+		}
+		return rtn;
+	}
+	/**
+	 * @author zhai_shaobo
+	 * 获取好友信息 可以多个好友信息  不关openfier
+	 */
+	public RtnData selectFriendInfos(HttpServletRequest request, FriendInfo user) {
+		RtnData rtn = new RtnData();
+		List<FriendInfo> userres = new ArrayList<FriendInfo>();
+		try {
+			String friendLoginName = user.getLoginName();//好友loginName拼接字符串
+			String loginName = appUserDao.getuser(UserUtils.getUser(request).getUserId());
+			String fln[] = friendLoginName.split(",");
+			for (int i = 0; i < fln.length; i++) {
+				FriendInfo usersIn = new FriendInfo();
+				FriendInfo usersOut = null;
+				usersIn.setLoginName(loginName);
+				usersIn.setFriendLoginName(fln[i]);
+				usersOut = appUserDao.selectFriendInfos(usersIn);
+				userres.add(usersOut);
+			}
+			rtn.setData(userres);
+			rtn.setMessage("好友信息成功!");
+			rtn.setCode("0000");
+		} catch (Exception e) {
+			rtn.setMessage("好友信息异常!");
+			rtn.setCode("500");
+			logger.error("selectFriend---好友信息异常"+e.getMessage());
 		}
 		return rtn;
 	}
