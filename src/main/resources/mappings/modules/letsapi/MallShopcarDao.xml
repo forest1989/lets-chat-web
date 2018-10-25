@@ -132,6 +132,13 @@
 	      and product_spec_id=#{specId} 
 	      and del_flag = 0
 	</select>
+	<!-- 查询该规格数量 -->
+	<select id="selectSpecNum" resultType="ProductSpecificationApi">
+		SELECT * 
+		FROM PRODUCT_SPECIFICATIONS 
+	    WHERE id = #{specId} 
+	       and del_flag = 0
+	</select>
 	<!-- 查询购物车数据 -->
 	<select id="getShopCarList" resultType="MallShopcar">
 		SELECT S.ID            AS "id",

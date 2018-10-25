@@ -18,6 +18,7 @@ public class ProductSpecificationApi extends DataEntity<ProductSpecificationApi>
 	private static final long serialVersionUID = 1L;
 	private String productId;		// 商品ID（MALL_PRODUCT_INFO表主键ID）
 	private String specName;		// 规格名称
+	private Integer stockNum;       // 规格数量
 	private Double specPrice;		// 规格价格
 	private Integer sort;		  // 排序（默认10）
 	
@@ -63,6 +64,20 @@ public class ProductSpecificationApi extends DataEntity<ProductSpecificationApi>
 
 	public void setSort(Integer sort) {
 		this.sort = sort;
+	}
+
+	/**
+	 * @return the stockNum
+	 */
+	public Integer getStockNum() {
+		return stockNum;
+	}
+
+	/**
+	 * @param stockNum the stockNum to set
+	 */
+	public void setStockNum(Integer stockNum) {
+		this.stockNum = stockNum;
 	}
 	
 }

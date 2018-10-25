@@ -34,7 +34,7 @@
        A.PRODUCT_ICO1       AS "productIco1",
        A.PRODUCT_IMG1       AS "productImg1",
        A.PRODUCT_DETAIL_IMG AS "productDetailImg",
-       A.STOCK_NUM          AS "stockNum",
+       P.STOCK_NUM          AS "stockNum",
        A.STAUTS             AS "stauts",
        A.REMARKS            AS "remarks",
        P.ID                 AS "specId",

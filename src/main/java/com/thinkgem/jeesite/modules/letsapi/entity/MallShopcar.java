@@ -24,6 +24,7 @@ public class MallShopcar extends DataEntity<MallShopcar> {
 	private String specId;          // 规格id
 	private String specName;        // 规格名称
 	private String specPrice;       // 规格价格
+	private Integer stockNum;       // 规格数量
 	
 	public MallShopcar() {
 		super();
@@ -31,6 +32,20 @@ public class MallShopcar extends DataEntity<MallShopcar> {
 
 	public MallShopcar(String id){
 		super(id);
+	}
+
+	/**
+	 * @return the stockNum
+	 */
+	public Integer getStockNum() {
+		return stockNum;
+	}
+
+	/**
+	 * @param stockNum the stockNum to set
+	 */
+	public void setStockNum(Integer stockNum) {
+		this.stockNum = stockNum;
 	}
 
 	/**

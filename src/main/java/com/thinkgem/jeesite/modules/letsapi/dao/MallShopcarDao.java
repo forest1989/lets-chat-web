@@ -8,6 +8,7 @@ import java.util.List;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallShopcar;
+import com.thinkgem.jeesite.modules.letsapi.entity.ProductSpecificationApi;
 
 /**
  * 购物车DAO接口
@@ -40,5 +41,11 @@ public interface MallShopcarDao extends CrudDao<MallShopcar> {
 	 * @return
 	 */
 	List<MallShopcar> getShopCarList(String userId);
+
+	/**
+	 * @param shopCar查询该规格数量
+	 * @return
+	 */
+	ProductSpecificationApi selectSpecNum(MallShopcar shopCar);
 	
 }
