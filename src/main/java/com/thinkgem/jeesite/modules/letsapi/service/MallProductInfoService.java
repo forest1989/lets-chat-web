@@ -435,14 +435,11 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	 */
 	public RtnData getProductDetailList(MallProductInfo mpi) {
 		RtnData rtn = new RtnData();
-		List<ProductSpecificationApi> psfList=null;
-		MallProductInfo mpis=null;
+		List<MallProductInfo> mpilist=null;
 		try {
-			mpis=mallProductInfoDao.get(mpi);
-			psfList=mallProductInfoDao.getProductSpecificaList(mpi);
-			if(mpis!=null && psfList!=null && psfList.size() > 0) {
-				mpis.setProductSpecList(psfList);
-				rtn.setData(mpis);
+			mpilist=mallProductInfoDao.selectAll(mpi);
+			if(mpilist!=null && mpilist.size() > 0) {
+				rtn.setData(mpilist);
 				rtn.setCode("0000");
 				rtn.setMessage("查询成功");
 			}else {
