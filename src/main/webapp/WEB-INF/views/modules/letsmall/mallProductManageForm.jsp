@@ -34,8 +34,11 @@
 				htmlStr += "<input name=\"proSpecList["+ proSpecIndex +"].specName\" type=\"text\" maxlength=\"200\" class=\"input-large required\"/>";
 				htmlStr += "<span class=\"help-inline\"><font color=\"red\">*</font>";
 				htmlStr += " &nbsp;&nbsp;&nbsp;&nbsp;规格价格：";
-				htmlStr += "<input name=\"proSpecList["+ proSpecIndex +"].specPrice\" type=\"text\" maxlength=\"200\" class=\"input-small required number\"/>";
-				htmlStr += "<span class=\"help-inline\"><font color=\"red\">*</font> </span>";			
+				htmlStr += "<input name=\"proSpecList["+ proSpecIndex +"].specPrice\" type=\"text\" maxlength=\"200\" class=\"input-mini required number\"/>";
+				htmlStr += "<span class=\"help-inline\"><font color=\"red\">*</font> </span>";
+				htmlStr += " &nbsp;&nbsp;&nbsp;&nbsp;库存数量：";
+				htmlStr += "<input name=\"proSpecList["+ proSpecIndex +"].stockNum\" type=\"text\" maxlength=\"200\" class=\"input-mini required digits\"/>";
+				htmlStr += "<span class=\"help-inline\"><font color=\"red\">*</font> </span>";
 				htmlStr += " &nbsp;&nbsp;&nbsp;&nbsp;<a href=\"javascript:void(0);\" onclick=\"delProSpe(this)\">移除规格</a>";
 				htmlStr += "</div>";
 				$("#proSpecDiv").append(htmlStr);
@@ -64,18 +67,17 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">库存数量：</label>
 			<div class="controls">
 				<form:input path="stockNum" htmlEscape="false" maxlength="18" class="input-xlarge required digits"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
+		</div> --%>
 		<div class="control-group">
 			<label class="control-label">商品类别：</label>
 			<div class="controls">
 				<form:select path="productTypeId" cssClass="input-small required">
-					<option value="">--请选择--</option>
 					<form:options items="${fns:getDictList('PRODUCT_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
@@ -120,7 +122,10 @@
 				<form:input path="proSpecList[0].specName" htmlEscape="false" maxlength="200" class="input-large required"/>
 				<span class="help-inline"><font color="red">*</font>
 				&nbsp;&nbsp;规格价格：
-				<form:input path="proSpecList[0].specPrice" htmlEscape="false" maxlength="200" class="input-small required number"/>
+				<form:input path="proSpecList[0].specPrice" htmlEscape="false" maxlength="200" class="input-mini required number"/>
+				<span class="help-inline"><font color="red">*</font> </span>
+				&nbsp;&nbsp;库存数量：
+				<form:input path="proSpecList[0].stockNum" htmlEscape="false" maxlength="200" class="input-mini required digits"/>
 				<span class="help-inline"><font color="red">*</font> </span>				
 				&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="addProSpe()">增加规格</a>&nbsp;&nbsp;&nbsp;<font color="red">(该价格为商品默认价格)</font>
 			</div>
@@ -134,7 +139,10 @@
 							<form:input path="proSpecList[${vs.index}].specName" htmlEscape="false" maxlength="200" class="input-large required"/>
 							<span class="help-inline"><font color="red">*</font>
 							&nbsp;&nbsp;规格价格：
-							<form:input path="proSpecList[${vs.index}].specPrice" htmlEscape="false" maxlength="200" class="input-small required number"/>
+							<form:input path="proSpecList[${vs.index}].specPrice" htmlEscape="false" maxlength="200" class="input-mini required number"/>
+							<span class="help-inline"><font color="red">*</font> </span>
+							&nbsp;&nbsp;库存数量：
+							<form:input path="proSpecList[${vs.index}].stockNum" htmlEscape="false" maxlength="200" class="input-mini required digits"/>
 							<span class="help-inline"><font color="red">*</font> </span>						
 							&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delProSpe(this)">移除规格</a>
 						</div>

@@ -1,5 +1,7 @@
 package com.thinkgem.jeesite.modules.letsmall.entity;
 
+import javax.validation.constraints.NotNull;
+
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 public class ProductSpecifications extends DataEntity<ProductSpecifications>{
@@ -14,6 +16,8 @@ public class ProductSpecifications extends DataEntity<ProductSpecifications>{
 	private String specName;
 	
 	private Double specPrice;
+	
+	private Long stockNum;
 	
 	private Integer sort;
 
@@ -47,6 +51,15 @@ public class ProductSpecifications extends DataEntity<ProductSpecifications>{
 
 	public void setSort(Integer sort) {
 		this.sort = sort;
+	}
+
+	@NotNull(message="库存数量不能为空")
+	public Long getStockNum() {
+		return stockNum;
+	}
+
+	public void setStockNum(Long stockNum) {
+		this.stockNum = stockNum;
 	}
 
 	

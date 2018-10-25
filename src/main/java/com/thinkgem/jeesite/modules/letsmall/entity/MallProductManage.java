@@ -177,7 +177,6 @@ public class MallProductManage extends DataEntity<MallProductManage> {
 		this.productTypeId = productTypeId;
 	}
 	
-	@NotNull(message="库存数量不能为空")
 	public Long getStockNum() {
 		return stockNum;
 	}

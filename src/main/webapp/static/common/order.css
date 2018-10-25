@@ -1,0 +1,30 @@
+.p-img {
+    float: left;
+    width: 60px;
+    height: 60px;
+    border: 1px solid #efefef;
+    margin: 0 14px 0 40px;
+    _display: inline;
+}
+
+.p-msg {
+    width: 240px;
+    float: left;
+}
+
+.goods-number {
+    float: left;
+    width: 140px;
+    text-align: right;
+    color: #aaa;
+    font-family: verdana;
+}
+
+.goods-total {
+    padding: 8px 15px;
+    /* margin: 0 0 20px; */
+    list-style: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}

@@ -93,7 +93,7 @@
 			<li>
 				<label>商品类别：</label>
 				<form:select path="productTypeId" cssClass="input-small">
-					<option value="">--请选择--</option>
+					<option value="">全部</option>
 					<form:options items="${fns:getDictList('PRODUCT_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
@@ -105,7 +105,7 @@
 			<li>
 				<label>商品状态：</label>
 				<form:select path="stauts" cssClass="input-small">
-					<option value="">--请选择--</option>
+					<option value="">全部</option>
 					<form:options items="${fns:getDictList('PRO_STATUS')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
@@ -134,15 +134,17 @@
 			<tr>
 				<td><input type="checkbox" name="producCheck" value="${e.id}"/></td>
 				<td>
-					<a href="${ctx}/letsmall/mallProductManage/form?id=${e.id}">
-						${e.productNo}
-					</a>
+					<shiro:hasPermission name="letsmall:mallProductManage:view">
+						<a href="${ctx}/letsmall/mallProductManage/form?id=${e.id}">
+							${e.productNo}
+						</a>
+					</shiro:hasPermission>
+					
 				</td>
 				<td>
 					${e.productName}
 				</td>
 				<td>
-					
 					<fmt:formatNumber value="${e.proSpec.specPrice}" type="currency" pattern="￥.00"/>
 				</td>
 				<td>

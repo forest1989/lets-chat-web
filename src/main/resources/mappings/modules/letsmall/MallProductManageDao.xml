@@ -164,6 +164,7 @@
 		SPEC_NAME, 
 		SPEC_PRICE,
 		SORT,
+		STOCK_NUM,
 		DEL_FLAG) 
 		VALUES 
 		(#{id}, 
@@ -171,6 +172,7 @@
 		#{specName}, 
 		#{specPrice},
 		#{sort},
+		#{stockNum},
 		#{delFlag})
 	</insert>
 	
@@ -183,7 +185,7 @@
 	</update>
 	
 	<select id="getProductSpecList" resultType="ProductSpecifications">
-		SELECT SPEC_NAME, SPEC_PRICE FROM PRODUCT_SPECIFICATIONS 
+		SELECT SPEC_NAME, SPEC_PRICE, STOCK_NUM FROM PRODUCT_SPECIFICATIONS 
 			WHERE PRODUCT_ID = #{productId} AND DEL_FLAG = #{DEL_FLAG_NORMAL}
 	</select>
 	<update id="update">
