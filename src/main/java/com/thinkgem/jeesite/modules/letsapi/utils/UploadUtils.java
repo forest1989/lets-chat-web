@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.modules.letsapi.utils;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -86,14 +87,19 @@ public class UploadUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public String[] uploadFile(HttpServletRequest request,String[] type) {
-		String[] infos = new String[7];
+		String[] infos = new String[8];
 		// 验证
 		infos[0] = this.validateFields(request,type);
 		String saveInfo="false";
+		String saveThumbImg=null;
 		String imgName=IdGen.uuid()+".jpg";
+		String imgName2="thumbImg_"+imgName;
 		if (infos[0].equals("true")) {
 			String imgStr=request.getParameter("base64");
 			saveInfo=this.generateImage(imgStr,imgName);
+		}
+		if(saveInfo.equals("true")&&type[1].equals("chatphoto")) {
+			saveThumbImg=this.getThumbImg(imgName, imgName2);
 		}
 		if (infos[0].equals("true")&&saveInfo.equals("true")) {
 			infos[2] = savePath;
@@ -101,6 +107,7 @@ public class UploadUtils {
 			infos[4] = fileUrl;
 			infos[5] = saveInfo;
 			infos[6] = imgName;
+			infos[7] = imgName2;
 		}
 		return infos;
 	}
@@ -334,7 +341,22 @@ public class UploadUtils {
 		}
 		return saveinfo;
 	}
-
+private  String  getThumbImg(String imgName, String imgName2) {
+		
+		String saveThumbImg="false";
+			ResizeImage r = new ResizeImage();
+		try {
+			 float times = 7f;
+	        BufferedImage f=r.getImage(savePath + imgName);
+	        r.writeHighQuality(r.resizeImage(f,times), savePath,imgName2);
+			
+	        saveThumbImg="true";
+		} catch (Exception e) {
+			saveThumbImg=e.getMessage();
+			e.printStackTrace();
+		}
+		return saveThumbImg;
+	}
 	/** **********************get/set方法********************************* */
 
 	public String getSavePath() {

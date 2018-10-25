@@ -277,5 +277,41 @@ public class AppUserController extends BaseController {
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
-
+	/**  
+	* <p>Description:上传文件 </p>      
+	* @author tao_yonggang  
+	* @date 2018年10月19日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/uploadChatPhoto", method = RequestMethod.POST)
+	public String uploadChatPhoto(HttpServletRequest request,HttpServletResponse response){
+		RtnData rtn = new RtnData();
+		Map<String,Object> retMap = new HashMap<String, Object>();
+		UploadUtils up = new UploadUtils();
+		try {
+			String[] type= {"images","chatphoto"};
+			String[] infos = up.uploadFile(request,type);
+			String errorInfo = infos[0];
+			String saveUrl = infos[3];
+			String thumbImg = infos[7];
+			String fileName = infos[6];
+			if(errorInfo.equals("true")) {
+				retMap.put("errorInfo", errorInfo);
+				retMap.put("saveUrl", saveUrl+fileName);
+				retMap.put("thumbImg", saveUrl+thumbImg);
+				rtn.setData(retMap);
+				rtn.setCode("0000");
+				rtn.setMessage("文件上传成功");
+			}else {
+				retMap.put("errorInfo", errorInfo);
+				rtn.setData(retMap);
+				rtn.setMessage("文件上传失败");
+				rtn.setCode("1033");
+			}
+		} catch (Exception e) {
+			rtn.setMessage("文件夹创建异常");
+			rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
 }
