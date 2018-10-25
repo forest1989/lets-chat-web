@@ -188,12 +188,11 @@
 			oi.PRODUCT_COUNT,
 			pi.PRODUCT_NAME,
 			pi.PRODUCT_ICO1,
-			ps.SPEC_NAME,
-			ps.SPEC_PRICE
+			oi.SPEC_NAME,
+			oi.PRODUCT_PRICE
 		from 
 			MALL_ORDER_INFO oi  
 			left join MALL_PRODUCT_INFO pi on pi.id = oi.PRODUCT_ID
-			left join PRODUCT_SPECIFICATIONS ps on ps.id = oi.PRODUCT_SPEC_ID 
 		where oi.ORDER_ID = #{orderId}
 	</select>
 	
