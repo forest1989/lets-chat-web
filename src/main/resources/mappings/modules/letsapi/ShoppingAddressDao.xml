@@ -111,6 +111,14 @@
 	<select id="getShippingAdsList" resultType="ShoppingAddress">
 		SELECT * FROM shopping_address a WHERE a.user_id = #{userId} and del_flag = 0
 	</select>
+	<!-- 通过id查询用户收货地址数量 -->
+	<select id="getShippingAdsCount" resultType="Integer">
+			SELECT COUNT(1)
+			  FROM SHOPPING_ADDRESS A
+			 WHERE A.USER_ID = '9f89d86a55f44c238f17a868d57383b1'
+			   AND A.IS_DEFAULT = 0
+			   AND DEL_FLAG = 0
+	</select>
 	<!-- 设为用户默认收货地址和修改地址 -->
 	<update id="updateById">
 	UPDATE shopping_address

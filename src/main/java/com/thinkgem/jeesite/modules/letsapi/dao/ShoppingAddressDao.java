@@ -35,4 +35,9 @@ public interface ShoppingAddressDao extends CrudDao<ShoppingAddress> {
 	 * @return
 	 */
 	int insertAddress(ShoppingAddress sAdd);
+
+	/**
+	 * @return通过id查询用户收货地址数量 
+	 */
+	Integer getShippingAdsCount();
 }

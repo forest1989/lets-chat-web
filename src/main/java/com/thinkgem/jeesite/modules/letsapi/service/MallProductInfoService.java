@@ -244,8 +244,23 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 		RtnData rtn = new RtnData();
 		int n=0;
 		try {
-			RtnData rt=this.updateDefaultAds(sAdd.getDefaultId());
-			if(rt.getCode().equals("0000")){
+			Integer cn= shoppingAddressDao.getShippingAdsCount();
+			if(cn==1) {
+				RtnData rt=this.updateDefaultAds(sAdd.getDefaultId());
+				if(rt.getCode().equals("0000")){
+					n=shoppingAddressDao.updateById(sAdd);
+					if(n > 0) {
+						rtn.setCode("0000");
+						rtn.setMessage("修改成功");
+					}else {
+						rtn.setCode("1025");
+						rtn.setMessage("修改失败");
+					}
+				}else {
+					rtn.setCode("1025");
+					rtn.setMessage("修改失败");
+				}
+			}else {
 				n=shoppingAddressDao.updateById(sAdd);
 				if(n > 0) {
 					rtn.setCode("0000");
@@ -254,10 +269,8 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 					rtn.setCode("1025");
 					rtn.setMessage("修改失败");
 				}
-			}else {
-				rtn.setCode("1025");
-				rtn.setMessage("修改失败");
 			}
+			
 		} catch (Exception e) {
 			rtn.setCode("500");
 			rtn.setMessage(e.getMessage());
