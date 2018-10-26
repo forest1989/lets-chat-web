@@ -262,20 +262,19 @@
 		  SELECT login_name from APP_USER WHERE id = #{userid}
 	</select>
 	<!-- 获取好友信息，可单个查 也可多个查 -->
-	<select id="selectFriendInfos" resultType="FriendInfo" >
-			SELECT A.LOGIN_NAME,
-		       A.PHOTO,
-		       A.NAME,
-		       A.NICK_NAME,
-		       A.SEX,
-		       A.PHONE,
-		       A.AREA_ID,
-		       B.REMARKS_NICK_NAME,
-		       B.REMARKS_PHONE,
-		       B.REMARKS_PHOTO
-			  FROM APP_USER A, APP_FRIEND_INFO B 
-			 WHERE A.LOGIN_NAME = #{friendLoginName} 
-		   AND B.LOGIN_NAME = #{loginName} 
-		   AND B.FRIEND_LOGIN_NAME = #{friendLoginName} 
+	<select id="selectFriendInfos" resultType="FriendInfo" >		   		   
+		     SELECT A.LOGIN_NAME,
+	           A.PHOTO,
+	           A.NAME,
+	           A.NICK_NAME,
+	           A.SEX,
+	           A.PHONE,
+	           A.AREA_ID,
+	           B.REMARKS_NICK_NAME,
+	           B.REMARKS_PHONE,
+	           B.REMARKS_PHOTO
+	        FROM APP_USER A left join APP_FRIEND_INFO B 
+	         on A.LOGIN_NAME = b.friend_login_name and b.login_name = #{loginName} 
+	       WHERE A.LOGIN_NAME = #{friendLoginName}  
 	</select>
 </mapper>
