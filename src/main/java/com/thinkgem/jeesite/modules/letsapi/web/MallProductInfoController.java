@@ -197,7 +197,7 @@ public class MallProductInfoController extends BaseController {
 	public String  updateAds(HttpServletRequest request,HttpServletResponse response,ShoppingAddress sAdd){
 		RtnData rtn=new RtnData();
 		try {
-			rtn = mallProductInfoService.updateAds(sAdd);
+			rtn = mallProductInfoService.updateAds(request,sAdd);
 		} catch (Exception e) {
 			 rtn.setMessage("修改异常");
 			 rtn.setCode("500");

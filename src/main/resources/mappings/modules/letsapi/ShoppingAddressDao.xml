@@ -111,6 +111,16 @@
 	<select id="getShippingAdsList" resultType="ShoppingAddress">
 		SELECT * FROM shopping_address a WHERE a.user_id = #{userId} and del_flag = 0
 	</select>
+<<<<<<< HEAD
+=======
+	<!-- 通过id查询用户收货地址数量 -->
+	<update id="updateDefault">
+			UPDATE SHOPPING_ADDRESS A
+			   SET IS_DEFAULT = 1
+			 WHERE A.USER_ID = #{userId}
+			   AND DEL_FLAG = 0
+	</update>
+>>>>>>> branch 'master' of https://gitee.com/rit/lets-chat-web.git
 	<!-- 设为用户默认收货地址和修改地址 -->
 	<update id="updateById">
 	UPDATE shopping_address
