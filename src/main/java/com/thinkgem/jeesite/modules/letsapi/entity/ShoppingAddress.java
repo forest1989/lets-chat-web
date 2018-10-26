@@ -23,6 +23,7 @@ public class ShoppingAddress extends DataEntity<ShoppingAddress> {
 	private String arear;		// 所在地区
 	private String addressDetail;		// 详细地址
 	private String isDefault;		// 是否设为默认收货地址（0：是 1：否）
+	private String defaultId;		// 默认收货地址id
 	
 	public ShoppingAddress() {
 		super();
@@ -37,6 +38,20 @@ public class ShoppingAddress extends DataEntity<ShoppingAddress> {
 	 */
 	public String getUserId() {
 		return userId;
+	}
+
+	/**
+	 * @return the defaultId
+	 */
+	public String getDefaultId() {
+		return defaultId;
+	}
+
+	/**
+	 * @param defaultId the defaultId to set
+	 */
+	public void setDefaultId(String defaultId) {
+		this.defaultId = defaultId;
 	}
 
 	/**
