@@ -171,23 +171,6 @@ public class MallProductInfoController extends BaseController {
 		return toJsonByALWAYS(response, rtn);
 	}
 	/**  
-	* <p>Description:设置默认收货地址 </p>      
-	* @author tao_yonggang  
-	* @date 2018年10月23日  
-	* @version 1.0  
-	*/ 
-	@RequestMapping(value="/updateDefaultAds", method = RequestMethod.POST)
-	public String  updateDefaultAds(HttpServletRequest request,HttpServletResponse response,ShoppingAddress sAdd){
-		RtnData rtn=new RtnData();
-		try {
-			rtn = mallProductInfoService.updateDefaultAds(sAdd);
-		} catch (Exception e) {
-			 rtn.setMessage("修改异常");
-			 rtn.setCode("500");
-		}
-		return toJsonByALWAYS(response, rtn);
-	}
-	/**  
 	* <p>Description:修改收货地址 </p>      
 	* @author tao_yonggang  
 	* @date 2018年10月23日  

@@ -212,11 +212,13 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	 * @return
 	 */
 	@Transactional
-	public RtnData updateDefaultAds(ShoppingAddress sAdd) {
+	public RtnData updateDefaultAds(String defaultId) {
 		RtnData rtn = new RtnData();
+		ShoppingAddress sAdd=new ShoppingAddress();
 		int n=0;
 		try {
-			sAdd.setIsDefault("0");
+			sAdd.setId(defaultId);
+			sAdd.setIsDefault("1");
 			n=shoppingAddressDao.updateById(sAdd);
 			if( n > 0 ) {
 				rtn.setCode("0000");
@@ -242,10 +244,16 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 		RtnData rtn = new RtnData();
 		int n=0;
 		try {
-			n=shoppingAddressDao.updateById(sAdd);
-			if(n > 0) {
-				rtn.setCode("0000");
-				rtn.setMessage("修改成功");
+			RtnData rt=this.updateDefaultAds(sAdd.getDefaultId());
+			if(rt.getCode().equals("0000")){
+				n=shoppingAddressDao.updateById(sAdd);
+				if(n > 0) {
+					rtn.setCode("0000");
+					rtn.setMessage("修改成功");
+				}else {
+					rtn.setCode("1025");
+					rtn.setMessage("修改失败");
+				}
 			}else {
 				rtn.setCode("1025");
 				rtn.setMessage("修改失败");
