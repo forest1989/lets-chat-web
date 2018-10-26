@@ -18,7 +18,7 @@ public class OpenFireActionUtil {
 	private Connection connection;
     private ConnectionConfiguration config;
     /** openfire服务器address */
-    private final static String server = "laptop-o0bhgntq";
+    private final static String server = "izd3oo6eij7e5jz";
     
     public void init() {
         try {
@@ -119,7 +119,7 @@ public class OpenFireActionUtil {
     
     public XMPPConnection getXMPPConnection() {
         try {
-            ConnectionConfiguration config = new ConnectionConfiguration("192.168.1.138", 5222, server);
+            ConnectionConfiguration config = new ConnectionConfiguration("47.96.230.128", 5222, server);
             config.setReconnectionAllowed(false);
             config.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
             config.setSendPresence(true);
