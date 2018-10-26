@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.letsmall.dao.OperationMoneyLogDao">
+    
+	<sql id="operationMoneyLogColumns">
+		a.id AS "id",
+		a.app_user_id AS "appUserId",
+		a.money_total AS "moneyTotal",
+		a.operation_type AS "operationType",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.del_flag AS "delFlag",
+		u2.login_name AS "user.loginName",
+		u2.nick_name AS "user.nickName",
+		u3.name AS "createBy.name"
+	</sql>
+	
+	<sql id="operationMoneyLogJoins">
+		LEFT JOIN APP_USER u2 ON u2.id = a.app_user_id
+	</sql>
+	
+	<sql id="userJoins">
+		LEFT JOIN SYS_USER u3 ON u3.id = a.create_by
+	</sql>
+    
+	<select id="get" resultType="OperationMoneyLog">
+		SELECT 
+			<include refid="operationMoneyLogColumns"/>
+		FROM operation_money_log a
+		<include refid="operationMoneyLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OperationMoneyLog">
+		SELECT 
+			<include refid="operationMoneyLogColumns"/>
+		FROM operation_money_log a
+		<include refid="operationMoneyLogJoins"/>
+		<include refid="userJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<if test="user != null">
+			<if test="user.loginName != null and user.loginName != ''">
+				AND u2.login_name LIKE '%'||#{user.loginName}||'%'
+			</if>
+		</if>
+		<if test="createBy != null">
+			<if test="createBy.name != null and createBy.name != ''">
+				AND u3.name LIKE '%'||#{createBy.name}||'%'
+			</if>
+		</if>
+		<choose>
+			<when test="startDate != null and endDate != null">
+				AND a.CREATE_DATE between #{startDate} and #{endDate}
+			</when>
+			<otherwise>
+				<if test="startDate != null">
+					AND #{startDate} <![CDATA[ <= ]]> a.CREATE_DATE
+				</if>
+				<if test="endDate != null">
+					AND #{endDate} <![CDATA[ >= ]]> a.CREATE_DATE
+				</if>
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OperationMoneyLog">
+		SELECT 
+			<include refid="operationMoneyLogColumns"/>
+		FROM operation_money_log a
+		<include refid="operationMoneyLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO operation_money_log(
+			id,
+			app_user_id,
+			money_total,
+			operation_type,
+			update_date,
+			update_by,
+			create_date,
+			create_by,
+			del_flag
+		) VALUES (
+			#{id},
+			#{appUserId},
+			#{moneyTotal},
+			#{operationType},
+			#{updateDate},
+			#{updateBy.id},
+			#{createDate},
+			#{createBy.id},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE operation_money_log SET 	
+			app_user_id = #{appUserId},
+			money_total = #{moneyTotal},
+			operation_type = #{operationType},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE operation_money_log SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

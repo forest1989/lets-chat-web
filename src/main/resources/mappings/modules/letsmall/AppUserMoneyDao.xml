@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.letsmall.dao.AppUserMoneyDao">
+    
+	<sql id="appUserMoneyColumns">
+		a.id AS "id",
+		a.user_id AS "user.id",
+		a.money_total AS "moneyTotal",
+		a.stauts AS "stauts",
+		a.update_date AS "updateDate",
+		a.update_by AS "updateBy.id",
+		a.create_date AS "createDate",
+		a.create_by AS "createBy.id",
+		a.del_flag AS "delFlag",
+		u2.login_name AS "user.loginName",
+		u2.nick_name AS "user.nickName"
+	</sql>
+	
+	<sql id="appUserMoneyJoins">
+		LEFT JOIN APP_USER u2 ON u2.id = a.user_id
+	</sql>
+    
+	<select id="get" resultType="AppUserMoney">
+		SELECT 
+			<include refid="appUserMoneyColumns"/>
+		FROM app_user_money a
+		<include refid="appUserMoneyJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AppUserMoney">
+		SELECT 
+			<include refid="appUserMoneyColumns"/>
+		FROM app_user_money a
+		<include refid="appUserMoneyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<if test="user != null">
+			<if test="user.loginName != null and user.loginName != ''">
+				AND u2.login_name LIKE '%'||#{user.loginName}||'%'
+			</if>
+			<if test="user.phone != null and user.phone != ''">
+				AND u2.phone = #{user.phone}
+			</if>
+		</if>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AppUserMoney">
+		SELECT 
+			<include refid="appUserMoneyColumns"/>
+		FROM app_user_money a
+		<include refid="appUserMoneyJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO app_user_money(
+			id,
+			user_id,
+			money_total,
+			stauts,
+			update_date,
+			update_by,
+			create_date,
+			create_by,
+			del_flag
+		) VALUES (
+			#{id},
+			#{user.id},
+			#{moneyTotal},
+			#{stauts},
+			#{updateDate},
+			#{updateBy.id},
+			#{createDate},
+			#{createBy.id},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE app_user_money SET 	
+			user_id = #{user.id},
+			money_total = #{moneyTotal},
+			stauts = #{stauts},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE app_user_money SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
