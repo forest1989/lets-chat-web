@@ -24,7 +24,7 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
-			<li><label>用户姓名：</label>
+			<li><label>用户账号：</label>
 				<form:input path="loginName" htmlEscape="false" maxlength="100" class="input-medium"/>
 			</li>
 			<li><label>电话号码：</label>

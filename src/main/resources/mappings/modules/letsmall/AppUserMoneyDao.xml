@@ -98,9 +98,7 @@
 	
 	<update id="update">
 		UPDATE app_user_money SET 	
-			user_id = #{user.id},
 			money_total = #{moneyTotal},
-			stauts = #{stauts},
 			update_date = #{updateDate},
 			update_by = #{updateBy.id}
 		WHERE id = #{id}

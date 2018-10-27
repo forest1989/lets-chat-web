@@ -134,7 +134,7 @@ public abstract class BaseController {
 	protected void addMessage(RedirectAttributes redirectAttributes, String... messages) {
 		StringBuilder sb = new StringBuilder();
 		for (String message : messages){
-			sb.append(message).append(messages.length>1?"<br/>":"");
+			sb.append(message).append(messages.length > 1 ? "<br/>" : "");
 		}
 		redirectAttributes.addFlashAttribute("message", sb.toString());
 	}

@@ -19,8 +19,11 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsmall.entity.AppUserMoney;
+import com.thinkgem.jeesite.modules.letsmall.entity.OperationMoneyLog;
 import com.thinkgem.jeesite.modules.letsmall.service.AppUserMoneyService;
+import com.thinkgem.jeesite.modules.letsmall.service.OperationMoneyLogService;
 
 /**
  * 购物币管理Controller
@@ -33,6 +36,9 @@ public class AppUserMoneyController extends BaseController {
 
 	@Autowired
 	private AppUserMoneyService appUserMoneyService;
+	
+	@Autowired
+	private OperationMoneyLogService operationMoneyLogService;
 	
 	@ModelAttribute
 	public AppUserMoney get(@RequestParam(required=false) String id) {
@@ -80,4 +86,45 @@ public class AppUserMoneyController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/letsmall/appUserMoney/?repage";
 	}
 
+	/**
+	 * 购物币发放/扣除
+	 * @param redirectAttributes
+	 * @param request
+	 * @return
+	 */
+	@RequiresPermissions("letsmall:appUserMoney:edit")
+	@RequestMapping(value = "moneySend")
+	public String moneySend(RedirectAttributes redirectAttributes, HttpServletRequest request) {
+		AppUserMoney entity = new AppUserMoney();
+		OperationMoneyLog log = new OperationMoneyLog();
+		String appUserId = request.getParameter("appUserId");
+		Double moneySendNum = Double.valueOf(request.getParameter("moneySendNum"));
+		String userMid = request.getParameter("userMid");
+		Double moneyTotal =  Double.valueOf(request.getParameter("moneyTotal"));
+		entity.setId(userMid);
+		// 购物币操作日志记录
+		log.setMoneyTotal(moneySendNum);
+		log.setUser(new AppUser(appUserId));
+		if(moneySendNum > 0) {
+			entity.setMoneyTotal(moneyTotal + moneySendNum);
+			addMessage(redirectAttributes, "购物币增加成功");
+			appUserMoneyService.save(entity);
+			log.setOperationType("0");
+			operationMoneyLogService.save(log);
+		}else {
+			// 防止购物币扣除出现负数情况
+			if(moneyTotal -  Math.abs(moneySendNum) > 0) {
+				entity.setMoneyTotal(moneyTotal - Math.abs(moneySendNum));
+				addMessage(redirectAttributes, "购物币扣除成功");
+				appUserMoneyService.save(entity);
+				log.setOperationType("1");
+				operationMoneyLogService.save(log);
+			}else {
+				addMessage(redirectAttributes, "购物币扣除失败,扣除数量不正确");
+			}
+			
+		}
+		
+		return "redirect:"+Global.getAdminPath()+"/letsmall/appUserMoney/?repage";
+	}
 }
