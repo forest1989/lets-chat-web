@@ -106,7 +106,7 @@
 					${e.user.phone}
 				</td>
 				<td>
-					<fmt:formatNumber value="${e.moneyTotal}" pattern="#,#00.0#"/>
+					<fmt:formatNumber value="${e.moneyTotal}" maxFractionDigits="2" pattern="0.00"/>
 				</td>
 				<td>
 					${fns:getDictLabel(e.stauts, 'LETS_COIN', '')}

@@ -113,14 +113,15 @@ public class AppUserMoneyController extends BaseController {
 			operationMoneyLogService.save(log);
 		}else {
 			// 防止购物币扣除出现负数情况
-			if(moneyTotal -  Math.abs(moneySendNum) > 0) {
+			if(moneyTotal -  Math.abs(moneySendNum) < 0) {
+				addMessage(redirectAttributes, "购物币扣除失败,扣除数量不正确");
+			}else {
 				entity.setMoneyTotal(moneyTotal - Math.abs(moneySendNum));
 				addMessage(redirectAttributes, "购物币扣除成功");
 				appUserMoneyService.save(entity);
 				log.setOperationType("1");
 				operationMoneyLogService.save(log);
-			}else {
-				addMessage(redirectAttributes, "购物币扣除失败,扣除数量不正确");
+				
 			}
 			
 		}

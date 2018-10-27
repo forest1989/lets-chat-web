@@ -69,7 +69,7 @@
 					${e.user.nickName}
 				</td>
 				<td>
-					${e.moneyTotal}
+					<fmt:formatNumber value="${e.moneyTotal}" maxFractionDigits="2" pattern="0.00"/>
 				</td>
 				<td>
 					${fns:getDictLabel(e.operationType, 'LETS_COIN_OPT_TYPE', '')}
