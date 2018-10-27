@@ -109,12 +109,17 @@
 					<fmt:formatNumber value="${e.moneyTotal}" maxFractionDigits="2" pattern="0.00"/>
 				</td>
 				<td>
-					${fns:getDictLabel(e.stauts, 'LETS_COIN', '')}
+					${fns:getDictLabel(e.stauts, 'LETS_COIN_STATUS', '')}
 				</td>
 				
 				<shiro:hasPermission name="letsmall:appUserMoney:edit"><td>
     				<a href="javascript:void(0);" onclick="moneySend('${e.id}', ${e.moneyTotal}, '${e.user.id}')">发送/扣除购物币</a>
-    				<a href="${ctx}/letsmall/appUserMoney/form?id=${appUserMoney.id}">禁用</a>
+    				<c:if test="${e.stauts eq '0'}">
+    					<a href="${ctx}/letsmall/appUserMoney/updateStatus?id=${e.id}&status=1" onclick="return confirmx('确认要禁用该账户吗？', this.href)">禁用</a>
+    				</c:if>
+    				<c:if test="${e.stauts eq '1'}">
+    					<a href="${ctx}/letsmall/appUserMoney/updateStatus?id=${e.id}&status=0" onclick="return confirmx('确认要解除该禁用吗？', this.href)">解除禁用</a>
+    				</c:if>
 					<%-- <a href="${ctx}/letsmall/appUserMoney/delete?id=${appUserMoney.id}" onclick="return confirmx('确认要删除该购物币吗？', this.href)">删除</a> --%>
 				</td></shiro:hasPermission>
 			</tr>

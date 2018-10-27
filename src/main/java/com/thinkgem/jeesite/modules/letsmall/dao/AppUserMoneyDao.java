@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.letsmall.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.letsmall.entity.AppUserMoney;
@@ -14,5 +16,5 @@ import com.thinkgem.jeesite.modules.letsmall.entity.AppUserMoney;
  */
 @MyBatisDao
 public interface AppUserMoneyDao extends CrudDao<AppUserMoney> {
-	
+	public void updateStatus(@Param("stauts")String stauts, @Param("id")String id);
 }

@@ -87,6 +87,21 @@ public class AppUserMoneyController extends BaseController {
 	}
 
 	/**
+	 * 更新购物币账户状态
+	 * @param redirectAttributes
+	 * @param request
+	 * @return
+	 */
+	@RequiresPermissions("letsmall:appUserMoney:edit")
+	@RequestMapping(value = "updateStatus")
+	public String updateStatus(RedirectAttributes redirectAttributes, HttpServletRequest request) {
+		String status = request.getParameter("status");
+		String id = request.getParameter("id");
+		appUserMoneyService.updateStatus(status, id);
+		addMessage(redirectAttributes, "状态更新成功");
+		return "redirect:"+Global.getAdminPath()+"/letsmall/appUserMoney/?repage";
+	}
+	/**
 	 * 购物币发放/扣除
 	 * @param redirectAttributes
 	 * @param request

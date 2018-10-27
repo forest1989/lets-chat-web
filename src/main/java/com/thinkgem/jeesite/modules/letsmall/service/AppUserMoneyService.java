@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.letsmall.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,11 @@ public class AppUserMoneyService extends CrudService<AppUserMoneyDao, AppUserMon
 	@Transactional(readOnly = false)
 	public void delete(AppUserMoney appUserMoney) {
 		super.delete(appUserMoney);
+	}
+	
+	@Transactional(readOnly = false)
+	public void updateStatus(String stauts, String id) {
+		dao.updateStatus(stauts, id);
 	}
 	
 }

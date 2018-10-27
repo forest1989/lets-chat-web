@@ -110,4 +110,10 @@
 		WHERE id = #{id}
 	</update>
 	
+	<update id="updateStatus">
+		UPDATE app_user_money SET 
+			STAUTS = #{stauts}
+		WHERE id = #{id}
+	</update>
+	
 </mapper>
