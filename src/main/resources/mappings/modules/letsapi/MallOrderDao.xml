@@ -62,7 +62,7 @@
 	
 	
 	<insert id="insertOrderInfo" parameterType="java.util.List" useGeneratedKeys="false">
-	 	insert into MALL_ORDER_INFO(id,order_id,product_id,product_count,del_flag,product_spec_id) 
+	 	insert into MALL_ORDER_INFO(id,order_id,product_id,product_count,del_flag,product_spec_id,SPEC_NAME,PRODUCT_PRICE) 
 	  	<foreach collection="list" item="item" index="index" separator="union all">
 	   <!-- (#{item.id,jdbcType=VARCHAR},#{item.orderId,jdbcType=VARCHAR},#{item.productId,jdbcType=VARCHAR},
 	   #{item.productCount,jdbcType=VARCHAR},'0',#{item.productSpecId,jdbcType=VARCHAR}) -->
@@ -72,22 +72,21 @@
 	   #{item.productId} product_id,
 	   #{item.productCount} product_count,
 	   '0',
-	   #{item.productSpecId} product_spec_id 
+	   #{item.productSpecId} product_spec_id,
+	   #{item.specName} SPEC_NAME,
+	   #{item.specPrice} PRODUCT_PRICE
                 from dual
  		 </foreach>
 	</insert>
 	<!-- 查询订单信息 -->
 	<select id="getOrderList" resultType="MallOrderInfo">
 		SELECT C.PRODUCT_COUNT,
-               D.PRODUCT_NAME,
                D.PRODUCT_ICO1,
-               E.SPEC_NAME,
-               E.SPEC_PRICE    
+               C.SPEC_NAME,
+               C.Product_Price    
           FROM MALL_ORDER_INFO        C,
-               MALL_PRODUCT_INFO      D,
-               PRODUCT_SPECIFICATIONS E
-         WHERE C.PRODUCT_ID = D.ID
-           AND D.ID = E.PRODUCT_ID
+               MALL_PRODUCT_INFO      D 
+         WHERE C.PRODUCT_ID = D.ID 
            AND D.DEL_FLAG = '0'
            AND D.STAUTS = '0'
            AND C.ORDER_ID = #{ID}
@@ -108,5 +107,45 @@
 	     <include refid = "orderList" />
 	         from MALL_ORDER a,SHIPPING_ADDRESS b WHERE a.USER_ID = #{userId}  
 	  </select>
-
+	  
+	  <!-- 批量删除订单 MALL_ORDER -->
+	  <delete id="deleteOrder" parameterType="java.util.List">
+		  delete from MALL_ORDER
+		  <where>
+		  <foreach collection="list" index="index" item="item" open="(" separator="or" close=")">     
+		  id=#{item.orderId}
+		    </foreach>
+		  </where>
+		</delete>
+		 <!-- 批量删除订单 MALL_ORDER_INFO -->
+	  <delete id="deleteOrderInfo" parameterType="java.util.List">
+		  delete from MALL_ORDER_INFO
+		  <where>
+		  <foreach collection="list" index="index" item="item" open="(" separator="or" close=")">     
+		  order_id=#{item.orderId}
+		    </foreach>
+		  </where>
+	  </delete>
+	  <!-- 修改库存数量 -->
+	  <update id="updateStock">
+		 UPDATE product_specifications a SET a.stock_num = a.stock_num-To_number(#{productCount})
+	</update>
+	
+	 <!-- 订单 支付之后 修改订单状态为 已支付 -->
+	  <update id="updateOrder">
+		UPDATE MALL_ORDER a SET a.order_status = '2' WHERE a.id = #{orderId}
+	</update>
+	<!-- 订单 支付完成 修改用户购物币 -->
+	  <update id="downMoney">
+		  UPDATE app_user_money a SET a.money_total = a.money_total - To_number(#{orderAmountTotal})
+	</update>
+	<!-- 订单 获取用户购物币余额 -->
+	 <select id="getUserMoney" resultType="MallOrder">
+    	select a.money_total as balance from app_user_money a WHERE a.USER_ID = #{userId}
+	  </select>
+	  <!-- 订单 获取获取订单金额  根据 订单id -->
+	 <select id="getAmountTotal" resultType="MallOrder">
+    	SELECT a.order_amount_total from MALL_ORDER a WHERE a.id = #{orderId}
+	  </select>
+	  
 </mapper>

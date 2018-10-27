@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import com.thinkgem.jeesite.modules.letsapi.dao.ShoppingAddressDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
 import com.thinkgem.jeesite.modules.letsapi.entity.HotProduct;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallOrder;
+import com.thinkgem.jeesite.modules.letsapi.entity.MallOrderInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallShopcar;
 import com.thinkgem.jeesite.modules.letsapi.entity.ProductSpecificationApi;
@@ -499,19 +501,66 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 		RtnData rtn = new RtnData();
 		int mallOrderNo=0;
 		int mallOrderInfo=0;
+		int deleteShop=0;
+		int updateStock=0;
 		try {
 			mallOrder.setUserId(UserUtils.getUser(request).getUserId());//用户id
 			mallOrder.setId(IdGen.uuid());//主键id
 			mallOrder.setOrderNo(JsonUtils.getOrderNo()); //订单编号
 			mallOrder.setOrderStatus("1");//新生成的订单是未支付的
-			
-			mallOrderNo= mallOrderDao.insertOrder(mallOrder);
-			
-			for (int i = 0; i < mallOrder.getMallOrderInfo().size(); i++) {
-				mallOrder.getMallOrderInfo().get(i).setId(IdGen.uuid());
-				mallOrder.getMallOrderInfo().get(i).setOrderId(mallOrder.getId());
+				// 先查库存 库存满足 再去 加入订单。。库存不足提示用户
+			List<MallOrderInfo> mallOrderInfoKC = mallOrder.getMallOrderInfo();
+			ProductSpecificationApi ps=null;
+			if (mallOrderInfoKC.size()>0) {
+				for (int i = 0; i < mallOrderInfoKC.size(); i++) {
+					try {
+						MallShopcar mallShopcar = new MallShopcar();
+						mallShopcar.setSpecId(mallOrderInfoKC.get(i).getProductSpecId());
+						ps=shopcarDao.selectSpecNum(mallShopcar);
+						if(ps!=null && ps.getStockNum()>0 && mallOrderInfoKC.get(i).getProductCount() <= ps.getStockNum()) {
+						}else {
+							rtn.setCode("1033");
+							rtn.setMessage("库存数量不足");
+							return rtn;
+						}
+					} catch (Exception e) {
+						
+					}
+				}
+			}else {
+				rtn.setCode("1034");
+				rtn.setMessage("订单商品不能为空");
+				return rtn;
 			}
-			mallOrderInfo = mallOrderDao.insertOrderInfo(mallOrder.getMallOrderInfo());
+					//库存满足。进行添加订单操作   mallShopcarId(购物车id，插入订单表成功之后 删除对应购物车数据)
+			
+			try {
+				mallOrderNo= mallOrderDao.insertOrder(mallOrder);
+				for (int i = 0; i < mallOrder.getMallOrderInfo().size(); i++) {
+					mallOrder.getMallOrderInfo().get(i).setId(IdGen.uuid());
+					mallOrder.getMallOrderInfo().get(i).setOrderId(mallOrder.getId());
+				}
+				mallOrderInfo = mallOrderDao.insertOrderInfo(mallOrder.getMallOrderInfo());
+				
+				//mallShopcarId(购物车id，插入订单表成功之后 删除对应购物车数据)-------删除购物车
+				for (int i = 0; i < mallOrder.getMallOrderInfo().size(); i++) {
+					MallShopcar mallShopcar = new MallShopcar();
+					mallShopcar.setId(mallOrder.getMallOrderInfo().get(i).getMallShopcarId());
+					//删除购物车
+					deleteShop = shopcarDao.delete(mallShopcar);
+					//修改规格表中对应商品库存
+					updateStock = mallOrderDao.updateStock(mallOrder.getMallOrderInfo().get(i));
+					if (deleteShop<=0 || updateStock<=0) {
+						rtn.setCode("1050");
+						rtn.setMessage("新增订单失败!");
+						return rtn;
+					}
+				}
+			} catch (Exception e) {
+				rtn.setCode("500");
+				rtn.setMessage("新增订单异常!");
+				logger.error("新增订单异常!:"+e.getMessage());
+			}
 			if (mallOrderNo>0 && mallOrderInfo>0) {
 				rtn.setCode("0000");
 				rtn.setMessage("新增订单成功");
@@ -553,6 +602,105 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 			rtn.setMessage("订单列表获取异常!");
 			e.printStackTrace();
 			logger.error("订单列表获取异常!" + e.getMessage());
+		}
+		return rtn;
+	}
+	/**
+	 * @param request删除订单
+	 * @param shopCar
+	 * @return
+	 */
+	@Transactional
+	public RtnData deleteOrder(HttpServletRequest request, MallOrder mallOrder) {
+		RtnData rtn = new RtnData();
+		int resOrder = 0;
+		int resOrderInfo = 0;
+		try {
+			List<MallOrder> li = new ArrayList<MallOrder>();
+			String orderId = mallOrder.getOrderId();
+			String orderIds [] = orderId.split(",");
+			for (int i = 0; i < orderIds.length; i++) {
+				MallOrder mo = new MallOrder();
+				mo.setOrderNo(orderIds[i]);
+				li.add(mo);
+			}
+			resOrder = mallOrderDao.deleteOrder(li);
+			resOrderInfo = mallOrderDao.deleteOrderInfo(li);
+			if (resOrder>0 && resOrderInfo>0) {
+				rtn.setCode("0000");
+				rtn.setMessage("订单列表删除成功!");
+				logger.info("订单列表删除成功------"+mallOrder.getOrderId());
+			}else {
+				rtn.setCode("500");
+				rtn.setMessage("订单列表删除失败!");
+				logger.error("订单列表删除失败!");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage("订单列表删除异常!");
+			e.printStackTrace();
+			logger.error("订单列表删除异常!" + e.getMessage());
+		}
+		return rtn;
+	}
+	/**
+	 * @param request修改订单（支付的时候调用次接口修改订单状态为已支付）
+	 * @param shopCar
+	 * @return
+	 */
+	@Transactional
+	public RtnData updateOrder(HttpServletRequest request, MallOrder mallOrder) {
+		RtnData rtn = new RtnData();
+		int resOrder = 0;
+		int i = 0;
+		try {
+			
+			String userId  = UserUtils.getUser(request).getUserId();
+			//根据订单编号 获取 订单金额
+			MallOrder amountTotal = mallOrderDao.getAmountTotal(mallOrder);
+			//获取用户拥有的购物币。
+			MallOrder userMoney = mallOrderDao.getUserMoney(userId);
+			
+			if (StringUtils.isBlank(amountTotal.getOrderAmountTotal().toString()))  {
+				rtn.setCode("1051");
+				rtn.setMessage("订单金额为空!");
+				logger.error("获取订单金额为空!:"+userId);
+				return rtn;
+			}
+			if (StringUtils.isBlank(userMoney.getBalance().toString()))  {
+				rtn.setCode("1052");
+				rtn.setMessage("用户余额为空!");
+				logger.error("获取用户余额为空!:"+userId);
+				return rtn;
+			}
+			//如果用户拥有的购物币大于订单金额。再继续进行支付流程。否则 返回 支付失败
+			if (Double.valueOf(amountTotal.getOrderAmountTotal()) > Double.valueOf(userMoney.getBalance())) {
+				rtn.setCode("1052");
+				rtn.setMessage("支付失败,订单金额大于余额!");
+				logger.error("支付失败,订单金额大于余额!:"+userId);
+				return rtn;
+			}
+			MallOrder mallOrderIn = new MallOrder();
+			mallOrderIn.setUserId(userId);
+			mallOrderIn.setOrderAmountTotal(amountTotal.getOrderAmountTotal());
+			//先扣购物币。再修改订单状态 根据userid
+			i = mallOrderDao.downMoney(mallOrderIn);
+			//修改订单状态为已支付 根据 订单id
+			resOrder = mallOrderDao.updateOrder(mallOrder);
+			if (i > 0 && resOrder>0) {
+				rtn.setCode("0000");
+				rtn.setMessage("订单支付成功!");
+				logger.info("订单支付成功------"+mallOrder.getOrderId());
+			}else {
+				rtn.setCode("500");
+				rtn.setMessage("订单支付失败!");
+				logger.error("订单支付失败!");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage("订单支付异常!");
+			e.printStackTrace();
+			logger.error("订单支付异常!" + e.getMessage());
 		}
 		return rtn;
 	}

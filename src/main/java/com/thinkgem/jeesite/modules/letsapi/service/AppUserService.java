@@ -301,9 +301,15 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 				usersIn.setLoginName(loginName);
 				usersIn.setFriendLoginName(fln[i]);
 				usersOut = appUserDao.selectFriendInfos(usersIn);
-				userres.add(usersOut);
+				if (usersOut!=null) {
+					userres.add(usersOut);
+				}
 			}
-			rtn.setData(userres);
+			if (userres.size()>0) {
+				rtn.setData(userres);
+			}else {
+				rtn.setData("[]");
+			}
 			rtn.setMessage("好友信息成功!");
 			rtn.setCode("0000");
 		} catch (Exception e) {

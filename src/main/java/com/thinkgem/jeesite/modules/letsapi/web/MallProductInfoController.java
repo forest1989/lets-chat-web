@@ -341,4 +341,38 @@ public class MallProductInfoController extends BaseController {
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
+	/**  
+	* <p>Description:删除订单</p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/deleteOrder", method = RequestMethod.POST)
+	public String  deleteOrder(HttpServletRequest request,HttpServletResponse response,MallOrder mallOrder){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.deleteOrder(request,mallOrder);
+		} catch (Exception e) {
+			 rtn.setMessage("订单列表删除异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	/**  
+	* <p>Description:修改订单</p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/updateOrder", method = RequestMethod.POST)
+	public String  updateOrder(HttpServletRequest request,HttpServletResponse response,MallOrder mallOrder){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.updateOrder(request,mallOrder);
+		} catch (Exception e) {
+			 rtn.setMessage("订单列表删除异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
 }

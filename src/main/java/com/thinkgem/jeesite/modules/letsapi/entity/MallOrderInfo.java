@@ -20,6 +20,7 @@ public class MallOrderInfo extends DataEntity<MallOrderInfo> {
 	private String productId;		// 商品ID
 	private Long productCount;		// 购买数量
 	private String productSpecId;		// 规格id
+	private String mallShopcarId;//购物车id 用于 插入订单时 删除对应 购物车
 	
 	//订单列表查询 返参添加
 	/** 商品信息  */
@@ -29,8 +30,16 @@ public class MallOrderInfo extends DataEntity<MallOrderInfo> {
 	private String productIco1;//商品图标
 	/** 规格信息 */
 	private String specName;//规格名称
-	private String specPrice;//规格价格
+	private String productPrice;//规格价格
 	
+	public String getMallShopcarId() {
+		return mallShopcarId;
+	}
+
+	public void setMallShopcarId(String mallShopcarId) {
+		this.mallShopcarId = mallShopcarId;
+	}
+
 	public MallOrderInfo() {
 		super();
 	}
@@ -115,16 +124,17 @@ public class MallOrderInfo extends DataEntity<MallOrderInfo> {
 		this.specName = specName;
 	}
 
-	public String getSpecPrice() {
-		return specPrice;
+	public String getProductPrice() {
+		return productPrice;
 	}
 
-	public void setSpecPrice(String specPrice) {
-		this.specPrice = specPrice;
+	public void setProductPrice(String productPrice) {
+		this.productPrice = productPrice;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
 	
 }

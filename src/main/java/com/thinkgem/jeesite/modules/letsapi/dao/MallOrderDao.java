@@ -36,4 +36,39 @@ public interface MallOrderDao extends CrudDao<MallOrder> {
 	 * @return
 	 */
 	List<MallOrder> selectOrder(MallOrder mallOrderInfo);
+	/**
+	 * @param mallOrder删除订单信息
+	 * @return
+	 */
+	int deleteOrder(List<MallOrder> mallOrderInfo);
+	/**
+	 * @param mallOrder删除订单商品信息
+	 * @return
+	 */
+	int deleteOrderInfo(List<MallOrder> mallOrderInfo);
+	/**
+	 * @param mallOrder修改订单状态为已支付
+	 * @return
+	 */
+	int updateOrder(MallOrder updateOrder);
+	/**
+	 * @param mallOrder修改商品库存数量。
+	 * @return
+	 */
+	int updateStock(MallOrderInfo mallOrderInfo);
+	/**
+	 * @param mallOrder支付的时候 减少购物币。
+	 * @return
+	 */
+	int downMoney(MallOrder mallOrder);
+	/**
+	 * @param mallOrder根据订单编号 订单id 获取 订单金额
+	 * @return
+	 */
+	MallOrder getAmountTotal(MallOrder mallOrder);
+	/**
+	 * @param mallOrder根据userid获取用户购物币余额
+	 * @return
+	 */
+	MallOrder getUserMoney(String userId);
 }

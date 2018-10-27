@@ -47,6 +47,9 @@ public class MallOrder extends DataEntity<MallOrder> {
 	private String delFlag;//删除标记(0正常；1已删除)
 	private String shopUserName;//收货人姓名
 	
+	private String balance;//购物币余额
+	
+	private String orderId;//订单id  前段传参用 因 测试发现 原订单id(id) 在实体类父类中 传过来 接口contrlor接收不到 故 特意添加
 	
 	private List<MallOrderInfo>  mallOrderInfo; //订单信息详情
 	
@@ -259,6 +262,21 @@ public class MallOrder extends DataEntity<MallOrder> {
 	public void setShopUserName(String shopUserName) {
 		this.shopUserName = shopUserName;
 	}
-	
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
+	}
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
 	
 }
