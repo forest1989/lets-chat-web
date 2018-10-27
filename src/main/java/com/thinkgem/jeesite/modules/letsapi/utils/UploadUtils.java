@@ -124,7 +124,7 @@ public class UploadUtils {
 		String contentType = request.getContentType();
 		int contentLength = request.getContentLength();
 		// 文件保存目录路径
-		savePath = request.getSession().getServletContext().getRealPath("/") + basePath + "/";
+		savePath = Global.getUserfilesBaseDir() + basePath + "/";
 		// 文件保存目录URL
 		saveUrl = request.getContextPath() + "/" + basePath + "/";
 		// 文件保存目录路径
