@@ -3,7 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.letsapi.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -230,7 +232,7 @@ public class AppUserController extends BaseController {
 				if (!rtn.getCode().equals("0000")) {
 					rtn.setCode("500");
 					rtn.setMessage("获取好友列表信息失败");
-					rtn.setData("[]");
+					rtn.setData(new ArrayList<FriendInfo>());
 				}
 			}
 		} catch (Exception e) {
