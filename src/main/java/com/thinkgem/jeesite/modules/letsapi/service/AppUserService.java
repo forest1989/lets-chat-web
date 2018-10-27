@@ -308,7 +308,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			if (userres.size()>0) {
 				rtn.setData(userres);
 			}else {
-				rtn.setData("[]");
+				rtn.setData(new ArrayList<FriendInfo>());
 			}
 			rtn.setMessage("好友信息成功!");
 			rtn.setCode("0000");

@@ -142,34 +142,34 @@
 	<update id="updateByloginName" parameterType="AppUser">
     update APP_USER
     <set>
-      <if test="password != null">
+      <if test="password != null and password != ''">
         password = #{password},
       </if>
-      <if test="photo != null">
+      <if test="photo != null and photo != ''">
         photo = #{photo},
       </if>
-      <if test="name != null">
+      <if test="name != null and name != ''">
         name = #{name},
       </if>
-      <if test="nickName != null">
+      <if test="nickName != null and nickName != ''">
         nick_name = #{nickName},
       </if>
-      <if test="sex != null">
+      <if test="sex != null and sex != ''">
         sex = #{sex},
       </if>
-      <if test="phone != null">
+      <if test="phone != null and phone != ''">
         phone = #{phone},
       </if>
-      <if test="email != null">
+      <if test="email != null and email != ''">
         email = #{email},
       </if>
-      <if test="loginFlag != null">
+      <if test="loginFlag != null and loginFlag != ''">
         login_flag = #{loginFlag},
       </if>
-      <if test="updateDate != null">
+      <if test="updateDate != null and updateDate != ''">
         update_date = #{updateDate},
       </if>
-      <if test="remarks != null">
+      <if test="remarks != null and remarks != ''">
         remarks = #{remarks},
       </if>
     </set>
@@ -192,16 +192,16 @@
 	<update id="perfect">
 		update APP_USER 
 		<set>
-    	<if test="photo != null">
+    	<if test="photo != null and photo != ''">
 	      PHOTO = #{photo},
 	    </if>
-	    <if test="phone != null">
+	    <if test="phone != null and phone != ''">
 	      PHONE =#{phone},
 	    </if>
-	    <if test="nickName != null">
+	    <if test="nickName != null and nickName != ''">
 	      NICK_NAME =#{nickName},
 	    </if>
-	    <if test="areaId != null">
+	    <if test="areaId != null and areaId != ''">
 	      area_id = #{areaId},
 	    </if> 
     </set> 
@@ -241,13 +241,13 @@
 	<update id="updatecust" parameterType="FriendInfo">
 		update APP_FRIEND_INFO 
 		<set>
-    	<if test="remarksNickName != null">
+    	<if test="remarksNickName != null and remarksNickName != ''" >
 	      REMARKS_NICK_NAME = #{remarksNickName},
 	    </if>
-	    <if test="remarksPhone != null">
+	    <if test="remarksPhone != null and remarksPhone != ''">
 	      REMARKS_PHONE =#{remarksPhone},
 	    </if>
-	    <if test="remarksPhoto != null">
+	    <if test="remarksPhoto != null and remarksPhoto != ''">
 	      REMARKS_PHOTO =#{remarksPhoto},
 	    </if>
     </set> 
