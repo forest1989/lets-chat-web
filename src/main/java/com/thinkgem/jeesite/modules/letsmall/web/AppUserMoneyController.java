@@ -135,10 +135,8 @@ public class AppUserMoneyController extends BaseController {
 				addMessage(redirectAttributes, "购物币扣除成功");
 				appUserMoneyService.save(entity);
 				log.setOperationType("1");
-				operationMoneyLogService.save(log);
-				
+				operationMoneyLogService.save(log);	
 			}
-			
 		}
 		
 		return "redirect:"+Global.getAdminPath()+"/letsmall/appUserMoney/?repage";
