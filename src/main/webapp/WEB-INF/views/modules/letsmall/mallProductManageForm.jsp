@@ -30,7 +30,7 @@
 			if(divNum > 3){
 				top.$.jBox.tip("最多可以添加3个规格");
 			}else{
-				var htmlStr = "<div class=\"control-group pro-spec\"><label class=\"control-label\">规格名称：</label><div class=\"controls\">";
+				var htmlStr = "<div class=\"control-group pro-spec\"><label class=\"control-label\">规格名称：</label><div class=\"controls\" style=\"white-space:nowrap;\">";
 				htmlStr += "<input name=\"proSpecList["+ proSpecIndex +"].specName\" type=\"text\" maxlength=\"200\" class=\"input-large required\"/>";
 				htmlStr += "<span class=\"help-inline\"><font color=\"red\">*</font>";
 				htmlStr += " &nbsp;&nbsp;&nbsp;&nbsp;规格价格：";
@@ -117,7 +117,7 @@
 		</div>
 		<div class="control-group">
 			<label class="control-label">规格名称：</label>
-			<div class="controls">
+			<div class="controls" style="white-space:nowrap;">
 				<input type="hidden" id="proSpecIndex" value="${fn:length(mallProductManage.proSpecList)}"/>
 				<form:input path="proSpecList[0].specName" htmlEscape="false" maxlength="200" class="input-large required"/>
 				<span class="help-inline"><font color="red">*</font>
@@ -135,7 +135,7 @@
 				<c:forEach items="${mallProductManage.proSpecList}" var="e" varStatus="vs" begin="1">
 					<div class="control-group pro-spec">
 						<label class="control-label">规格名称：</label>
-						<div class="controls">
+						<div class="controls" style="white-space:nowrap;">
 							<form:input path="proSpecList[${vs.index}].specName" htmlEscape="false" maxlength="200" class="input-large required"/>
 							<span class="help-inline"><font color="red">*</font>
 							&nbsp;&nbsp;规格价格：
