@@ -199,6 +199,8 @@
 		   AND M.STAUTS = 2
 		   AND P.SORT = 1
 		   AND A.DEL_FLAG = 0
+		   AND M.DEL_FLAG = 0
+		   AND P.DEL_FLAG = 0
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
@@ -219,6 +221,7 @@
 		   AND P.PRODUCT_ID = A.ID
 		   AND P.SORT = 1
 		   AND A.DEL_FLAG = #{DEL_FLAG_NORMAL}
+		   AND P.DEL_FLAG = #{DEL_FLAG_NORMAL}
 		</where>		
 	</select>
 	<!-- 查询对应商品all规格数据 -->
@@ -240,7 +243,7 @@
      <select id="selectAll" resultMap="malllist">
          select 
          <include refid="mallProductInfoColumns"/>
-         from mall_product_info a WHERE a.id = #{id}
+         from mall_product_info a WHERE a.id = #{id} AND a.DEL_FLAG = 0
      </select>
      
 </mapper>
