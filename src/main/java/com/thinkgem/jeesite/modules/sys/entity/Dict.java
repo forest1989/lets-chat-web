@@ -24,6 +24,7 @@ public class Dict extends DataEntity<Dict> {
 	private String description;// 描述
 	private Integer sort;	// 排序
 	private String parentId;//父Id
+	private String dicUrl;//字典图片地址
 
 	public Dict() {
 		super();
@@ -99,4 +100,19 @@ public class Dict extends DataEntity<Dict> {
 	public String toString() {
 		return label;
 	}
+
+	/**
+	 * @return the dicUrl
+	 */
+	public String getDicUrl() {
+		return dicUrl;
+	}
+
+	/**
+	 * @param dicUrl the dicUrl to set
+	 */
+	public void setDicUrl(String dicUrl) {
+		this.dicUrl = dicUrl;
+	}
+	
 }
