@@ -80,5 +80,10 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 * 获取好友信息 可以多个好友信息  不关openfier
 	 */
 	FriendInfo selectFriendInfos(FriendInfo user);
+	/**
+	 * @author tao_yonggang
+	 * 查询是否存在改用户 注册用
+	 */
+	AppUser getByLoginNameRegist(AppUser user);
 
 }

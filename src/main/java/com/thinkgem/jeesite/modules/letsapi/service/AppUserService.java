@@ -52,7 +52,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 		AppUser appVo = new AppUser();
 		try {
 			//注册前先验证 用户名是否可用。1 不能重复
-			appVo = appUserDao.getByLoginName(user);
+			appVo = appUserDao.getByLoginNameRegist(user);
 			if (appVo != null) {
 				rtn.setMessage("用户名已被注册!");
 				rtn.setCode("1018");

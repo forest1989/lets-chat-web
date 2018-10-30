@@ -135,7 +135,13 @@
 	</update>
 	
 	<!-- 登录和判断 用户是否存在-->
+	<select id="getByLoginNameRegist" resultType="AppUser" >
+    <!-- select * from app_user where login_name = #{loginName} and del_flag = 0 -->
+    select * from app_user where lower(login_name) = lower(#{loginName}) and del_flag = 0
+    </select>
+    <!-- 登录和判断 用户是否存在  -->
 	<select id="getByLoginName" resultType="AppUser" >
+    <!-- select * from app_user where login_name = #{loginName} and del_flag = 0 -->
     select * from app_user where login_name = #{loginName} and del_flag = 0
     </select>
 	
@@ -219,10 +225,10 @@
 		       O2.SEX,
 		       O2.PHONE
 		  FROM OFROSTER O
-		  LEFT JOIN APP_FRIEND_INFO O1 ON  substr(O.jid,1,instr(O.jid,'@',-1)-1) = O1.FRIEND_LOGIN_NAME
-		                              AND O1.LOGIN_NAME = O.USERNAME
-		  JOIN APP_USER O2 ON O2.LOGIN_NAME = substr(O.jid,1,instr(O.jid,'@',-1)-1)
-		 WHERE O.USERNAME = #{loginName}
+		  LEFT JOIN APP_FRIEND_INFO O1 ON  substr(O.jid,1,instr(O.jid,'@',-1)-1) = lower(O1.FRIEND_LOGIN_NAME)
+		                              AND lower(O1.LOGIN_NAME) = lower(O.USERNAME)
+		  JOIN APP_USER O2 ON lower(O2.LOGIN_NAME) = substr(O.jid,1,instr(O.jid,'@',-1)-1)
+		 WHERE lower(O.USERNAME) = lower(#{loginName})
 		   AND O.SUB = '3'
 	</select>
 	<!-- app个性化定制好友信息  -->
@@ -251,11 +257,11 @@
 	      REMARKS_PHOTO =#{remarksPhoto},
 	    </if>
     </set> 
-     where LOGIN_NAME = #{loginName} and FRIEND_LOGIN_NAME = #{friendLoginName}
+     where lower(LOGIN_NAME) = lower(#{loginName}) and lower(FRIEND_LOGIN_NAME) = lower(#{friendLoginName})
 	</update>
 	<!-- app查询好友定制信息 用于判断是新增个性化定制信息 还是 修改个性化定制信息  -->
 	<select id="selectcust"  resultType="FriendInfo">
-		  SELECT friend_login_name from APP_FRIEND_INFO WHERE login_name = #{loginName} AND friend_login_name = #{friendLoginName}
+		  SELECT friend_login_name from APP_FRIEND_INFO WHERE lower(login_name) = lower(#{loginName}) AND lower(friend_login_name) = lower(#{friendLoginName})
 	</select>
 	<!-- app查询好友定制信息 用于判断是新增个性化定制信息 还是 修改个性化定制信息  -->
 	<select id="getuser"  resultType="String">
@@ -274,7 +280,7 @@
 	           B.REMARKS_PHONE,
 	           B.REMARKS_PHOTO
 	        FROM APP_USER A left join APP_FRIEND_INFO B 
-	         on A.LOGIN_NAME = b.friend_login_name and b.login_name = #{loginName} 
-	       WHERE A.LOGIN_NAME = #{friendLoginName}  
+	         on lower(A.LOGIN_NAME) = lower(b.friend_login_name) and lower(b.login_name) = lower(#{loginName}) 
+	       WHERE lower(A.LOGIN_NAME)  = lower(#{friendLoginName})  
 	</select>
 </mapper>
