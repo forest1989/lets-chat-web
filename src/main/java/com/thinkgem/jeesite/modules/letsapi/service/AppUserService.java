@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jivesoftware.smack.XMPPConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,10 +66,17 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			        Map<String,String> map = new HashMap<String, String>();
 			        map.put("email","");
 			        map.put("name", "name");
-			        smack.register(user.getLoginName(), user.getPassword(), map,smack.getXMPPConnection());
-			        smack.destory();		
-					rtn.setMessage("注册成功");
-					rtn.setCode("0000");
+			        XMPPConnection XMPPConnection=smack.getXMPPConnection();
+			        if(XMPPConnection!=null) {
+			        	smack.register(user.getLoginName(), user.getPassword(), map,XMPPConnection);
+					    smack.destory();
+					    rtn.setMessage("注册成功");
+						rtn.setCode("0000");
+	                }else {
+	                	appUserDao.deleteReg(user.getLoginName());
+	                	rtn.setMessage("服务器出故障了,请稍后再试!!!");
+						rtn.setCode("1019");
+	                }
 				}else {
 					rtn.setMessage("注册失败");
 					rtn.setCode("1019");
@@ -101,11 +109,18 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 					if(n > 0){
 						//此處調用openfier修改密码
 						OpenFireActionUtil smack = new OpenFireActionUtil();
-						smack.loginOpenfier(user.getLoginName(), oldPassWord);
-				        smack.changePassword(newPassWord, smack.getXMPPConnection());
-				        smack.destory();					
-						rtn.setMessage("密码修改成功");
-						rtn.setCode("0000");
+						 XMPPConnection XMPPConnection=smack.getXMPPConnection();
+					        if(XMPPConnection!=null) {
+					        	smack.loginOpenfier(user.getLoginName(), oldPassWord);
+						        smack.changePassword(newPassWord, XMPPConnection);
+						        smack.destory();					
+								rtn.setMessage("密码修改成功");
+								rtn.setCode("0000");
+			                }else {
+			                	appUserDao.updateByloginName(new AppUser(oldPassWord, UserUtils.getUser(request).getUserId()));
+			                	rtn.setMessage("服务器出故障了,请稍后再试!!!");
+								rtn.setCode("1019");
+			                }
 					}else {
 						rtn.setMessage("密码修改失败");
 						rtn.setCode("1012");

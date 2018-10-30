@@ -188,7 +188,12 @@
 		values(
 		#{id}, #{loginName}, #{password},'','',#{loginName},'','','','','0','1',sysdate,sysdate,'')
 	</insert>
-	
+	<!-- app用户注册链接openfire注册失败删除该用户  -->
+	<update id="deleteReg">
+		UPDATE app_user SET 
+			del_flag = 1
+		WHERE login_name = #{loginName} and del_flag = 0
+	</update>
 	<!-- app查询序列SEQ_APP_USER  -->
 	<select id="getid"  resultType="java.lang.String">
 		select SEQ_APP_USER.nextval id from dual

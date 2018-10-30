@@ -86,4 +86,9 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 */
 	AppUser getByLoginNameRegist(AppUser user);
 
+	/**
+	 * @param loginName
+	 */
+	void deleteReg(String loginName);
+
 }
