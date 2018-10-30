@@ -24,7 +24,7 @@ public class HotProduct extends DataEntity<HotProduct> {
 	private String productName;		// 商品名称
 	private String productIco;		// 商品略图
 	private String specName;		// 规格名称
-	private String specPrice;		// 规格价格
+	private Double specPrice;		// 规格价格
 	private Date startTime;		// 生效时间失效时间
 	private Date ednTime;		// 失效时间
 	private Integer sort;		// 排列次序
@@ -148,14 +148,14 @@ public class HotProduct extends DataEntity<HotProduct> {
 	/**
 	 * @return the specPrice
 	 */
-	public String getSpecPrice() {
+	public Double getSpecPrice() {
 		return specPrice;
 	}
 
 	/**
 	 * @param specPrice the specPrice to set
 	 */
-	public void setSpecPrice(String specPrice) {
+	public void setSpecPrice(Double specPrice) {
 		this.specPrice = specPrice;
 	}
 	

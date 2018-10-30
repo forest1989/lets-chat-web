@@ -37,7 +37,7 @@ public class MallProductInfo extends DataEntity<MallProductInfo> {
 	private String stauts;		// 商品状态（0：上架  1：下架  2：待定  3：待定）
 	private String specId;		// 规格id
 	private String specName;		// 规格名称
-	private String specPrice;		// 规格价格
+	private Double specPrice;		// 规格价格
 	private List<ProductSpecificationApi> productSpecList;		// 规格实体
 	
 	public MallProductInfo() {
@@ -178,14 +178,14 @@ public class MallProductInfo extends DataEntity<MallProductInfo> {
 	/**
 	 * @return the specPrice
 	 */
-	public String getSpecPrice() {
+	public Double getSpecPrice() {
 		return specPrice;
 	}
 
 	/**
 	 * @param specPrice the specPrice to set
 	 */
-	public void setSpecPrice(String specPrice) {
+	public void setSpecPrice(Double specPrice) {
 		this.specPrice = specPrice;
 	}
 
