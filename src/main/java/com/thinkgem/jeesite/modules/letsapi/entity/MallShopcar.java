@@ -23,7 +23,7 @@ public class MallShopcar extends DataEntity<MallShopcar> {
 	private String productIco;      // 商品略缩图
 	private String specId;          // 规格id
 	private String specName;        // 规格名称
-	private String specPrice;       // 规格价格
+	private Double specPrice;       // 规格价格
 	private Integer stockNum;       // 规格数量
 	
 	public MallShopcar() {
@@ -107,14 +107,14 @@ public class MallShopcar extends DataEntity<MallShopcar> {
 	/**
 	 * @return the specPrice
 	 */
-	public String getSpecPrice() {
+	public Double getSpecPrice() {
 		return specPrice;
 	}
 
 	/**
 	 * @param specPrice the specPrice to set
 	 */
-	public void setSpecPrice(String specPrice) {
+	public void setSpecPrice(Double specPrice) {
 		this.specPrice = specPrice;
 	}
 
