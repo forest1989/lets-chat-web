@@ -288,4 +288,27 @@
 	         on lower(A.LOGIN_NAME) = lower(b.friend_login_name) and lower(b.login_name) = lower(#{loginName}) 
 	       WHERE lower(A.LOGIN_NAME)  = lower(#{friendLoginName})  
 	</select>
+	<!-- app注册完成 初始化用户购物币账户  -->
+	<insert id="shopAccount" parameterType="AppUser">
+		INSERT INTO APP_USER_MONEY
+		  (ID,
+		   USER_ID,
+		   MONEY_TOTAL,
+		   STAUTS,
+		   UPDATE_DATE,
+		   UPDATE_BY,
+		   CREATE_DATE,
+		   CREATE_BY,
+		   DEL_FLAG)
+		VALUES
+		  (#{shopAccountId},
+		   #{id},
+		   0,
+		   '0',
+		   SYSDATE,
+		   'admin',
+		   SYSDATE,
+		   'admin',
+		   '0')
+	</insert>
 </mapper>

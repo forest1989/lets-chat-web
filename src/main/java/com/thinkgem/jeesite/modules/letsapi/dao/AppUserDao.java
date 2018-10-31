@@ -90,5 +90,9 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 * @param loginName
 	 */
 	void deleteReg(String loginName);
+	/**
+	 * @param 注册成功 初始化购物币账户
+	 */
+	int shopAccount(AppUser user);
 
 }

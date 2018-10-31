@@ -30,7 +30,18 @@ public class AppUser extends DataEntity<AppUser> {
 	private String newPassWord;
 	private String areaId;
 	
+	private String shopAccountId;//购物币 账户id
 	
+	
+	
+	public String getShopAccountId() {
+		return shopAccountId;
+	}
+
+	public void setShopAccountId(String shopAccountId) {
+		this.shopAccountId = shopAccountId;
+	}
+
 	public AppUser() {
 		super();
 	}

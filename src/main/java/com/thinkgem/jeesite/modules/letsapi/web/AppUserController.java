@@ -101,6 +101,9 @@ public class AppUserController extends BaseController {
 			user.setId(IdGen.uuid());
 			rtn = appUserService.register(request, user);
 			if (rtn.getCode().equals("0000")) {
+				//注册成功 自动生成 用户初始购物账户
+				user.setShopAccountId(IdGen.uuid());
+				appUserService.shopAccount(request,user);
 			    // 生成TOKEN
 				SubjectModel sub = new SubjectModel(user.getId(), user.getLoginName());//用户信息
 				String token = TokenMgr.createJWT(IdGen.uuid(), Constant.JWT_ISS,TokenMgr.generalSubject(sub), Constant.JWT_TTL);

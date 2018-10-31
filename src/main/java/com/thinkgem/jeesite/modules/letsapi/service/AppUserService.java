@@ -334,4 +334,17 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 		}
 		return rtn;
 	}
+	/**
+	 * @author zhai_shaobo
+	 * 	注册成功之后 初始化生成对应购物币账户
+	 */
+	public int shopAccount(HttpServletRequest request,AppUser user) {
+		int i = 0;
+		try {
+			i = appUserDao.shopAccount(user);
+		} catch (Exception e) {
+			i=0;
+		}
+		return i;
+	}
 }
