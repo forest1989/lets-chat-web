@@ -146,12 +146,16 @@
 		       S.PRODUCT_COUNT AS "productCount",
 		       M.PRODUCT_NAME  AS "productName",
 		       M.PRODUCT_ICO1  AS "productIco",
+		       M.STAUTS        AS "stauts",
 		       P.ID            AS "specId",
 		       P.SPEC_NAME     AS "specName",
 		       P.SPEC_PRICE    AS "specPrice"
   		FROM MALL_SHOPCAR S, MALL_PRODUCT_INFO M, PRODUCT_SPECIFICATIONS P
 		 WHERE S.PRODUCT_ID = M.ID
 		   AND S.PRODUCT_SPEC_ID = P.ID
+		   AND S.USER_ID = #{userId}
 		   AND S.DEL_FLAG = 0
+		   AND M.DEL_FLAG = 0
+		   AND P.DEL_FLAG = 0
 	</select>
 </mapper>

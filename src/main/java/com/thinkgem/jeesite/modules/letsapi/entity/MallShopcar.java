@@ -25,6 +25,7 @@ public class MallShopcar extends DataEntity<MallShopcar> {
 	private String specName;        // 规格名称
 	private Double specPrice;       // 规格价格
 	private Integer stockNum;       // 规格数量
+	private String stauts;		// 商品状态（0：上架  1：下架  2：待定  3：待定）
 	
 	public MallShopcar() {
 		super();
@@ -39,6 +40,20 @@ public class MallShopcar extends DataEntity<MallShopcar> {
 	 */
 	public Integer getStockNum() {
 		return stockNum;
+	}
+
+	/**
+	 * @return the stauts
+	 */
+	public String getStauts() {
+		return stauts;
+	}
+
+	/**
+	 * @param stauts the stauts to set
+	 */
+	public void setStauts(String stauts) {
+		this.stauts = stauts;
 	}
 
 	/**
