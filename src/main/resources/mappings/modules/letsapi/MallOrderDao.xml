@@ -137,7 +137,7 @@
 	</update>
 	<!-- 订单 支付完成 修改用户购物币 -->
 	  <update id="downMoney">
-		  UPDATE app_user_money a SET a.money_total = a.money_total - To_number(#{orderAmountTotal})
+		  UPDATE app_user_money a SET a.money_total = a.money_total - To_number(#{orderAmountTotal}) where a.user_id = #{userId}
 	</update>
 	<!-- 订单 获取用户购物币余额 -->
 	 <select id="getUserMoney" resultType="MallOrder">
