@@ -116,5 +116,4 @@
 			STAUTS = #{stauts}
 		WHERE id = #{id}
 	</update>
-	
 </mapper>
