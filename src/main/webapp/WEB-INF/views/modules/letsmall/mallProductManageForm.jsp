@@ -118,6 +118,7 @@
 		<div class="control-group">
 			<label class="control-label">规格名称：</label>
 			<div class="controls" style="white-space:nowrap;">
+				<form:hidden path="proSpecList[0].id"/>
 				<input type="hidden" id="proSpecIndex" value="${fn:length(mallProductManage.proSpecList)}"/>
 				<form:input path="proSpecList[0].specName" htmlEscape="false" maxlength="200" class="input-large required"/>
 				<span class="help-inline"><font color="red">*</font>
@@ -136,6 +137,7 @@
 					<div class="control-group pro-spec">
 						<label class="control-label">规格名称：</label>
 						<div class="controls" style="white-space:nowrap;">
+							<form:hidden path="proSpecList[${vs.index}].id" />
 							<form:input path="proSpecList[${vs.index}].specName" htmlEscape="false" maxlength="200" class="input-large required"/>
 							<span class="help-inline"><font color="red">*</font>
 							&nbsp;&nbsp;规格价格：

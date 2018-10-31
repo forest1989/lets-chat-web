@@ -66,7 +66,9 @@ public class MallProductManageService extends CrudService<MallProductManageDao, 
 				if(StringUtils.isNotBlank(e.getSpecName()) && e.getSpecPrice() != null) {
 					num = num + 1;
 					// 商品ID
-					e.preInsert();
+					if(StringUtils.isBlank(e.getId())) {
+						e.preInsert();
+					}
 					e.setProductId(mp.getId());
 					e.setSort(num);
 					dao.insertProductSpec(e);
