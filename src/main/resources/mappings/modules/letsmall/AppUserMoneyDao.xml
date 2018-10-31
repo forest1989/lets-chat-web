@@ -13,6 +13,7 @@
 		a.create_by AS "createBy.id",
 		a.del_flag AS "delFlag",
 		u2.login_name AS "user.loginName",
+		u2.phone AS "user.phone",
 		u2.nick_name AS "user.nickName"
 	</sql>
 	
