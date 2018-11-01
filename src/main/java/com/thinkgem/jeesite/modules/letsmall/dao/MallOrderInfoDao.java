@@ -26,4 +26,6 @@ public interface MallOrderInfoDao extends CrudDao<MallOrderManage> {
 	public int updateOrderStatus(MallOrderManage o);
 	
 	public int updateSendGoodsInfo(MallOrderManage o);
+	
+	public int orderCancelTask();
 }

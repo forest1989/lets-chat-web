@@ -214,4 +214,12 @@
 		WHERE id = #{id}	
 	</update>
 	
+	<update id="orderCancelTask">	
+		UPDATE mall_order set ORDER_STATUS = '09' where id in (SELECT id from (SELECT 
+			ceil((SYSDATE - ( CREATE_DATE + 0)) * 24 ) as cellTime, id
+		FROM MALL_ORDER 
+		WHERE ORDER_STATUS = '01' 
+		AND DEL_FLAG = '0')
+		where cellTime > 24)
+	</update>
 </mapper>
