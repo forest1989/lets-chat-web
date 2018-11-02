@@ -133,11 +133,7 @@ public class UploadUtils {
 		saveUrl =saveUrl + type[0] + "/app/"+ type[1]+"/";
 		File uploadDir = new File(savePath);
 		FileUtils.createDirectory(FileUtils.path(savePath));
-		if (contentType == null || !contentType.startsWith("multipart")) {
-			// TODO
-			System.out.println("请求不包含multipart/form-data流");
-			errorInfo = "请求不包含multipart/form-data流";
-		} else if (maxSize < contentLength) {
+		if (maxSize < contentLength) {
 			// TODO
 			System.out.println("上传文件大小超出文件最大大小");
 			errorInfo = "上传文件大小超出文件最大大小[" + maxSize + "]";
