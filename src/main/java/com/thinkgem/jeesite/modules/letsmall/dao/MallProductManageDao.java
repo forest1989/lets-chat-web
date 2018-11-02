@@ -26,7 +26,7 @@ public interface MallProductManageDao extends CrudDao<MallProductManage> {
 	
 	public void updatePsDelFlag(@Param("productId")String productId);
 	
-	public void batchUpdateStatus( @Param("list")List<String> list, @Param("stauts")String stauts);
+	public void batchUpdateStatus(@Param("list")List<String> list, @Param("stauts")String stauts);
 	
 	public List<ProductSpecifications> getProductSpecList(ProductSpecifications ps);
 	

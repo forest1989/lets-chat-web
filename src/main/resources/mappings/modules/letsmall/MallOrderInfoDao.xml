@@ -214,12 +214,40 @@
 		WHERE id = #{id}	
 	</update>
 	
-	<update id="orderCancelTask">	
-		UPDATE mall_order set ORDER_STATUS = '09' where id in (SELECT id from (SELECT 
-			ceil((SYSDATE - ( CREATE_DATE + 0)) * 24 ) as cellTime, id
+	<!-- 获取需要取消订单的订单ID集合 -->
+	<select id="getCancelOrderIds" resultType="String">
+		SELECT id from (SELECT 
+			ceil((SYSDATE - (CREATE_DATE + 0)) * 24 ) as cellTime, id
 		FROM MALL_ORDER 
 		WHERE ORDER_STATUS = '01' 
 		AND DEL_FLAG = '0')
-		where cellTime > 24)
+		where cellTime > 24
+	</select>
+	
+	<!-- 根据订单ID获取订单商品详情 -->
+	<select id="getOrderInfoByIds" resultType="java.util.HashMap">
+		SELECT 
+			PRODUCT_SPEC_ID, 
+			PRODUCT_COUNT 
+			FROM MALL_ORDER_INFO oi WHERE oi.ORDER_ID IN 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	</select>
+	
+	<!-- 根据订单ID更改订单状态 -->
+	<update id="orderCancelTask">	
+		UPDATE mall_order set ORDER_STATUS = '09' where id in 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
 	</update>
+	
+	<update id="updateProNum">
+		UPDATE PRODUCT_SPECIFICATIONS 
+		SET STOCK_NUM = (#{stockNum} + STOCK_NUM) 
+		WHERE id = #{id}
+	</update>
+	
+	
 </mapper>
