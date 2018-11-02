@@ -149,6 +149,7 @@
 		       M.STAUTS        AS "stauts",
 		       P.ID            AS "specId",
 		       P.SPEC_NAME     AS "specName",
+		       P.STOCK_NUM     AS "stockNum",
 		       P.SPEC_PRICE    AS "specPrice"
   		FROM MALL_SHOPCAR S, MALL_PRODUCT_INFO M, PRODUCT_SPECIFICATIONS P
 		 WHERE S.PRODUCT_ID = M.ID
