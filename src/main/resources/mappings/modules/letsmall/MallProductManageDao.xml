@@ -185,8 +185,14 @@
 	</update>
 	
 	<select id="getProductSpecList" resultType="ProductSpecifications">
-		SELECT ID, SPEC_NAME, SPEC_PRICE, STOCK_NUM FROM PRODUCT_SPECIFICATIONS 
-			WHERE PRODUCT_ID = #{productId} AND DEL_FLAG = #{DEL_FLAG_NORMAL}
+		SELECT ID, 
+			 SPEC_NAME, 
+			 SPEC_PRICE, 
+			 STOCK_NUM 	
+			FROM PRODUCT_SPECIFICATIONS 
+				WHERE PRODUCT_ID = #{productId} 
+				AND DEL_FLAG = #{DEL_FLAG_NORMAL} 
+			ORDER BY SORT
 	</select>
 	<update id="update">
 		UPDATE mall_product_info SET 	
