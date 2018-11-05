@@ -9,6 +9,7 @@ import java.util.Map;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
+import com.thinkgem.jeesite.modules.letsapi.entity.AppUserLoginLog;
 import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
 
 /**
@@ -94,5 +95,19 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 * @param 注册成功 初始化购物币账户
 	 */
 	int shopAccount(AppUser user);
+	
+	/**
+	 * 记录用户登录日志
+	 * @param e
+	 * @return
+	 */
+	int insertUserLoginLog(AppUserLoginLog e);
+	
+	/**
+	 * 获取用户登录日志
+	 * @param e
+	 * @return
+	 */
+	AppUserLoginLog getUserLoginLog(AppUserLoginLog e);
 
 }

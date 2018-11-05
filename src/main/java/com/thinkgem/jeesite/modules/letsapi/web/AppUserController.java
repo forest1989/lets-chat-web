@@ -22,6 +22,7 @@ import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
+import com.thinkgem.jeesite.modules.letsapi.entity.AppUserLoginLog;
 import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
 import com.thinkgem.jeesite.modules.letsapi.jwt.api.TokenMgr;
 import com.thinkgem.jeesite.modules.letsapi.jwt.config.Constant;
@@ -29,6 +30,7 @@ import com.thinkgem.jeesite.modules.letsapi.jwt.model.SubjectModel;
 import com.thinkgem.jeesite.modules.letsapi.service.AppUserService;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UploadUtils;
+import com.thinkgem.jeesite.modules.letsapi.utils.jpush.JpushUtils;
 
 /**
  * 用户信息Controller
@@ -66,6 +68,15 @@ public class AppUserController extends BaseController {
 					SubjectModel sub = new SubjectModel(appUser.getId(), appUser.getLoginName());//用户信息
 					String token = TokenMgr.createJWT(IdGen.uuid(), Constant.JWT_ISS,TokenMgr.generalSubject(sub), Constant.JWT_TTL);
 					response.addHeader("Authorization", token);
+					// ==========插入登录日志=========
+					String deviceType = request.getParameter("pType");
+					AppUserLoginLog e = new AppUserLoginLog();
+					e.preInsert();
+					e.setImei(request.getParameter("imei")); // 设备唯一识别码
+					e.setDeviceType("1".equals(deviceType) ? "ios" : "Android"); // 设备类型
+					e.setLoginName(appUser.getLoginName());
+					appUserService.insertUserLoginLog(e);
+					// ==========插入结束=========
 					rtn.setData(appUser);
 					rtn.setMessage("登陆成功");
 					rtn.setCode("0000");
@@ -346,5 +357,32 @@ public class AppUserController extends BaseController {
 			logger.error("selectFriendInfos---获取好友信息 常"+e.getMessage());
 		}
 		return toJsonByALWAYS(response, rtn);
+	}
+	
+	@RequestMapping(value = "jpushOfflineMessage", method = RequestMethod.POST)
+	public String jpushOfflineMessage(HttpServletRequest request, HttpServletResponse response) {
+		RtnData rtn = new RtnData();
+		try {
+			String userName = request.getParameter("userName");
+			if(StringUtils.isNotBlank(userName)) {
+				// 获取当前用户登录的设备类型
+				AppUserLoginLog e = appUserService.getUserLoginLog(new AppUserLoginLog(userName));
+				if(e != null) {
+					// 组装推送相关信息
+					if("ios".equals(e.getDeviceType())) {
+						Map<String, String> parm = new HashMap<String, String>();
+						parm.put("msg", "你有一条新消息,请查收！");
+						parm.put("alias", userName);
+						JpushUtils.jpushIOS(parm);
+					}
+				}
+			}
+		} catch (Exception e) {
+			rtn.setMessage("离线信息推送异常!");
+			rtn.setCode("500");
+			logger.error("消息推送异常：" + e.getMessage());
+		}
+		
+		return toJsonByALWAYS(response, rtn); 
 	}
 }

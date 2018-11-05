@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
+import com.thinkgem.jeesite.modules.letsapi.entity.AppUserLoginLog;
 import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
@@ -346,5 +347,23 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			i=0;
 		}
 		return i;
+	}
+	
+	/**
+	 * 记录用户登录日志
+	 * @param e
+	 * @return
+	 */
+	public int insertUserLoginLog(AppUserLoginLog e) {
+		return dao.insertUserLoginLog(e);
+	}
+	
+	/**
+	 * 获取用户登录日志
+	 * @param e
+	 * @return
+	 */
+	public AppUserLoginLog getUserLoginLog(AppUserLoginLog e) {
+		return dao.getUserLoginLog(e);
 	}
 }
