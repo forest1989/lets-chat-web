@@ -99,6 +99,7 @@
 			<mvc:exclude-mapping path="${frontPath}/"/>
 			<mvc:exclude-mapping path="${frontPath}/letsapi/appuser/login"/>
 			<mvc:exclude-mapping path="${frontPath}/letsapi/appuser/register"/>
+			<mvc:exclude-mapping path="${frontPath}/letsapi/appuser/jpushOfflineMessage"/>
 			<bean class="com.thinkgem.jeesite.modules.letsapi.interceptor.TokenInterceptor" />
 		</mvc:interceptor>
 		
