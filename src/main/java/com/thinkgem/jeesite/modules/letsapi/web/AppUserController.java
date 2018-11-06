@@ -364,25 +364,20 @@ public class AppUserController extends BaseController {
 		RtnData rtn = new RtnData();
 		try {
 			String userName = request.getParameter("userName");
-			String messageId = request.getParameter("messageId");
+			String msgType = request.getParameter("msgType");
+			//String messageId = request.getParameter("messageId");
 			if(StringUtils.isNotBlank(userName)) {
 				// 获取当前用户登录的设备类型
 				AppUserLoginLog e = appUserService.getUserLoginLog(new AppUserLoginLog(userName));
 				// 获取要推送的离线信息
-				OfflineMessage msg = appUserService.getOfflineMesg(new OfflineMessage(messageId));
-				if(e != null && StringUtils.isNotBlank(e.getDeviceType()) 
-						&& msg != null && StringUtils.isNotBlank(msg.getStanza())) {
+				//OfflineMessage msg = appUserService.getOfflineMesg(new OfflineMessage(messageId));
+				if(e != null && StringUtils.isNotBlank(e.getDeviceType())) {
 					// 组装推送相关信息
 					if("ios".equals(e.getDeviceType())) {
 						Map<String, String> parm = new HashMap<String, String>();
-						String senMsg = Dom4jXmlUtils.getXmlMesgType(msg.getStanza());
-						if(!"".equals(senMsg)) {
-							parm.put("msg", senMsg);
-							parm.put("alias", userName);
-							JpushUtils.jpushIOS(parm);
-						}else {
-							logger.error("消息推送异常：XML解析异常！");
-						}
+						parm.put("msg", "1".equals(msgType) ? "您收到了一条加密消息" : "您收到了一条Lets Chat消息");
+						parm.put("alias", userName);
+						JpushUtils.jpushIOS(parm);
 					}else{
 						System.out.println("Android推送....");
 					}
@@ -397,7 +392,6 @@ public class AppUserController extends BaseController {
 			rtn.setCode("500");
 			logger.error("消息推送异常：" + e.getMessage());
 		}
-		
 		return toJsonByALWAYS(response, rtn); 
 	}
 }
