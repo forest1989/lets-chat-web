@@ -11,6 +11,7 @@ import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUserLoginLog;
 import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.OfflineMessage;
 
 /**
  * 用户信息DAO接口
@@ -109,5 +110,12 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 * @return
 	 */
 	AppUserLoginLog getUserLoginLog(AppUserLoginLog e);
+	
+	/**
+	 * 获取离线消息信息
+	 * @param e
+	 * @return
+	 */
+	OfflineMessage getOfflineMesg(OfflineMessage e);
 
 }

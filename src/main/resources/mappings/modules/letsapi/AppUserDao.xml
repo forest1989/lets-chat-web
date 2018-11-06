@@ -326,4 +326,8 @@
 			AND ROWNUM = 1 
 			ORDER BY CREATE_DATE DESC
 	</select>
+	
+	<select id="getOfflineMesg" resultType="OfflineMessage">
+		SELECT * FROM OFOFFLINE WHERE MESSAGEID = #{messageid}
+	</select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.modules.letsapi.utils.jpush;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -99,5 +100,12 @@ public class JpushUtils {
 			logger.error("Error Message: " + e.getErrorMessage());
 			logger.error("Msg ID: " + e.getMsgId());
 		}
+	}
+	
+	public static void main(String[] args) {
+		Map<String, String> parm = new HashMap<String, String>();
+		parm.put("msg", "你有一条新消息,请查收！");
+		parm.put("alias", "fjl123");
+		jpushIOS(parm);
 	}
 }

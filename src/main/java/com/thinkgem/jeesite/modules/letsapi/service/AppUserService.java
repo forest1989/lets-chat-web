@@ -21,6 +21,7 @@ import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUserLoginLog;
 import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.OfflineMessage;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
 import com.thinkgem.jeesite.modules.letsim.utils.OpenFireActionUtil;
@@ -365,5 +366,9 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	 */
 	public AppUserLoginLog getUserLoginLog(AppUserLoginLog e) {
 		return dao.getUserLoginLog(e);
+	}
+	
+	public OfflineMessage getOfflineMesg(OfflineMessage e) {
+		return dao.getOfflineMesg(e);
 	}
 }

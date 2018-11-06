@@ -5,7 +5,6 @@ package com.thinkgem.jeesite.modules.letsapi.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,13 +16,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.thinkgem.jeesite.common.utils.FileUtils;
+import com.thinkgem.jeesite.common.utils.Dom4jXmlUtils;
 import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUserLoginLog;
 import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.OfflineMessage;
 import com.thinkgem.jeesite.modules.letsapi.jwt.api.TokenMgr;
 import com.thinkgem.jeesite.modules.letsapi.jwt.config.Constant;
 import com.thinkgem.jeesite.modules.letsapi.jwt.model.SubjectModel;
@@ -364,16 +364,23 @@ public class AppUserController extends BaseController {
 		RtnData rtn = new RtnData();
 		try {
 			String userName = request.getParameter("userName");
+			String messageId = request.getParameter("messageId");
 			if(StringUtils.isNotBlank(userName)) {
 				// 获取当前用户登录的设备类型
 				AppUserLoginLog e = appUserService.getUserLoginLog(new AppUserLoginLog(userName));
-				if(e != null) {
+				// 获取要推送的离线信息
+				OfflineMessage msg = appUserService.getOfflineMesg(new OfflineMessage(messageId));
+				if(e != null && StringUtils.isNotBlank(e.getDeviceType()) 
+						&& msg != null && StringUtils.isNotBlank(msg.getStanza())) {
 					// 组装推送相关信息
 					if("ios".equals(e.getDeviceType())) {
 						Map<String, String> parm = new HashMap<String, String>();
-						parm.put("msg", "你有一条新消息,请查收！");
-						parm.put("alias", userName);
-						JpushUtils.jpushIOS(parm);
+						String senMsg = Dom4jXmlUtils.getXmlMesgType(msg.getStanza());
+						if("".equals(senMsg)) {
+							parm.put("msg", senMsg);
+							parm.put("alias", userName);
+							JpushUtils.jpushIOS(parm);
+						}
 					}
 				}
 			}
