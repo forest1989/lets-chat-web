@@ -1,11 +1,18 @@
 package com.thinkgem.jeesite.modules.letsapi.entity;
 
+import com.thinkgem.jeesite.common.persistence.DataEntity;
+
 /**
  * openfire离线消息
  * @author forest
  *
  */
-public class OfflineMessage {
+public class OfflineMessage extends DataEntity<OfflineMessage>{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String userame;
 	
