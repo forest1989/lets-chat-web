@@ -376,7 +376,7 @@ public class AppUserController extends BaseController {
 					if("ios".equals(e.getDeviceType())) {
 						Map<String, String> parm = new HashMap<String, String>();
 						String senMsg = Dom4jXmlUtils.getXmlMesgType(msg.getStanza());
-						if("".equals(senMsg)) {
+						if(!"".equals(senMsg)) {
 							parm.put("msg", senMsg);
 							parm.put("alias", userName);
 							JpushUtils.jpushIOS(parm);
