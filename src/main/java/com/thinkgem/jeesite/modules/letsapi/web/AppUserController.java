@@ -380,6 +380,8 @@ public class AppUserController extends BaseController {
 							parm.put("msg", senMsg);
 							parm.put("alias", userName);
 							JpushUtils.jpushIOS(parm);
+						}else {
+							logger.error("消息推送异常：XML解析异常！");
 						}
 					}else{
 						System.out.println("Android推送....");
