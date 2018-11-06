@@ -381,8 +381,14 @@ public class AppUserController extends BaseController {
 							parm.put("alias", userName);
 							JpushUtils.jpushIOS(parm);
 						}
+					}else{
+						System.out.println("Android推送....");
 					}
+				}else{
+					logger.error("消息推送异常：推送设备类型或离线信息为空！");
 				}
+			}else{
+				logger.error("消息推送异常：参数userName为空！");
 			}
 		} catch (Exception e) {
 			rtn.setMessage("离线信息推送异常!");
