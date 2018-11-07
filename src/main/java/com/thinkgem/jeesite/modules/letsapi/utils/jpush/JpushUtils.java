@@ -74,7 +74,7 @@ public class JpushUtils {
 				.setAudience(Audience.alias(parm.get("alias"))) // 指定用户
 				.setNotification(Notification.newBuilder()
 								.addPlatformNotification(IosNotification.newBuilder().setAlert(parm.get("msg"))
-										.setBadge(+1).setSound("happy")// 这里是设置提示音(更多可以去官网看看)
+										.autoBadge().setSound("happy")// 这里是设置提示音(更多可以去官网看看)
 										.addExtras(parm).build())
 								.build())
 				.setOptions(Options.newBuilder().setApnsProduction(false).build()) //true-推送生产环境 false-推送开发环境（测试使用参数）
