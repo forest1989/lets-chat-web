@@ -372,14 +372,15 @@ public class AppUserController extends BaseController {
 				// 获取要推送的离线信息
 				//OfflineMessage msg = appUserService.getOfflineMesg(new OfflineMessage(messageId));
 				if(e != null && StringUtils.isNotBlank(e.getDeviceType())) {
+					Map<String, String> parm = new HashMap<String, String>();
 					// 组装推送相关信息
+					parm.put("msg", "1".equals(msgType) ? "您收到了一条加密消息" : "您收到了一条Lets Chat消息");
+					parm.put("alias", userName);
+					parm.put("msgTitle", "LETSCHAT");
 					if("ios".equals(e.getDeviceType())) {
-						Map<String, String> parm = new HashMap<String, String>();
-						parm.put("msg", "1".equals(msgType) ? "您收到了一条加密消息" : "您收到了一条Lets Chat消息");
-						parm.put("alias", userName);
 						JpushUtils.jpushIOS(parm);
 					}else{
-						System.out.println("Android推送....");
+						JpushUtils.jpushAndroid(parm);
 					}
 				}else{
 					logger.error("消息推送异常：推送设备类型或离线信息为空！");
