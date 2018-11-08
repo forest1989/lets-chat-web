@@ -37,7 +37,7 @@ public class JpushUtils {
 	            .setPlatform(Platform.android())
 	            .setAudience(Audience.alias(parm.get("alias"))) // 指定用户
 	            .setNotification(Notification.android(parm.get("msg"), parm.get("msgTitle"), parm))	        
-	            .setOptions(Options.newBuilder().setApnsProduction(false).build()) //true-推送生产环境 false-推送开发环境（测试使用参数）
+	            .setOptions(Options.newBuilder().setApnsProduction(true).build()) //true-推送生产环境 false-推送开发环境（测试使用参数）
 	            .setMessage(Message.content(parm.get("msg")))//自定义信息
 	            .build();
 	
@@ -77,7 +77,7 @@ public class JpushUtils {
 										.autoBadge().setSound("newMessage.mp3")// 这里是设置提示音(更多可以去官网看看)
 										.addExtras(parm).build())
 								.build())
-				.setOptions(Options.newBuilder().setApnsProduction(false).build()) //true-推送生产环境 false-推送开发环境（测试使用参数）
+				.setOptions(Options.newBuilder().setApnsProduction(true).build()) //true-推送生产环境 false-推送开发环境（测试使用参数）
 				.setMessage(Message.newBuilder().setMsgContent(parm.get("msg")).addExtras(parm).build())// 自定义信息
 				.build();
 
@@ -105,7 +105,8 @@ public class JpushUtils {
 	public static void main(String[] args) {
 		Map<String, String> parm = new HashMap<String, String>();
 		parm.put("msg", "你有一条新消息,请查收！");
-		parm.put("alias", "fjl123");
-		jpushIOS(parm);
+		parm.put("alias", "aa1003");
+		parm.put("msgTitle", "LETSCHAT");
+		jpushAndroid(parm);
 	}
 }
