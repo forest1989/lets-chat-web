@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.modules.letsapi.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.alibaba.fastjson.JSON;
 
 import net.sf.json.JSONArray;
 
@@ -51,4 +54,13 @@ public class JsonUtils {
 		String orderno2 = String.valueOf((int)((Math.random()*9+1)*100000));
 		return orderno1+orderno2;
 	}
+	
+	public static <T> List<T> getPersons(String jsonString, Class cls) {
+        List<T> list = new ArrayList<T>();
+        try {
+            list = JSON.parseArray(jsonString, cls);
+        } catch (Exception e) {
+        }
+        return list;
+    }
 }

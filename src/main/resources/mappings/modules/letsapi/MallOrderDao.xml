@@ -15,7 +15,7 @@
 		b.ADDRESS_DETAIL AS "addressDetail"
 	</sql>
     <!-- 新增订单 mall_rder -->
-	<insert id="insertOrder">
+	<!-- <insert id="insertOrder">
 		INSERT INTO MALL_ORDER
        (ID,
         ORDER_NO,
@@ -58,23 +58,69 @@
         '',
         sysdate,
         '0')
+	</insert> -->
+	<!-- 新增订单 mall_rder 改 -->
+	<insert id="insertOrder" parameterType="java.util.List" useGeneratedKeys="false">
+	 	INSERT INTO MALL_ORDER
+       (ID,
+        ORDER_NO,
+        USER_ID,
+        ORDER_STATUS,
+        PRODUCT_AMOUNT_TOTAL,
+        ORDER_AMOUNT_TOTAL,
+        LOGISTICS_FEE,
+        ADDRESS_ID,
+        LOGISTICS_COMPANY_NAME,
+        ORDERLOGISTICS_ID,
+        PAY_CHANNEL,
+        PAY_TIME,
+        ESCROW_TRADE_NO,
+        CREATE_DATE,
+        REMARKS,
+        CONSIGN,
+        COLUMNS1,
+        COLUMNS2,
+        UPDATE_DATE,
+        DEL_FLAG) 
+	  	<foreach collection="list" item="item" index="index" separator="union all">
+	   select #{item.id} id,
+	   #{item.orderNo} ORDER_NO,
+	   #{item.userId} USER_ID,
+	   #{item.orderStatus} ORDER_STATUS,
+	   #{item.productAmountTotal} PRODUCT_AMOUNT_TOTAL,
+	   #{item.orderAmountTotal} ORDER_AMOUNT_TOTAL,
+	   '',
+	   #{item.addressId} ADDRESS_ID,
+	   '',
+	   '',
+	   #{item.payChannel} PAY_CHANNEL,
+	   '',
+	   '',
+	   sysdate,
+	   #{item.remarks} REMARKS,
+	   '',
+	   '',
+	   '',
+	   sysdate,
+	   '0' 
+                from dual
+ 		 </foreach>
 	</insert>
-	
-	
+	<!-- 插入订单商品详情 -->
 	<insert id="insertOrderInfo" parameterType="java.util.List" useGeneratedKeys="false">
 	 	insert into MALL_ORDER_INFO(id,order_id,product_id,product_count,del_flag,product_spec_id,SPEC_NAME,PRODUCT_PRICE) 
 	  	<foreach collection="list" item="item" index="index" separator="union all">
 	   <!-- (#{item.id,jdbcType=VARCHAR},#{item.orderId,jdbcType=VARCHAR},#{item.productId,jdbcType=VARCHAR},
 	   #{item.productCount,jdbcType=VARCHAR},'0',#{item.productSpecId,jdbcType=VARCHAR}) -->
 	   
-	   select #{item.id} id,
-	   #{item.orderId} order_id,
+	   select #{item.mallInfoId} id,
+	   #{item.id} order_id,
 	   #{item.productId} product_id,
 	   #{item.productCount} product_count,
 	   '0',
 	   #{item.productSpecId} product_spec_id,
 	   #{item.specName} SPEC_NAME,
-	   #{item.specPrice} PRODUCT_PRICE
+	   #{item.productPrice} PRODUCT_PRICE 
                 from dual
  		 </foreach>
 	</insert>
@@ -82,13 +128,14 @@
 	<select id="getOrderList" resultType="MallOrderInfo">
 		SELECT C.PRODUCT_COUNT,
                D.PRODUCT_ICO1,
+               D.PRODUCT_NAME,
                C.SPEC_NAME,
                C.Product_Price    
           FROM MALL_ORDER_INFO        C,
                MALL_PRODUCT_INFO      D 
          WHERE C.PRODUCT_ID = D.ID 
            AND D.DEL_FLAG = '0'
-           AND D.STAUTS = '0'
+           AND D.STAUTS = '2'
            AND C.ORDER_ID = #{ID}
 	</select>
 	
@@ -105,7 +152,7 @@
      <select id="selectOrder" resultMap="slist">
     		 select 
 	     <include refid = "orderList" />
-	         from MALL_ORDER a,SHIPPING_ADDRESS b WHERE a.USER_ID = #{userId}  
+	         from MALL_ORDER a,SHOPPING_ADDRESS b WHERE a.USER_ID = #{userId}  AND  a.address_id = b.id
 	  </select>
 	  
 	  <!-- 批量删除订单 MALL_ORDER -->
@@ -128,13 +175,33 @@
 	  </delete>
 	  <!-- 修改库存数量 -->
 	  <update id="updateStock">
-		 UPDATE product_specifications a SET a.stock_num = a.stock_num-To_number(#{productCount})
+		 UPDATE product_specifications a SET a.stock_num = a.stock_num-To_number(#{productCount}) where id = #{productSpecId}
 	</update>
 	
 	 <!-- 订单 支付之后 修改订单状态为 已支付 -->
-	  <update id="updateOrder">
+	  <!-- <update id="updateOrder">
 		UPDATE MALL_ORDER a SET a.order_status = '2' WHERE a.id = #{orderId}
+	</update> -->
+	 <!-- 订单 支付之后 修改订单状态为 已支付 -->
+	 <!--  <update id="updateOrder"  parameterType="java.util.List">  
+	    <foreach collection="list" item="item" index="index" separator=";">
+	        update MALL_ORDER 
+	        <set>
+	            order_status='02' 
+	        </set>
+	        where id = #{item.orderId}
+	    </foreach>      
+	</update> -->
+	
+	<update id="updateOrder"  parameterType="java.util.List">
+	        update MALL_ORDER t
+	        set 
+	        t.order_status= '02'  where t.id in 
+	        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+					  #{item.orderId} 
+				</foreach>
 	</update>
+	
 	<!-- 订单 支付完成 修改用户购物币 -->
 	  <update id="downMoney">
 		  UPDATE app_user_money a SET a.money_total = a.money_total - To_number(#{orderAmountTotal}) where a.user_id = #{userId}
@@ -144,8 +211,19 @@
     	select a.money_total as balance from app_user_money a WHERE a.USER_ID = #{userId}
 	  </select>
 	  <!-- 订单 获取获取订单金额  根据 订单id -->
-	 <select id="getAmountTotal" resultType="MallOrder">
+	<!--  <select id="getAmountTotal" resultType="MallOrder">
     	SELECT a.order_amount_total from MALL_ORDER a WHERE a.id = #{orderId}
-	  </select>
+	  </select> -->
+	  
+	  <!-- 订单 获取获取订单金额  根据 订单id -->
+	  <select id="getAmountTotal" parameterType="java.util.List" resultType="MallOrder">
+			SELECT order_amount_total from MALL_ORDER where id in 
+			<!-- 传递List，List中是pojo -->
+			<if test="list!=null">
+				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+					  #{item.orderId} 
+				</foreach>
+			</if>
+	</select>
 	  
 </mapper>

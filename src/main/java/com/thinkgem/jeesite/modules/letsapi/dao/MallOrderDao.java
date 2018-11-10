@@ -9,6 +9,7 @@ import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallOrder;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallOrderInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.MallOrderSplit;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallShopcar;
 
 /**
@@ -23,13 +24,13 @@ public interface MallOrderDao extends CrudDao<MallOrder> {
 	 * @param mallOrder新增订单表
 	 * @return
 	 */
-	int insertOrder(MallOrder mallOrder);
+	int insertOrder(List<MallOrderSplit> mallOrderSplitList);
 	
 	/**
 	 * @param mallOrder新增订单表(详情)
 	 * @return
 	 */
-	int insertOrderInfo(List<MallOrderInfo> mallOrderInfo);
+	int insertOrderInfo(List<MallOrderSplit> mallOrderSplitList);
 	
 	/**
 	 * @param mallOrder获取订单列表
@@ -50,7 +51,7 @@ public interface MallOrderDao extends CrudDao<MallOrder> {
 	 * @param mallOrder修改订单状态为已支付
 	 * @return
 	 */
-	int updateOrder(MallOrder updateOrder);
+	int updateOrder(List<MallOrder> mallOrderInfo);
 	/**
 	 * @param mallOrder修改商品库存数量。
 	 * @return
@@ -65,7 +66,7 @@ public interface MallOrderDao extends CrudDao<MallOrder> {
 	 * @param mallOrder根据订单编号 订单id 获取 订单金额
 	 * @return
 	 */
-	MallOrder getAmountTotal(MallOrder mallOrder);
+	List<MallOrder> getAmountTotal(List<MallOrder> mallOrder);
 	/**
 	 * @param mallOrder根据userid获取用户购物币余额
 	 * @return

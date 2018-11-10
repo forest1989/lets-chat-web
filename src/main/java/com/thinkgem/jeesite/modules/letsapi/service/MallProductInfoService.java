@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.letsapi.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +25,7 @@ import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
 import com.thinkgem.jeesite.modules.letsapi.entity.HotProduct;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallOrder;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallOrderInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.MallOrderSplit;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallProductInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallShopcar;
 import com.thinkgem.jeesite.modules.letsapi.entity.ProductSpecificationApi;
@@ -33,6 +35,8 @@ import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
 import com.thinkgem.jeesite.modules.sys.dao.DictDao;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
+import com.alibaba.fastjson.JSON;
+
 
 /**
  * 商品信息Service
@@ -505,11 +509,18 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 		int updateStock=0;
 		try {
 			mallOrder.setUserId(UserUtils.getUser(request).getUserId());//用户id
-			mallOrder.setId(IdGen.uuid());//主键id
-			mallOrder.setOrderNo(JsonUtils.getOrderNo()); //订单编号
-			mallOrder.setOrderStatus("1");//新生成的订单是未支付的
+//			mallOrder.setId(IdGen.uuid());//主键id
+//			mallOrder.setOrderNo(JsonUtils.getOrderNo()); //订单编号
+			mallOrder.setOrderStatus("01");//新生成的订单是未支付的
 				// 先查库存 库存满足 再去 加入订单。。库存不足提示用户
+			String mallOrderInfoStr = request.getParameter("mallOrderInfo");
+			
+			List<MallOrderInfo> list = JsonUtils.getPersons(mallOrderInfoStr,MallOrderInfo.class);
+			mallOrder.setMallOrderInfo(list);
+			
+			List<MallOrderSplit> mallOrderSplitList = new ArrayList<MallOrderSplit>();//拆分组装list
 			List<MallOrderInfo> mallOrderInfoKC = mallOrder.getMallOrderInfo();
+			List<MallOrder> mallOrderList = new ArrayList<MallOrder>();//返回订单id集合
 			ProductSpecificationApi ps=null;
 			if (mallOrderInfoKC.size()>0) {
 				for (int i = 0; i < mallOrderInfoKC.size(); i++) {
@@ -518,6 +529,21 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 						mallShopcar.setSpecId(mallOrderInfoKC.get(i).getProductSpecId());
 						ps=shopcarDao.selectSpecNum(mallShopcar);
 						if(ps!=null && ps.getStockNum()>0 && mallOrderInfoKC.get(i).getProductCount() <= ps.getStockNum()) {
+							//构建新的入对象
+							mallOrder.setId(IdGen.uuid());//主键id
+							MallOrder MallOrderrtn = new MallOrder();
+							MallOrderrtn.setId(mallOrder.getId());
+							mallOrderList.add(MallOrderrtn);
+							mallOrder.setOrderNo(JsonUtils.getOrderNo()); //订单编号
+							String mallInfoId = IdGen.uuid();
+							double price = new Double(mallOrderInfoKC.get(i).getProductPrice());
+							int productcount = mallOrderInfoKC.get(i).getProductCount().intValue();
+							String priceTotl = String.valueOf(price*productcount);
+							MallOrderSplit mallOrderSplit = new MallOrderSplit(mallOrder.getId(), mallOrder.getOrderNo(), mallOrder.getUserId(), mallOrder.getOrderStatus(), priceTotl, 
+									priceTotl, mallOrder.getAddressId(), mallOrder.getPayChannel(), mallOrder.getRemarks(), mallOrderInfoKC.get(i).getProductCount().toString(), 
+									mallOrderInfoKC.get(i).getProductId(), mallOrderInfoKC.get(i).getProductSpecId(), mallOrderInfoKC.get(i).getSpecName(), mallOrderInfoKC.get(i).getProductPrice(), mallOrderInfoKC.get(i).getMallShopcarId(),mallInfoId);
+							mallOrderSplitList.add(mallOrderSplit);
+							
 						}else {
 							rtn.setCode("1033");
 							rtn.setMessage("库存数量不足");
@@ -535,12 +561,12 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 					//库存满足。进行添加订单操作   mallShopcarId(购物车id，插入订单表成功之后 删除对应购物车数据)
 			
 			try {
-				mallOrderNo= mallOrderDao.insertOrder(mallOrder);
-				for (int i = 0; i < mallOrder.getMallOrderInfo().size(); i++) {
-					mallOrder.getMallOrderInfo().get(i).setId(IdGen.uuid());
-					mallOrder.getMallOrderInfo().get(i).setOrderId(mallOrder.getId());
-				}
-				mallOrderInfo = mallOrderDao.insertOrderInfo(mallOrder.getMallOrderInfo());
+				mallOrderNo= mallOrderDao.insertOrder(mallOrderSplitList);
+//				for (int i = 0; i < mallOrder.getMallOrderInfo().size(); i++) {
+//					mallOrder.getMallOrderInfo().get(i).setId(IdGen.uuid());
+//					mallOrder.getMallOrderInfo().get(i).setOrderId(mallOrder.getId());
+//				}
+				mallOrderInfo = mallOrderDao.insertOrderInfo(mallOrderSplitList);
 				
 				//mallShopcarId(购物车id，插入订单表成功之后 删除对应购物车数据)-------删除购物车
 				for (int i = 0; i < mallOrder.getMallOrderInfo().size(); i++) {
@@ -562,6 +588,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 				logger.error("新增订单异常!:"+e.getMessage());
 			}
 			if (mallOrderNo>0 && mallOrderInfo>0) {
+				rtn.setData(mallOrderList);
 				rtn.setCode("0000");
 				rtn.setMessage("新增订单成功");
 			} else {
@@ -621,7 +648,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 			String orderIds [] = orderId.split(",");
 			for (int i = 0; i < orderIds.length; i++) {
 				MallOrder mo = new MallOrder();
-				mo.setOrderNo(orderIds[i]);
+				mo.setOrderId(orderIds[i]);
 				li.add(mo);
 			}
 			resOrder = mallOrderDao.deleteOrder(li);
@@ -653,20 +680,32 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 		RtnData rtn = new RtnData();
 		int resOrder = 0;
 		int i = 0;
+		double amountTotalAll = 0;//所有订单总金额
 		try {
-			
 			String userId  = UserUtils.getUser(request).getUserId();
-			//根据订单编号 获取 订单金额
-			MallOrder amountTotal = mallOrderDao.getAmountTotal(mallOrder);
-			//获取用户拥有的购物币。
-			MallOrder userMoney = mallOrderDao.getUserMoney(userId);
+			String mallOrderInfoStr = request.getParameter("orderIds");
+			List<MallOrder> list = JsonUtils.getPersons(mallOrderInfoStr,MallOrder.class);
 			
-			if (StringUtils.isBlank(amountTotal.getOrderAmountTotal().toString()))  {
+			if (list.size()<=0)  {
+				rtn.setCode("1051");
+				rtn.setMessage("入参订单id为空!");
+				logger.error("获取订单金额为空!:"+userId);
+				return rtn;
+			}
+			//根据订单编号 获取 订单金额
+			List<MallOrder> amountTotal = mallOrderDao.getAmountTotal(list);
+			if (amountTotal.size() <=0)  {
 				rtn.setCode("1051");
 				rtn.setMessage("订单金额为空!");
 				logger.error("获取订单金额为空!:"+userId);
 				return rtn;
 			}
+			for (int j = 0; j < amountTotal.size(); j++) {
+				amountTotalAll += Double.valueOf(amountTotal.get(i).getOrderAmountTotal());
+			}
+			//获取用户拥有的购物币。
+			MallOrder userMoney = mallOrderDao.getUserMoney(userId);
+			
 			if (StringUtils.isBlank(userMoney.getBalance().toString()))  {
 				rtn.setCode("1052");
 				rtn.setMessage("用户余额为空!");
@@ -674,19 +713,19 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 				return rtn;
 			}
 			//如果用户拥有的购物币大于订单金额。再继续进行支付流程。否则 返回 支付失败
-			if (Double.valueOf(amountTotal.getOrderAmountTotal()) > Double.valueOf(userMoney.getBalance())) {
+			if (amountTotalAll > Double.valueOf(userMoney.getBalance())) {
 				rtn.setCode("1052");
-				rtn.setMessage("支付失败,订单金额大于余额!");
-				logger.error("支付失败,订单金额大于余额!:"+userId);
+				rtn.setMessage("支付失败,余额不足!");
+				logger.error("支付失败,余额不足!:"+userId);
 				return rtn;
 			}
 			MallOrder mallOrderIn = new MallOrder();
 			mallOrderIn.setUserId(userId);
-			mallOrderIn.setOrderAmountTotal(amountTotal.getOrderAmountTotal());
+			mallOrderIn.setOrderAmountTotal(amountTotalAll);
 			//先扣购物币。再修改订单状态 根据userid
 			i = mallOrderDao.downMoney(mallOrderIn);
 			//修改订单状态为已支付 根据 订单id
-			resOrder = mallOrderDao.updateOrder(mallOrder);
+			resOrder = mallOrderDao.updateOrder(list);
 			if (i > 0 && resOrder>0) {
 				rtn.setCode("0000");
 				rtn.setMessage("订单支付成功!");
