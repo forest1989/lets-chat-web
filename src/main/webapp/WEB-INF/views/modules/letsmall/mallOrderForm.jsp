@@ -57,7 +57,7 @@
 				</c:otherwise>
 			</c:choose>
 				<label class="control-label">					
-	                  <img class="" src="//img10.360buyimg.com/N6/s60x60_jfs/t21415/332/642302956/189613/778f2021/5b13cd6cN8e12d4aa.jpg" title="荣耀9i 4GB+64GB 幻夜黑 移动联通电信4G全面屏手机 双卡双待" 
+	                  <img class="" src="${e.PRODUCT_ICO1}" title="${e.PRODUCT_NAME}&nbsp;&nbsp;${e.SPEC_NAME}" 
 	                  	data-lazy-img="done" width="80" height="80">	                
 				</label>
 				
