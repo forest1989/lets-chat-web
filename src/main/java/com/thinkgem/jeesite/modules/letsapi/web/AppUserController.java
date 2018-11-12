@@ -31,6 +31,7 @@ import com.thinkgem.jeesite.modules.letsapi.service.AppUserService;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UploadUtils;
 import com.thinkgem.jeesite.modules.letsapi.utils.jpush.JpushUtils;
+import com.thinkgem.jeesite.modules.sys.entity.Dict;
 
 /**
  * 用户信息Controller
@@ -394,5 +395,22 @@ public class AppUserController extends BaseController {
 			logger.error("消息推送异常：" + e.getMessage());
 		}
 		return toJsonByALWAYS(response, rtn); 
+	}
+	/**  
+	* <p>Description:查询首页广告 </p>      
+	* @author tao_yonggang  
+	* @date 2018年11月12日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/getHomeAd", method = RequestMethod.POST)
+	public String  getDict(HttpServletRequest request,HttpServletResponse response,Dict dic){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = appUserService.getHomeAd(dic);
+		} catch (Exception e) {
+			 rtn.setMessage("查询异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
 	}
 }

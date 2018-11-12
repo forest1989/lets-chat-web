@@ -25,6 +25,8 @@ import com.thinkgem.jeesite.modules.letsapi.entity.OfflineMessage;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
 import com.thinkgem.jeesite.modules.letsim.utils.OpenFireActionUtil;
+import com.thinkgem.jeesite.modules.sys.dao.DictDao;
+import com.thinkgem.jeesite.modules.sys.entity.Dict;
 
 /**
  * 用户信息Service
@@ -37,7 +39,8 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	
 	@Autowired
     private AppUserDao appUserDao;
-	
+	@Autowired
+	private DictDao dictDao;
 	/**
 	 * @param user登录
 	 * @return
@@ -370,5 +373,35 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	
 	public OfflineMessage getOfflineMesg(OfflineMessage e) {
 		return dao.getOfflineMesg(e);
+	}
+	/**
+	 * 获取首页广告
+	 * @param e
+	 * @return
+	 */
+	public RtnData getHomeAd(Dict dic) {
+		RtnData rtn = new RtnData();
+		Map<String,Object> retMap = new HashMap<String, Object>();
+		List<Dict> list=null;
+		try {
+			list=dictDao.findList(dic);
+			if(list != null && list.size() > 0) {
+				retMap.put("content", list.get(0).getValue());//广告页面地址
+				retMap.put("openUrl", list.get(0).getDescription());//要跳转的页面
+				retMap.put("contentSize", list.get(0).getLabel());//尺寸
+				retMap.put("duration", list.get(0).getSort());//广告呢持续时间
+				rtn.setData(retMap);
+				rtn.setCode("0000");
+				rtn.setMessage("查询成功");
+			}else {
+				rtn.setCode("1053");
+				rtn.setMessage("暂无数据");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("查询异常------"+e.getMessage());
+		}
+		return rtn;
 	}
 }
