@@ -10,6 +10,7 @@
 			//$("#name").focus();
 			$("#inputForm").validate({
 				submitHandler: function(form){
+					$("#optType").val("1");	
 					loading('正在提交，请稍等...');
 					form.submit();
 				},
@@ -22,13 +23,6 @@
 						error.insertAfter(element);
 					}
 				}
-			});
-			
-			$("#sendGoods").click(function (){
-				loading('正在提交，请稍等...');
-				$("#optType").val("1");	
-				$("#inputForm").submit();
-				return false;
 			});
 		});
 	</script>
@@ -57,7 +51,7 @@
 				</c:otherwise>
 			</c:choose>
 				<label class="control-label">					
-	                  <img class="" src="//img10.360buyimg.com/N6/s60x60_jfs/t21415/332/642302956/189613/778f2021/5b13cd6cN8e12d4aa.jpg" title="荣耀9i 4GB+64GB 幻夜黑 移动联通电信4G全面屏手机 双卡双待" 
+	                  <img class="" src="${e.PRODUCT_ICO1}" title="${e.PRODUCT_NAME}&nbsp;&nbsp;${e.SPEC_NAME}" 
 	                  	data-lazy-img="done" width="80" height="80">	                
 				</label>
 				
@@ -96,14 +90,14 @@
 				<div class="control-group">
 					<label class="control-label">物流公司：</label>
 					<div class="controls">
-						<form:input path="logisticsCompanyName" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+						<form:input path="logisticsCompanyName" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
 						<span class="help-inline"><font color="red">*</font> </span>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label">物流单号：</label>
 					<div class="controls">
-						<form:input path="orderlogisticsId" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+						<form:input path="orderlogisticsId" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
 						<span class="help-inline"><font color="red">*</font> </span>
 					</div>
 				</div>
@@ -163,7 +157,7 @@
 		</div>
 		<div class="form-actions">
 			<c:if test="${mallOrder.orderStatus eq '02'}">
-				<shiro:hasPermission name="letsmall:mallOrder:edit"><input id="sendGoods" class="btn btn-primary" type="button" value="确认发货"/>&nbsp;</shiro:hasPermission>
+				<shiro:hasPermission name="letsmall:mallOrder:edit"><input id="sendGoods" class="btn btn-primary" type="submit" value="确认发货"/>&nbsp;</shiro:hasPermission>
 			</c:if>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>

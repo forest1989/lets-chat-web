@@ -86,6 +86,11 @@
 					<fmt:formatDate value="${e.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
+					<shiro:hasPermission name="letsmall:mallOrder:edit">
+						<c:if test="${e.orderStatus eq '02'}">
+							<a href="${ctx}/letsmall/mallOrder/form?id=${e.id}"><font color="red">发货</font></a>
+						</c:if>
+					</shiro:hasPermission>
 					<shiro:hasPermission name="letsmall:mallOrder:view">
 						<a href="${ctx}/letsmall/mallOrder/form?id=${e.id}">详情</a>
 					</shiro:hasPermission>
