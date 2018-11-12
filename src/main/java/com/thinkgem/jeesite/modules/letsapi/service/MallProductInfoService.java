@@ -680,12 +680,28 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 		RtnData rtn = new RtnData();
 		int resOrder = 0;
 		int i = 0;
+		int res = 0;
 		double amountTotalAll = 0;//所有订单总金额
 		try {
 			String userId  = UserUtils.getUser(request).getUserId();
 			String mallOrderInfoStr = request.getParameter("orderIds");
 			List<MallOrder> list = JsonUtils.getPersons(mallOrderInfoStr,MallOrder.class);
-			
+			//1验证是否是 确认已完成 操作。
+			if (list.get(0).getOperationType().equals("2")) {
+				res = mallOrderDao.updateOver(list);
+				if (res>0) {
+					rtn.setCode("0000");
+					rtn.setMessage("已完成操作成功");
+					logger.info("已完成操作成功:"+userId);
+					return rtn;
+				}else {
+					rtn.setCode("1051");
+					rtn.setMessage("操作失败请重试!");
+					logger.info("已完成操作失败:"+userId);
+					return rtn;
+				}
+			}
+			//2如果不是已完成操作。继续往下走支付操作
 			if (list.size()<=0)  {
 				rtn.setCode("1051");
 				rtn.setMessage("入参订单id为空!");

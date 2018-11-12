@@ -224,5 +224,13 @@
 				</foreach>
 			</if>
 	</select>
-	  
+	<!-- 客户确认收货  已完成  修改订单状态为已完成>>>10 -->
+	  <update id="updateOver"  parameterType="java.util.List">
+	        update MALL_ORDER t
+	        set 
+	        t.order_status= '10'  where t.id in 
+	        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+					  #{item.orderId} 
+				</foreach>
+	</update>
 </mapper>
