@@ -135,7 +135,6 @@
                MALL_PRODUCT_INFO      D 
          WHERE C.PRODUCT_ID = D.ID 
            AND D.DEL_FLAG = '0'
-           AND D.STAUTS = '2'
            AND C.ORDER_ID = #{ID}
 	</select>
 	
