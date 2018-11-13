@@ -8,6 +8,8 @@
 		a.ORDER_NO AS "orderNo",
 		a.ORDER_STATUS AS "orderStatus",
 		a.ORDER_AMOUNT_TOTAL AS "orderAmountTotal",
+		a.LOGISTICS_COMPANY_NAME AS logisticsCompanyName,
+		a.ORDERLOGISTICS_ID AS orderlogisticsId,
 		A.PRODUCT_AMOUNT_TOTAL AS "productAmountTotal",
 		b.SHOP_USER_NAME AS "shopUserName",
 		b.PHONE AS "phone",
@@ -134,8 +136,8 @@
           FROM MALL_ORDER_INFO        C,
                MALL_PRODUCT_INFO      D 
          WHERE C.PRODUCT_ID = D.ID 
-           AND D.DEL_FLAG = '0'
-           AND C.ORDER_ID = #{ID}
+         	AND  D.DEL_FLAG = '0' 
+           AND C.ORDER_ID = #{ID} 
 	</select>
 	
 	<!-- 一对多查询关联  -->

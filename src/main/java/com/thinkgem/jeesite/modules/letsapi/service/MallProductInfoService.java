@@ -765,4 +765,31 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 		}
 		return rtn;
 	}
+	/**
+	 * @param request获取用户购物账户余额
+	 * @param shopCar
+	 * @return
+	 */
+	@Transactional
+	public RtnData getyue(HttpServletRequest request, MallOrder mallOrder) {
+		RtnData rtn = new RtnData();
+		MallOrder resBalance = new MallOrder();
+		String userId  = UserUtils.getUser(request).getUserId();//用户id
+		
+		try {
+			resBalance = mallOrderDao.getUserMoney(userId);
+			if (!StringUtils.isBlank(resBalance.getBalance())) {
+				rtn.setData(resBalance);
+				rtn.setCode("0000");
+				rtn.setMessage("余额获取成功!");
+			}else {
+				rtn.setCode("1059");
+				rtn.setMessage("余额获取为空!");
+			}
+		} catch (Exception e) {
+			rtn.setCode("1060");
+			rtn.setMessage("余额获取异常!");
+		}
+		return rtn;
+	}
 }

@@ -375,4 +375,21 @@ public class MallProductInfoController extends BaseController {
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
+	/**  
+	* <p>Description:获取用户账户余额</p>      
+	* @author tao_yonggang  
+	* @date 2018年10月23日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/getyue", method = RequestMethod.POST)
+	public String  getyue(HttpServletRequest request,HttpServletResponse response,MallOrder mallOrder){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = mallProductInfoService.getyue(request,mallOrder);
+		} catch (Exception e) {
+			 rtn.setMessage("订单列表删除异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
 }

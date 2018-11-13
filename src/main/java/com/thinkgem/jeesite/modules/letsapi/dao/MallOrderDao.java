@@ -77,4 +77,9 @@ public interface MallOrderDao extends CrudDao<MallOrder> {
 	 * @return
 	 */
 	int updateOver(List<MallOrder> param);
+	/**
+	 * @param 获取用户账户余额
+	 * @return
+	 */
+	MallOrder downMoney(String userId);
 }
