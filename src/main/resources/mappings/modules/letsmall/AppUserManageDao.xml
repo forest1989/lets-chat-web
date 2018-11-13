@@ -113,15 +113,8 @@
 	
 	<update id="update">
 		UPDATE app_user SET 				
-			photo = #{photo},	
-			nick_name = #{nickName},
-			sex = #{sex},
-			phone = #{phone},
-			email = #{email},
-			area_id = #{area.id},
 			login_flag = #{loginFlag},
-			update_date = #{updateDate},
-			remarks = #{remarks}
+			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	

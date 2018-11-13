@@ -36,8 +36,8 @@
 		<div class="control-group">
 			<label class="control-label">登录账户：</label>
 			<div class="controls">
-				<form:input path="loginName" htmlEscape="false" maxlength="100" class="input-xlarge required" readonly="true"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:input path="loginName" htmlEscape="false" maxlength="100" class="input-xlarge" readonly="true"/>
+				<!-- <span class="help-inline"><font color="red">*</font> </span> -->
 			</div>
 		</div>
 		<%-- <div class="control-group">
@@ -52,41 +52,42 @@
 			
 			<div class="controls">
 				<form:hidden id="nameImage" path="photo" htmlEscape="false" maxlength="255" class="input-xlarge"/>
-				<sys:ckfinder input="nameImage" type="images" uploadPath="/app/photo" selectMultiple="false" maxWidth="100" maxHeight="100"/>
+				<sys:ckfinder input="nameImage" type="images" readonly="true" uploadPath="/app/photo" selectMultiple="false" maxWidth="100" maxHeight="100"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">用户昵称：</label>
 			<div class="controls">
-				<form:input path="nickName" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="nickName" htmlEscape="false" maxlength="100" class="input-xlarge " readonly="true"/>
 			</div>
 		</div>
 		
 		<div class="control-group">
 			<label class="control-label">手机号码：</label>
 			<div class="controls">
-				<form:input path="phone" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+				<form:input path="phone" htmlEscape="false" maxlength="200" class="input-xlarge " readonly="true"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">邮箱：</label>
 			<div class="controls">
-				<form:input path="email" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+				<form:input path="email" htmlEscape="false" maxlength="200" class="input-xlarge " readonly="true"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">用户所在地区：</label>
 			<div class="controls">
 				<sys:treeselect id="area" name="area.id" value="${appUserManage.area.id}" labelName="area.name" labelValue="${appUserManage.area.name}"
-					title="区域" url="/sys/area/treeData" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+					title="区域" url="/sys/area/treeData" cssClass="" allowClear="true" notAllowSelectParent="true" disabled="disabled"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">性别：</label>
 			<div class="controls">
-				<form:select path="sex">
-					<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
+				${fns:getDictLabel(appUserManage.sex, 'sex', '')}
+				<%-- <form:select path="sex">
+					<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false" />
+				</form:select> --%>
 			</div>
 		</div>
 		<div class="control-group">
@@ -101,7 +102,7 @@
 		<div class="control-group">
 			<label class="control-label">备注信息：</label>
 			<div class="controls">
-				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
+				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge " readonly="true"/>
 			</div>
 		</div>
 		<div class="form-actions">
