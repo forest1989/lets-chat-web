@@ -189,7 +189,9 @@
 			pi.PRODUCT_NAME,
 			pi.PRODUCT_ICO1,
 			oi.SPEC_NAME,
-			oi.PRODUCT_PRICE
+			oi.PRODUCT_ID,
+			oi.PRODUCT_PRICE,
+			pi.DEL_FLAG
 		from 
 			MALL_ORDER_INFO oi  
 			left join MALL_PRODUCT_INFO pi on pi.id = oi.PRODUCT_ID

@@ -25,6 +25,16 @@
 				}
 			});
 		});
+		
+		
+		function productInfo(delFlg, productId ){
+			if(delFlg == 1){
+				top.$.jBox.tip("该商品已不存在");
+			}else{
+				location.href="${ctx}/letsmall/mallProductManage/form?id=" + productId;
+			}
+			
+		}
 	</script>
 </head>
 <body>
@@ -51,8 +61,9 @@
 				</c:otherwise>
 			</c:choose>
 				<label class="control-label">					
+	                  <a href="javascript:void(0)" onclick="productInfo(${e.DEL_FLAG}, '${e.PRODUCT_ID}')">
 	                  <img class="" src="${e.PRODUCT_ICO1}" title="${e.PRODUCT_NAME}&nbsp;&nbsp;${e.SPEC_NAME}" 
-	                  	data-lazy-img="done" width="80" height="80">	                
+	                  	data-lazy-img="done" width="80" height="80"></a>                
 				</label>
 				
 				<div class="controls" >
