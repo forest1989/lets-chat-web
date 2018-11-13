@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.letsapi.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -370,6 +371,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	@Transactional
 	public RtnData updateCarCount(MallShopcar mallShopcar) {
 		RtnData rtn = new RtnData();
+		Map<String,Object> retMap = new HashMap<String, Object>();
 		ProductSpecificationApi ps=null;
 		int n=0;
 		try {
@@ -377,6 +379,8 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 		    if(ps!=null && ps.getStockNum()>0 && mallShopcar.getProductCount() <= ps.getStockNum()) {
 		    	n=shopcarDao.updateCountById(mallShopcar);
 				if(n > 0) {
+					retMap.put("productCount", mallShopcar.getProductCount());
+					rtn.setData(retMap);
 					rtn.setCode("0000");
 					rtn.setMessage("修改成功");
 				}else {
@@ -384,6 +388,8 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 					rtn.setMessage("修改失败");
 				}
 		    }else {
+		    	retMap.put("stockNum", ps.getStockNum());
+				rtn.setData(retMap);
 		    	rtn.setCode("1034");
 				rtn.setMessage("库存数量不足");
 		    }
