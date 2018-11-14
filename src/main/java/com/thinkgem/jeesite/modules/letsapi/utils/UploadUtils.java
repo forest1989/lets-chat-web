@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.utils.FileUtils;
@@ -108,6 +109,10 @@ public class UploadUtils {
 			infos[5] = saveInfo;
 			infos[6] = imgName;
 			infos[7] = imgName2;
+		}
+		if (infos[0].equals("true")&&type[1].equals("SendMoment")) {
+			infos[2] = savePath;
+			infos[3] = saveUrl;
 		}
 		return infos;
 	}
@@ -353,6 +358,57 @@ private  String  getThumbImg(String imgName, String imgName2) {
 		}
 		return saveThumbImg;
 	}
+/**  
+* <p>Description:发送朋友圈 </p>      
+* @author tao_yonggang  
+* @date 2018年11月14日  
+* @version 1.0  
+*/ 
+public List<String> filesUpload(HttpServletRequest request,MultipartFile[] files,String[] type) {
+	 List<String> list = new ArrayList<String>();
+		String[] infos = this.uploadFile(request,type);
+		String errorInfo = infos[0];
+		String savePath = infos[2];
+		String saveUrl = infos[3];
+		if(errorInfo.equals("true")) {
+			if (files != null && files.length > 0) {
+		         for (int i = 0; i < files.length; i++) {
+		             MultipartFile file = files[i];
+		             String imgName=IdGen.uuid()+".jpg";
+		             // 保存文件
+		             list = this.saveFile(request, file, list,savePath,saveUrl,imgName);
+		         }
+		     }
+		}else {
+			list=null;
+		}
+	return list;
+}
+/**  
+* <p>Description:发送朋友圈 </p>      
+* @author tao_yonggang  
+* @date 2018年11月14日  
+* @version 1.0  
+*/ 
+private List<String> saveFile(HttpServletRequest request,
+        MultipartFile file, List<String> list,String savePath,
+        String saveUrl,String imgName) {
+    // 判断文件是否为空
+    if (!file.isEmpty()) {
+        try {
+			list.add(saveUrl+imgName);
+            File saveDir = new File(savePath+imgName);
+            if (!saveDir.getParentFile().exists())
+                saveDir.getParentFile().mkdirs();
+            // 转存文件
+            file.transferTo(saveDir);
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    return list;
+}
 	/** **********************get/set方法********************************* */
 
 	public String getSavePath() {

@@ -3,8 +3,10 @@
  */
 package com.thinkgem.jeesite.modules.letsapi.web;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.thinkgem.jeesite.common.utils.Dom4jXmlUtils;
 import com.thinkgem.jeesite.common.utils.IdGen;
@@ -413,4 +417,37 @@ public class AppUserController extends BaseController {
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
+	/**  
+	* <p>Description:发送朋友圈 </p>      
+	* @author tao_yonggang  
+	* @date 2018年11月14日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/SendMoment", method = RequestMethod.POST)
+    public String SendMoment(@RequestParam("myfiles") MultipartFile[] files,HttpServletResponse response,
+    		HttpServletRequest request) {
+		RtnData rtn=new RtnData();
+		UploadUtils up = new UploadUtils();
+		String[] type= {"images","SendMoment"};
+        try {
+        	List<String> list=up.filesUpload(request,files,type);
+        	if(list!=null) {
+        		//写着测试，删了就可以
+                for (int i = 0; i < list.size(); i++) {
+                    System.out.println("集合里面的数据" + list.get(i));
+                };
+                rtn.setCode("0000");
+    			rtn.setMessage("文件上传成功");
+        	}else {
+        		rtn.setCode("1055");
+    			rtn.setMessage("文件上传失败");
+        	}
+		} catch (Exception e) {
+			 rtn.setMessage("查询异常");
+			 rtn.setCode("500");
+		}
+        return toJsonByALWAYS(response, rtn);
+    }
+
+  
 }
