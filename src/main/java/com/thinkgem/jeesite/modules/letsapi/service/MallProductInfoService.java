@@ -18,11 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.IdGen;
+import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.MallOrderDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.MallProductInfoDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.MallShopcarDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.ShoppingAddressDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppSilderImg;
+import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsapi.entity.HotProduct;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallOrder;
 import com.thinkgem.jeesite.modules.letsapi.entity.MallOrderInfo;
@@ -58,6 +60,8 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	private MallShopcarDao shopcarDao;
 	@Autowired
 	private MallOrderDao mallOrderDao;
+	@Autowired
+    private AppUserDao appUserDao;
 	
 	public MallProductInfo get(String id) {
 		return super.get(id);
@@ -773,18 +777,29 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 	@Transactional
 	public RtnData getyue(HttpServletRequest request, MallOrder mallOrder) {
 		RtnData rtn = new RtnData();
-		MallOrder resBalance = new MallOrder();
+		MallOrder resBalance = null;
 		String userId  = UserUtils.getUser(request).getUserId();//用户id
 		
 		try {
 			resBalance = mallOrderDao.getUserMoney(userId);
-			if (!StringUtils.isBlank(resBalance.getBalance())) {
+			if (resBalance != null) {
 				rtn.setData(resBalance);
 				rtn.setCode("0000");
 				rtn.setMessage("余额获取成功!");
 			}else {
-				rtn.setCode("1059");
-				rtn.setMessage("余额获取为空!");
+				AppUser user = new AppUser();
+				user.setId(userId);
+				user.setShopAccountId(IdGen.uuid());
+				int i = appUserDao.shopAccount(user);
+				if (i>0) {
+					resBalance.setBalance("0");
+					rtn.setData(resBalance);
+					rtn.setCode("0000");
+					rtn.setMessage("余额获取成功!");
+				}else {
+					rtn.setCode("1070");
+					rtn.setMessage("余额获取失败!");
+				}
 			}
 		} catch (Exception e) {
 			rtn.setCode("1060");
