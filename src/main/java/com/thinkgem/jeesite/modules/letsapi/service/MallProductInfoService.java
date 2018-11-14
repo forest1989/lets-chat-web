@@ -732,7 +732,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 			//获取用户拥有的购物币。
 			MallOrder userMoney = mallOrderDao.getUserMoney(userId);
 			
-			if (StringUtils.isBlank(userMoney.getBalance().toString()))  {
+			if (userMoney == null)  {
 				rtn.setCode("1052");
 				rtn.setMessage("用户余额为空!");
 				logger.error("获取用户余额为空!:"+userId);
@@ -740,7 +740,7 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 			}
 			//如果用户拥有的购物币大于订单金额。再继续进行支付流程。否则 返回 支付失败
 			if (amountTotalAll > Double.valueOf(userMoney.getBalance())) {
-				rtn.setCode("1052");
+				rtn.setCode("2001");
 				rtn.setMessage("支付失败,余额不足!");
 				logger.error("支付失败,余额不足!:"+userId);
 				return rtn;
