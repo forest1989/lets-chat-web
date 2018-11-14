@@ -387,7 +387,7 @@ public class MallProductInfoController extends BaseController {
 		try {
 			rtn = mallProductInfoService.getyue(request,mallOrder);
 		} catch (Exception e) {
-			 rtn.setMessage("订单列表删除异常");
+			 rtn.setMessage("余额获取异常");
 			 rtn.setCode("500");
 		}
 		return toJsonByALWAYS(response, rtn);
