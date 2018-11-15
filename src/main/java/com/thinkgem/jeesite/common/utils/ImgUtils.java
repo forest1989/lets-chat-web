@@ -59,7 +59,7 @@ public class ImgUtils {
                     imgWriteParams);
             out.flush();
             out.close();
-            logger.info("图片转换后大小"+file.length()+"字节");
+            logger.info("图片转换后大小"+saveDirthumbImg.length()+"字节");
             return file;
         }
     }
