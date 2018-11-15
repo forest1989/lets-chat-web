@@ -44,4 +44,8 @@ public class AppUserManageService extends CrudService<AppUserManageDao, AppUserM
 		super.delete(appUserManage);
 	}
 	
+	@Transactional(readOnly = false)
+	public void deleteUserMoneyAccount(String userId) {
+		dao.deleteUserMoneyAccount(userId);
+	}
 }

@@ -26,7 +26,7 @@
 	</sql>
 	
 	<sql id="mallOrderJoins">
-		LEFT JOIN APP_USER u3 ON u3.id = a.user_id
+		INNER JOIN APP_USER u3 ON u3.id = a.user_id AND u3.del_flag = '0'
 	</sql>
     
 	<select id="get" resultType="MallOrderManage">

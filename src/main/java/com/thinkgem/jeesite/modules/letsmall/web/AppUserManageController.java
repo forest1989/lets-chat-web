@@ -17,8 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsmall.entity.AppUserManage;
 import com.thinkgem.jeesite.modules.letsmall.service.AppUserManageService;
 
@@ -76,6 +76,8 @@ public class AppUserManageController extends BaseController {
 	@RequestMapping(value = "delete")
 	public String delete(AppUserManage appUserManage, RedirectAttributes redirectAttributes) {
 		appUserManageService.delete(appUserManage);
+		// 删除用户账户信息
+		appUserManageService.deleteUserMoneyAccount(appUserManage.getId());
 		addMessage(redirectAttributes, "删除用户信息成功");
 		return "redirect:"+Global.getAdminPath()+"/letsmall/appUserManage/?repage";
 	}

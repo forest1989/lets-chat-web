@@ -124,4 +124,9 @@
 		WHERE id = #{id}
 	</update>
 	
+	<update id="deleteUserMoneyAccount">
+		UPDATE APP_USER_MONEY SET 
+			del_flag = '1'
+		WHERE USER_ID = #{userId}
+	</update>
 </mapper>
