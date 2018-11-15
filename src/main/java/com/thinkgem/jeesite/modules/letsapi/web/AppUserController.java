@@ -432,9 +432,15 @@ public class AppUserController extends BaseController {
         	if(retMap.get("list")!=null) {
                 momentsInfo.preInsert();
                 momentsInfo.setImgContents(StringUtils.strip(retMap.get("list").toString(),"[]")+"|"+StringUtils.strip(retMap.get("listthumbImg").toString(),"[]"));
-                appUserService.insertSendMoment(momentsInfo);
-                rtn.setCode("0000");
-    			rtn.setMessage("朋友圈发送成功");
+                int n=appUserService.insertSendMoment(momentsInfo);
+                if(n>0) {
+                	rtn.setData(momentsInfo);
+                    rtn.setCode("0000");
+        			rtn.setMessage("朋友圈发送成功");
+                }else {
+                	rtn.setCode("1055");
+        			rtn.setMessage("朋友圈发送失败");
+                }
         	}else {
         		rtn.setCode("1055");
     			rtn.setMessage("朋友圈发送失败");
