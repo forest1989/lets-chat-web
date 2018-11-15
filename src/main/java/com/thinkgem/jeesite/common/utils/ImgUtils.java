@@ -24,7 +24,7 @@ public class ImgUtils {
      * @return
      * @throws IOException
      */
-    public static File compressPictureByQality(File file,float qality) throws IOException {
+    public static File compressPictureByQality(File file,File saveDirthumbImg,float qality) throws IOException {
         BufferedImage src = null;
         FileOutputStream out = null;
         ImageWriter imgWrier;
@@ -49,7 +49,7 @@ public class ImgUtils {
         } else {
             logger.info("图片转换前大小"+file.length()+"字节");
             src = ImageIO.read(file);
-            out = new FileOutputStream(file);
+            out = new FileOutputStream(saveDirthumbImg);
             imgWrier.reset();
             // 必须先指定 out值，才能调用write方法, ImageOutputStream可以通过任何
             // OutputStream构造
@@ -66,11 +66,11 @@ public class ImgUtils {
 
     public static void main(String[] args) {
 		File file = new File("E:/1542254994742.jpg");
-		try {
+		/*try {
 			compressPictureByQality(file, (float) 0);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

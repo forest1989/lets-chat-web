@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.letsapi.dao.MomentsInfoDao">
+    
+	<sql id="momentsInfoColumns">
+		a.id AS "id",
+		a.user_name AS "userName",
+		a.text_contents AS "textContents",
+		a.img_contents AS "imgContents",
+		a.send_address AS "sendAddress",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="momentsInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="MomentsInfo">
+		SELECT 
+			<include refid="momentsInfoColumns"/>
+		FROM moments_info a
+		<include refid="momentsInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MomentsInfo">
+		SELECT 
+			<include refid="momentsInfoColumns"/>
+		FROM moments_info a
+		<include refid="momentsInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MomentsInfo">
+		SELECT 
+			<include refid="momentsInfoColumns"/>
+		FROM moments_info a
+		<include refid="momentsInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO moments_info(
+			id,
+			user_name,
+			text_contents,
+			img_contents,
+			send_address,
+			create_date,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{userName},
+			#{textContents},
+			#{imgContents},
+			#{sendAddress},
+			#{createDate},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE moments_info SET 	
+			user_name = #{userName},
+			text_contents = #{textContents},
+			img_contents = #{imgContents},
+			send_address = #{sendAddress},
+			update_date = #{updateDate},
+			del_flag = #{delFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE moments_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

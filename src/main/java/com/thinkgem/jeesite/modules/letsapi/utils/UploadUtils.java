@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.utils.FileUtils;
 import com.thinkgem.jeesite.common.utils.IdGen;
+import com.thinkgem.jeesite.common.utils.ImgUtils;
 
 import net.sf.json.JSONObject;
 
@@ -364,8 +365,10 @@ private  String  getThumbImg(String imgName, String imgName2) {
 * @date 2018年11月14日  
 * @version 1.0  
 */ 
-public List<String> filesUpload(HttpServletRequest request,MultipartFile[] files,String[] type) {
+public Map<String,Object> filesUpload(HttpServletRequest request,MultipartFile[] files,String[] type) {
 	 List<String> list = new ArrayList<String>();
+	 List<String> listthumbImg = new ArrayList<String>();
+	 Map<String,Object> retMap = new HashMap<String, Object>();
 		String[] infos = this.uploadFile(request,type);
 		String errorInfo = infos[0];
 		String savePath = infos[2];
@@ -376,13 +379,13 @@ public List<String> filesUpload(HttpServletRequest request,MultipartFile[] files
 		             MultipartFile file = files[i];
 		             String imgName=IdGen.uuid()+".jpg";
 		             // 保存文件
-		             list = this.saveFile(file,list,savePath,saveUrl,imgName);
+		             retMap= this.saveFile(file,list,listthumbImg,savePath,saveUrl,imgName);
 		         }
 		     }
 		}else {
-			list=null;
+			retMap=null;
 		}
-	return list;
+	return retMap;
 }
 /**  
 * <p>Description:发送朋友圈 </p>      
@@ -390,23 +393,32 @@ public List<String> filesUpload(HttpServletRequest request,MultipartFile[] files
 * @date 2018年11月14日  
 * @version 1.0  
 */ 
-private List<String> saveFile(MultipartFile file,List<String> list,String savePath,
+private Map<String,Object> saveFile(MultipartFile file,List<String> list,List<String> listthumbImg,String savePath,
         String saveUrl,String imgName) {
+	Map<String,Object> retMap = new HashMap<String, Object>();
+	String imgName2="thumbImg_"+imgName;
     // 判断文件是否为空
     if (!file.isEmpty()) {
         try {
 			list.add(saveUrl+imgName);
+			listthumbImg.add(saveUrl+"thumbImg_/"+imgName2);
             File saveDir = new File(savePath+imgName);
+            File saveDirthumbImg = new File(savePath+"thumbImg_/"+imgName2);
             if (!saveDir.getParentFile().exists())
                 saveDir.getParentFile().mkdirs();
+            if (!saveDirthumbImg.getParentFile().exists())
+            	saveDirthumbImg.getParentFile().mkdirs();
             // 转存文件
             file.transferTo(saveDir);
-            return list;
+            ImgUtils.compressPictureByQality(saveDir,saveDirthumbImg, (float) 0);
+            retMap.put("list", list);
+            retMap.put("listthumbImg", listthumbImg);
+            return retMap;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    return list;
+    return retMap;
 }
 	/** **********************get/set方法********************************* */
 

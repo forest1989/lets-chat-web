@@ -18,9 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
+import com.thinkgem.jeesite.modules.letsapi.dao.MomentsInfoDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUserLoginLog;
 import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.MomentsInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.OfflineMessage;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
@@ -41,6 +43,8 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
     private AppUserDao appUserDao;
 	@Autowired
 	private DictDao dictDao;
+	@Autowired
+	private MomentsInfoDao momentsInfoDao;
 	/**
 	 * @param user登录
 	 * @return
@@ -403,5 +407,13 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 			logger.error("查询异常------"+e.getMessage());
 		}
 		return rtn;
+	}
+	/**
+	 * 发送朋友圈
+	 * @param e
+	 * @return
+	 */
+	public int insertSendMoment(MomentsInfo momentsInfo) {
+		return momentsInfoDao.insert(momentsInfo);
 	}
 }

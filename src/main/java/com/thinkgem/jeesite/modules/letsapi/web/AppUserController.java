@@ -25,6 +25,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUserLoginLog;
 import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.MomentsInfo;
 import com.thinkgem.jeesite.modules.letsapi.jwt.api.TokenMgr;
 import com.thinkgem.jeesite.modules.letsapi.jwt.config.Constant;
 import com.thinkgem.jeesite.modules.letsapi.jwt.model.SubjectModel;
@@ -422,25 +423,24 @@ public class AppUserController extends BaseController {
 	*/ 
 	@RequestMapping(value="/SendMoment", method = RequestMethod.POST)
     public String SendMoment(@RequestParam("myfiles") MultipartFile[] files,HttpServletResponse response,
-    		HttpServletRequest request) {
+    		HttpServletRequest request,MomentsInfo momentsInfo) {
 		RtnData rtn=new RtnData();
 		UploadUtils up = new UploadUtils();
 		String[] type= {"images","SendMoment"};
         try {
-        	List<String> list=up.filesUpload(request,files,type);
-        	if(list!=null) {
-        		//写着测试，删了就可以
-                for (int i = 0; i < list.size(); i++) {
-                    System.out.println("集合里面的数据" + list.get(i));
-                }
+        	Map<String,Object> retMap=up.filesUpload(request,files,type);
+        	if(retMap.get("list")!=null) {
+                momentsInfo.preInsert();
+                momentsInfo.setImgContents(StringUtils.strip(retMap.get("list").toString(),"[]")+"|"+StringUtils.strip(retMap.get("listthumbImg").toString(),"[]"));
+                appUserService.insertSendMoment(momentsInfo);
                 rtn.setCode("0000");
-    			rtn.setMessage("文件上传成功");
+    			rtn.setMessage("朋友圈发送成功");
         	}else {
         		rtn.setCode("1055");
-    			rtn.setMessage("文件上传失败");
+    			rtn.setMessage("朋友圈发送失败");
         	}
 		} catch (Exception e) {
-			 rtn.setMessage("查询异常");
+			 rtn.setMessage("朋友圈发送异常");
 			 rtn.setCode("500");
 		}
         return toJsonByALWAYS(response, rtn);
