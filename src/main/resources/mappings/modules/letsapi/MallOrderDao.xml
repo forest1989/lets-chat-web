@@ -153,7 +153,7 @@
      <select id="selectOrder" resultMap="slist">
     		 select 
 	     <include refid = "orderList" />
-	         from MALL_ORDER a,SHOPPING_ADDRESS b WHERE a.USER_ID = #{userId}  AND  a.address_id = b.id
+	         from MALL_ORDER a,SHOPPING_ADDRESS b WHERE a.USER_ID = #{userId}  AND  a.address_id = b.id AND a.del_flag = '0'
 	  </select>
 	  
 	  <!-- 批量删除订单 MALL_ORDER -->
