@@ -429,9 +429,10 @@ public class AppUserController extends BaseController {
 		String[] type= {"images","SendMoment"};
         try {
         	Map<String,Object> retMap=up.filesUpload(request,files,type);
-        	if(retMap.get("list")!=null||retMap.get("list")!="") {
+        	if(retMap.get("list")!=null) {
                 momentsInfo.preInsert();
-                momentsInfo.setImgContents(StringUtils.strip(retMap.get("list").toString(),"[]")+"|"+StringUtils.strip(retMap.get("listthumbImg").toString(),"[]"));
+                String imgContents=StringUtils.strip(retMap.get("list").toString(),"[]")+"|"+StringUtils.strip(retMap.get("listthumbImg").toString(),"[]");
+                momentsInfo.setImgContents(imgContents.replaceAll(" ", ""));
                 int n=appUserService.insertSendMoment(momentsInfo);
                 if(n>0) {
                 	rtn.setData(momentsInfo);
@@ -442,8 +443,16 @@ public class AppUserController extends BaseController {
         			rtn.setMessage("朋友圈发送失败");
                 }
         	}else {
-        		rtn.setCode("1055");
-    			rtn.setMessage("朋友圈发送失败");
+        		momentsInfo.preInsert();
+                int n=appUserService.insertSendMoment(momentsInfo);
+                if(n>0) {
+                	rtn.setData(momentsInfo);
+                    rtn.setCode("0000");
+        			rtn.setMessage("朋友圈发送成功");
+                }else {
+                	rtn.setCode("1055");
+        			rtn.setMessage("朋友圈发送失败");
+                }
         	}
 		} catch (Exception e) {
 			 rtn.setMessage("朋友圈发送异常");

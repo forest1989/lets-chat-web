@@ -381,9 +381,11 @@ public Map<String,Object> filesUpload(HttpServletRequest request,MultipartFile[]
 		             // 保存文件
 		             retMap= this.saveFile(file,list,listthumbImg,savePath,saveUrl,imgName);
 		         }
+		     }else {
+		    	 retMap.put("list", null);
 		     }
 		}else {
-			retMap.put("list", "");
+			retMap.put("list", null);
 		}
 	return retMap;
 }
