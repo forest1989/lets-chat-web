@@ -155,10 +155,12 @@
 					${fns:getDictLabel(e.stauts, 'PRO_STATUS', '')}
 				</td>
 					
-				<shiro:hasPermission name="letsmall:mallProductManage:edit"><td>
-    				<a href="${ctx}/letsmall/mallProductManage/form?id=${e.id}">修改</a>
-					<a href="${ctx}/letsmall/mallProductManage/delete?id=${e.id}" onclick="return confirmx('确认要删除该商品信息管理吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
+				<shiro:hasPermission name="letsmall:mallProductManage:edit">
+					<td>
+	    				<a href="${ctx}/letsmall/mallProductManage/form?id=${e.id}">修改</a>
+						<a href="${ctx}/letsmall/mallProductManage/delete?id=${e.id}" onclick="return confirmx('确认要删除该商品信息管理吗？', this.href)">删除</a>
+					</td>
+				</shiro:hasPermission>
 			</tr>
 		</c:forEach>
 		</tbody>

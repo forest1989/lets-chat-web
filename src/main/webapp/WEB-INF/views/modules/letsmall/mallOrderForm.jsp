@@ -63,7 +63,7 @@
 				<label class="control-label">					
 	                  <a href="javascript:void(0)" onclick="productInfo(${e.DEL_FLAG}, '${e.PRODUCT_ID}')">
 	                  <img class="" src="${e.PRODUCT_ICO1}" title="${e.PRODUCT_NAME}&nbsp;&nbsp;${e.SPEC_NAME}" 
-	                  	data-lazy-img="done" width="80" height="80"></a>                
+	                  	data-lazy-img="done" width="80" height="80" onerror='this.src="${ctxStatic}/images/img_not_fond.png"'></a>                
 				</label>
 				
 				<div class="controls" >
