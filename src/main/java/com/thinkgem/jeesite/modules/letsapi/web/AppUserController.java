@@ -3,7 +3,6 @@
  */
 package com.thinkgem.jeesite.modules.letsapi.web;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,14 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.thinkgem.jeesite.common.utils.Dom4jXmlUtils;
 import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUserLoginLog;
 import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
-import com.thinkgem.jeesite.modules.letsapi.entity.OfflineMessage;
 import com.thinkgem.jeesite.modules.letsapi.jwt.api.TokenMgr;
 import com.thinkgem.jeesite.modules.letsapi.jwt.config.Constant;
 import com.thinkgem.jeesite.modules.letsapi.jwt.model.SubjectModel;
@@ -435,7 +432,7 @@ public class AppUserController extends BaseController {
         		//写着测试，删了就可以
                 for (int i = 0; i < list.size(); i++) {
                     System.out.println("集合里面的数据" + list.get(i));
-                };
+                }
                 rtn.setCode("0000");
     			rtn.setMessage("文件上传成功");
         	}else {

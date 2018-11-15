@@ -50,7 +50,7 @@ public class UploadUtils {
 	public static final String FILE_FIELDS = "file_fields";
 
 	// 最大文件大小
-	private long maxSize = 10000000;
+	private long maxSize = 50000000;
 	// 定义允许上传的文件扩展名
 	private Map<String, String> extMap = new HashMap<String, String>();
 	// 文件保存目录相对路径
@@ -376,7 +376,7 @@ public List<String> filesUpload(HttpServletRequest request,MultipartFile[] files
 		             MultipartFile file = files[i];
 		             String imgName=IdGen.uuid()+".jpg";
 		             // 保存文件
-		             list = this.saveFile(request, file, list,savePath,saveUrl,imgName);
+		             list = this.saveFile(file,list,savePath,saveUrl,imgName);
 		         }
 		     }
 		}else {
@@ -390,8 +390,7 @@ public List<String> filesUpload(HttpServletRequest request,MultipartFile[] files
 * @date 2018年11月14日  
 * @version 1.0  
 */ 
-private List<String> saveFile(HttpServletRequest request,
-        MultipartFile file, List<String> list,String savePath,
+private List<String> saveFile(MultipartFile file,List<String> list,String savePath,
         String saveUrl,String imgName) {
     // 判断文件是否为空
     if (!file.isEmpty()) {
