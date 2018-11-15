@@ -383,7 +383,7 @@ public Map<String,Object> filesUpload(HttpServletRequest request,MultipartFile[]
 		         }
 		     }
 		}else {
-			retMap=null;
+			retMap.put("list", "");
 		}
 	return retMap;
 }

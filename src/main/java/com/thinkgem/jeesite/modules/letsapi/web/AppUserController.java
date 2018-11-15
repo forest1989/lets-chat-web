@@ -429,7 +429,7 @@ public class AppUserController extends BaseController {
 		String[] type= {"images","SendMoment"};
         try {
         	Map<String,Object> retMap=up.filesUpload(request,files,type);
-        	if(retMap.get("list")!=null) {
+        	if(retMap.get("list")!=null||retMap.get("list")!="") {
                 momentsInfo.preInsert();
                 momentsInfo.setImgContents(StringUtils.strip(retMap.get("list").toString(),"[]")+"|"+StringUtils.strip(retMap.get("listthumbImg").toString(),"[]"));
                 int n=appUserService.insertSendMoment(momentsInfo);
