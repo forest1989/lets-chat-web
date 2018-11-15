@@ -696,6 +696,14 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 			String userId  = UserUtils.getUser(request).getUserId();
 			String mallOrderInfoStr = request.getParameter("orderIds");
 			List<MallOrder> list = JsonUtils.getPersons(mallOrderInfoStr,MallOrder.class);
+			//支付之前查询订单是否被后台管理删除
+			List<MallOrder> mllDelFlag = mallOrderDao.getDelFlag(list);
+			if (mllDelFlag.size()>0) {
+				rtn.setCode("2001");
+				rtn.setMessage("订单已删除!");
+				logger.info("订单已删除:"+userId);
+				return rtn;
+			}
 			//1验证是否是 确认已完成 操作。
 			if (list.get(0).getOperationType().equals("2")) {
 				res = mallOrderDao.updateOver(list);

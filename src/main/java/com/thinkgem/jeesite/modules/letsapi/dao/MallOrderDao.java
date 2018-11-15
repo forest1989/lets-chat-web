@@ -82,4 +82,9 @@ public interface MallOrderDao extends CrudDao<MallOrder> {
 	 * @return
 	 */
 	MallOrder downMoney(String userId);
+	/**
+	 * @param 获取订单删除状态
+	 * @return
+	 */
+	List<MallOrder> getDelFlag(List<MallOrder> mallOrder);
 }

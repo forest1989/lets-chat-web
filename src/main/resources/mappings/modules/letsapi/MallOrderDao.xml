@@ -235,4 +235,15 @@
 					  #{item.orderId} 
 				</foreach>
 	</update>
+	<!--  查询订单删除状态。支付前判断是否已经删除 -->
+	<select id="getDelFlag" parameterType="java.util.List" resultType="MallOrder">
+			SELECT DEL_FLAG from MALL_ORDER where id in 
+			<!-- 传递List，List中是pojo -->
+			<if test="list!=null">
+				<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+					  #{item.orderId} 
+				</foreach>
+			</if>
+			 AND DEL_FLAG = '1'
+	</select>
 </mapper>
