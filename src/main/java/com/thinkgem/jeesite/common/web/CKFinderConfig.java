@@ -58,6 +58,7 @@ public class CKFinderConfig extends Configuration {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+
 		return new CKFinderConfig(this.servletConf);
     }
 

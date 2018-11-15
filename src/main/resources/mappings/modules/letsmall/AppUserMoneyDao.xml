@@ -18,7 +18,7 @@
 	</sql>
 	
 	<sql id="appUserMoneyJoins">
-		LEFT JOIN APP_USER u2 ON u2.id = a.user_id
+		INNER JOIN APP_USER u2 ON u2.id = a.user_id AND u2.DEL_FLAG = '0'
 	</sql>
     
 	<select id="get" resultType="AppUserMoney">
