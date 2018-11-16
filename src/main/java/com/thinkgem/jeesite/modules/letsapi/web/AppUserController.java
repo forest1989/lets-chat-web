@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
@@ -427,14 +428,17 @@ public class AppUserController extends BaseController {
 		RtnData rtn=new RtnData();
 		UploadUtils up = new UploadUtils();
 		String[] type= {"images","SendMoment"};
+		String textContentold=momentsInfo.getTextContents();
         try {
         	Map<String,Object> retMap=up.filesUpload(request,files,type);
         	if(retMap.get("list")!=null) {
                 momentsInfo.preInsert();
                 String imgContents=StringUtils.strip(retMap.get("list").toString(),"[]")+"|"+StringUtils.strip(retMap.get("listthumbImg").toString(),"[]");
                 momentsInfo.setImgContents(imgContents.replaceAll(" ", ""));
+                momentsInfo.setTextContents(Encodes.encodeBase64(momentsInfo.getTextContents()));
                 int n=appUserService.insertSendMoment(momentsInfo);
                 if(n>0) {
+                	momentsInfo.setTextContents(textContentold);
                 	rtn.setData(momentsInfo);
                     rtn.setCode("0000");
         			rtn.setMessage("朋友圈发送成功");
@@ -444,8 +448,10 @@ public class AppUserController extends BaseController {
                 }
         	}else {
         		momentsInfo.preInsert();
+        		momentsInfo.setTextContents(Encodes.encodeBase64(momentsInfo.getTextContents()));
                 int n=appUserService.insertSendMoment(momentsInfo);
                 if(n>0) {
+                	momentsInfo.setTextContents(textContentold);
                 	rtn.setData(momentsInfo);
                     rtn.setCode("0000");
         			rtn.setMessage("朋友圈发送成功");
@@ -455,6 +461,7 @@ public class AppUserController extends BaseController {
                 }
         	}
 		} catch (Exception e) {
+			 logger.error("朋友圈发送异常：" + e.getMessage());
 			 rtn.setMessage("朋友圈发送异常");
 			 rtn.setCode("500");
 		}
