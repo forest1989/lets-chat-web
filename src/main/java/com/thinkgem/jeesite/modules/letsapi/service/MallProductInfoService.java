@@ -631,8 +631,8 @@ public class MallProductInfoService extends CrudService<MallProductInfoDao, Mall
 				logger.info("订单列表获取成功------"+UserUtils.getUser(request).getUserId());
 			}else {
 				rtn.setCode("500");
-				rtn.setMessage("未找到购物账户!");
-				logger.error("未找到购物账户!");
+				rtn.setMessage("未查询到订单列表!");
+				logger.error("未查询到订单列表!");
 			}
 		} catch (Exception e) {
 			rtn.setCode("500");
