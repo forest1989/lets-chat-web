@@ -58,7 +58,15 @@
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="mallProductManage" action="${ctx}/letsmall/mallProductManage/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
-		<sys:message content="${message}"/>		
+		<sys:message content="${message}"/>
+		<c:if test="${not empty mallProductManage.id}">
+			<div class="control-group">
+				<label class="control-label">商品编码：</label>
+				<div class="controls">
+					<form:input path="productNo" htmlEscape="false" maxlength="200" class="input-xlarge" readonly="true"/>
+				</div>
+			</div>
+		</c:if>		
 		
 		<div class="control-group">
 			<label class="control-label">商品名称：</label>
