@@ -54,6 +54,8 @@ public class MallProductManage extends DataEntity<MallProductManage> {
 	
 	private List<ProductSpecifications> proSpecList;
 	
+	private String oldProductTypeId;
+	
 	public MallProductManage() {
 		super();
 	}
@@ -207,6 +209,14 @@ public class MallProductManage extends DataEntity<MallProductManage> {
 
 	public void setProSpec(ProductSpecifications proSpec) {
 		this.proSpec = proSpec;
+	}
+
+	public String getOldProductTypeId() {
+		return oldProductTypeId;
+	}
+
+	public void setOldProductTypeId(String oldProductTypeId) {
+		this.oldProductTypeId = oldProductTypeId;
 	}
 	
 	

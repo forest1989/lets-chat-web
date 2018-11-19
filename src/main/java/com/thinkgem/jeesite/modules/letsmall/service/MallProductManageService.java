@@ -38,22 +38,32 @@ public class MallProductManageService extends CrudService<MallProductManageDao, 
 		return dao.getProductSpecList(ps);
 	} 
 	
+	// 生成商品编码
+	public String setProductNo(String productTypeId){
+		String numIndex = DateUtils.getDate("MMdd") +  productTypeId;
+		String proNum = dao.getProductNo(productTypeId);
+		if(proNum != null) {
+			String i = proNum.substring(8, proNum.length());
+			return numIndex + String.format("%08d", Integer.valueOf(i) + 1);
+		}else {
+			// 生成该商品分类下的第一件商品编码 格式如下：1024000100000001 （MMdd + 商品分类  + 00000001）
+			String num = numIndex + "00000001";
+			return num;
+			
+		}
+	}
 	@Transactional(readOnly = false)
 	public void save(MallProductManage mp) {
 		if (mp.getIsNewRecord()){
 			mp.preInsert();
-			String proNo = dao.getProductNo(mp.getProductTypeId());
-			if(proNo != null) {
-				mp.setProductNo(String.valueOf(Long.valueOf(proNo) + 1));
-			}else {
-				// 生成该商品分类下的第一件商品编码 格式如下：2018102400010001 （yyyyMMdd + 商品分类  + 0001）
-				String no = DateUtils.getDate("yyyyMMdd") +  mp.getProductTypeId() + "0001";
-				mp.setProductNo(no);
-				
-			}
+			mp.setProductNo(this.setProductNo(mp.getProductTypeId()));
 			dao.insert(mp);
 		}else{
 			mp.preUpdate();
+			// 如果商品更改商品分类，重新生成商品编码
+			if(!mp.getOldProductTypeId().equals(mp.getProductTypeId())) {
+				mp.setProductNo(this.setProductNo(mp.getProductTypeId()));
+			}
 			dao.update(mp);
 			// 先全部删除商品规格
 			dao.deleteProductSpec(mp.getId());

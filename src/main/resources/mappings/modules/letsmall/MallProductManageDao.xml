@@ -195,7 +195,10 @@
 			ORDER BY SORT
 	</select>
 	<update id="update">
-		UPDATE mall_product_info SET 	
+		UPDATE mall_product_info SET 
+			<if test="productNo != null and productNo != ''">
+				product_no = #{productNo},
+			</if>
 			product_name = #{productName},
 			product_ico1 = #{productIco1},
 			product_ico2 = #{productIco2},

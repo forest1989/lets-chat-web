@@ -77,6 +77,7 @@
 		<div class="control-group">
 			<label class="control-label">商品类别：</label>
 			<div class="controls">
+				<input type="hidden" name="oldProductTypeId" value="${mallProductManage.productTypeId}">
 				<form:select path="productTypeId" cssClass="input-small required">
 					<form:options items="${fns:getDictList('PRODUCT_TYPE')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
