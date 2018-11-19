@@ -406,10 +406,10 @@ public class AppUserController extends BaseController {
 	* @version 1.0  
 	*/ 
 	@RequestMapping(value="/getHomeAd", method = RequestMethod.POST)
-	public String  getDict(HttpServletRequest request,HttpServletResponse response,Dict dic){
+	public String  getDict(HttpServletRequest request,HttpServletResponse response){
 		RtnData rtn=new RtnData();
 		try {
-			rtn = appUserService.getHomeAd(dic);
+			rtn = appUserService.getHomeAd();
 		} catch (Exception e) {
 			 rtn.setMessage("查询异常");
 			 rtn.setCode("500");

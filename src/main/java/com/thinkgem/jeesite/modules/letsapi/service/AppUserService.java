@@ -18,10 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
+import com.thinkgem.jeesite.modules.letsapi.dao.HomeadInfoDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.MomentsInfoDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUserLoginLog;
 import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
+import com.thinkgem.jeesite.modules.letsapi.entity.HomeadInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.MomentsInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.OfflineMessage;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
@@ -45,6 +47,8 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	private DictDao dictDao;
 	@Autowired
 	private MomentsInfoDao momentsInfoDao;
+	@Autowired
+	private HomeadInfoDao homeadInfoDao;
 	/**
 	 * @param user登录
 	 * @return
@@ -383,18 +387,13 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	 * @param e
 	 * @return
 	 */
-	public RtnData getHomeAd(Dict dic) {
+	public RtnData getHomeAd() {
 		RtnData rtn = new RtnData();
-		Map<String,Object> retMap = new HashMap<String, Object>();
-		List<Dict> list=null;
+		List<HomeadInfo> list=null;
 		try {
-			list=dictDao.findList(dic);
+			list=homeadInfoDao.getHomeAd();
 			if(list != null && list.size() > 0) {
-				retMap.put("content", list.get(0).getValue());//广告页面地址
-				retMap.put("openUrl", list.get(0).getDescription());//要跳转的页面
-				retMap.put("contentSize", list.get(0).getLabel());//尺寸
-				retMap.put("duration", list.get(0).getSort());//广告呢持续时间
-				rtn.setData(retMap);
+				rtn.setData(list);
 				rtn.setCode("0000");
 				rtn.setMessage("查询成功");
 			}else {
