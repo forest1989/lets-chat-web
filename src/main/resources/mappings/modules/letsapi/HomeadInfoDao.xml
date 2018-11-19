@@ -98,11 +98,12 @@
 	</update>
 	<!--查询广告系统时间在设置时间之间的配置-->
 	<select id="getHomeAd" resultType="HomeadInfo">
-		SELECT *
-		  FROM HOMEAD_INFO S
-		 WHERE (SELECT TO_CHAR(SYSDATE, 'yyyy-MM-dd HH:mm:ss') FROM DUAL) BETWEEN
-		       TO_CHAR(S.BEGIN_DATE, 'yyyy-MM-dd HH:mm:ss') AND
-		       TO_CHAR(S.END_DATE, 'yyyy-MM-dd HH:mm:ss')
-		   AND S.DEL_FLAG = 0
+	SELECT *
+	  FROM HOMEAD_INFO S
+	 WHERE (SELECT TO_CHAR(sysdate, 'yyyy-MM-dd HH:mi:ss') FROM DUAL) BETWEEN
+	       TO_CHAR(S.BEGIN_DATE, 'yyyy-MM-dd HH:mi:ss') AND
+	       TO_CHAR(S.END_DATE, 'yyyy-MM-dd HH:mi:ss')
+	   AND S.DEL_FLAG = 0
+	   AND ROWNUM = 1
 	</select>
 </mapper>
