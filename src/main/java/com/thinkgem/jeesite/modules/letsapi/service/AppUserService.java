@@ -389,11 +389,16 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	 */
 	public RtnData getHomeAd() {
 		RtnData rtn = new RtnData();
+		Map<String,Object> retMap = new HashMap<String, Object>();
 		List<HomeadInfo> list=null;
 		try {
 			list=homeadInfoDao.getHomeAd();
 			if(list != null && list.size() > 0) {
-				rtn.setData(list);
+				retMap.put("content", list.get(0).getContent());// 广告页面地址
+				retMap.put("openurl", list.get(0).getOpenurl());// 要跳转的页面
+				retMap.put("contentsize", list.get(0).getContentsize());// 图片尺寸
+				retMap.put("duration", list.get(0).getDuration());// 广告持续时间
+				rtn.setData(retMap);
 				rtn.setCode("0000");
 				rtn.setMessage("查询成功");
 			}else {

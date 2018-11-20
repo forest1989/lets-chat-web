@@ -34,10 +34,11 @@
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
-			<label class="control-label">广告页面地址：</label>
+			<label class="control-label">广告页面图片：</label>
 			<div class="controls">
-				<form:textarea path="content" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<form:hidden id="ico1Image" path="content" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
+				<sys:ckfinder input="ico1Image" type="images" uploadPath="/app/homeadInfo_ico" selectMultiple="false" maxWidth="100" maxHeight="100"/>
+				<span class="help-inline"><font color="red">*请选择本地图片上传</font> </span>
 			</div>
 		</div>
 		<div class="control-group">

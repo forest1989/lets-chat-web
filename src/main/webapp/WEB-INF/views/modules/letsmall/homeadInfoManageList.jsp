@@ -43,8 +43,8 @@
 		<c:forEach items="${page.list}" var="homeadInfoManage">
 			<tr>
 			    <td>
-					<a href="${ctx}/letsmall/homeadInfoManage/form?id=${homeadInfoManage.id}">
-					${homeadInfoManage.content}
+					<a title="${homeadInfoManage.content}" href="${ctx}/letsmall/homeadInfoManage/form?id=${homeadInfoManage.id}">
+					${fns:abbr(homeadInfoManage.content,40)}
 					</a>
 				</td>
 				<td>
