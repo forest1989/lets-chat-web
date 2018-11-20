@@ -100,9 +100,9 @@
 	<select id="getHomeAd" resultType="HomeadInfo">
 	SELECT *
 	  FROM HOMEAD_INFO S
-	 WHERE (SELECT TO_CHAR(sysdate, 'yyyy-MM-dd HH:mi:ss') FROM DUAL) BETWEEN
-	       TO_CHAR(S.BEGIN_DATE, 'yyyy-MM-dd HH:mi:ss') AND
-	       TO_CHAR(S.END_DATE, 'yyyy-MM-dd HH:mi:ss')
+	 WHERE (SELECT TO_CHAR(sysdate, 'HH24:mi:ss') FROM DUAL) BETWEEN
+	       TO_CHAR(S.BEGIN_DATE, 'HH24:mi:ss') AND
+	       TO_CHAR(S.END_DATE, 'HH24:mi:ss')
 	   AND S.DEL_FLAG = 0
 	   AND ROWNUM = 1
 	</select>
