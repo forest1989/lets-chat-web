@@ -18,6 +18,7 @@ public class Area extends TreeEntity<Area> {
 //	private Area parent;	// 父级编号
 //	private String parentIds; // 所有父级编号
 	private String code; 	// 区域编码
+	private String phoneCode; 	// 电话代码
 //	private String name; 	// 区域名称
 //	private Integer sort;		// 排序
 	private String type; 	// 区域类型（1：国家；2：省份、直辖市；3：地市；4：区县）
@@ -84,11 +85,20 @@ public class Area extends TreeEntity<Area> {
 	public void setCode(String code) {
 		this.code = code;
 	}
+	
 //
 //	public String getParentId() {
 //		return parent != null && parent.getId() != null ? parent.getId() : "0";
 //	}
 	
+	public String getPhoneCode() {
+		return phoneCode;
+	}
+
+	public void setPhoneCode(String phoneCode) {
+		this.phoneCode = phoneCode;
+	}
+
 	@Override
 	public String toString() {
 		return name;

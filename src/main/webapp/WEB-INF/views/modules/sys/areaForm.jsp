@@ -54,6 +54,12 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">电话代码:</label>
+			<div class="controls">
+				<form:input path="phoneCode" htmlEscape="false" maxlength="50"/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">区域类型:</label>
 			<div class="controls">
 				<form:select path="type" class="input-medium">

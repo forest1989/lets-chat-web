@@ -34,13 +34,14 @@
 	</ul>
 	<sys:message content="${message}"/>
 	<table id="treeTable" class="table table-striped table-bordered table-condensed">
-		<thead><tr><th>区域名称</th><th>区域编码</th><th>区域类型</th><th>备注</th><shiro:hasPermission name="sys:area:edit"><th>操作</th></shiro:hasPermission></tr></thead>
+		<thead><tr><th>区域名称</th><th>区域编码</th><th>电话代码</th><th>区域类型</th><th>备注</th><shiro:hasPermission name="sys:area:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 		<tbody id="treeTableList"></tbody>
 	</table>
 	<script type="text/template" id="treeTableTpl">
 		<tr id="{{row.id}}" pId="{{pid}}">
 			<td><a href="${ctx}/sys/area/form?id={{row.id}}">{{row.name}}</a></td>
 			<td>{{row.code}}</td>
+            <td>{{row.phoneCode}}</td>
 			<td>{{dict.type}}</td>
 			<td>{{row.remarks}}</td>
 			<shiro:hasPermission name="sys:area:edit"><td>
