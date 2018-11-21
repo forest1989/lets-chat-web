@@ -5,7 +5,6 @@ package com.thinkgem.jeesite.modules.letsapi.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +24,7 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUserLoginLog;
+import com.thinkgem.jeesite.modules.letsapi.entity.AreaPhone;
 import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.MomentsInfo;
 import com.thinkgem.jeesite.modules.letsapi.jwt.api.TokenMgr;
@@ -34,7 +34,6 @@ import com.thinkgem.jeesite.modules.letsapi.service.AppUserService;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UploadUtils;
 import com.thinkgem.jeesite.modules.letsapi.utils.jpush.JpushUtils;
-import com.thinkgem.jeesite.modules.sys.entity.Dict;
 
 /**
  * 用户信息Controller
@@ -467,6 +466,22 @@ public class AppUserController extends BaseController {
 		}
         return toJsonByALWAYS(response, rtn);
     }
-
+	/**  
+	* <p>Description:查询区域 </p>      
+	* @author tao_yonggang  
+	* @date 2018年11月21日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/getAreaForPhone", method = RequestMethod.POST)
+	public String  getAreaForPhone(HttpServletRequest request,HttpServletResponse response,AreaPhone a){
+		RtnData rtn=new RtnData();
+		try {
+			rtn = appUserService.getAreaForPhone(a);
+		} catch (Exception e) {
+			 rtn.setMessage("查询异常");
+			 rtn.setCode("500");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
   
 }

@@ -4,7 +4,6 @@
 package com.thinkgem.jeesite.modules.letsapi.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,7 @@ import com.thinkgem.jeesite.modules.letsapi.dao.HomeadInfoDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.MomentsInfoDao;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUser;
 import com.thinkgem.jeesite.modules.letsapi.entity.AppUserLoginLog;
+import com.thinkgem.jeesite.modules.letsapi.entity.AreaPhone;
 import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.HomeadInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.MomentsInfo;
@@ -29,8 +29,7 @@ import com.thinkgem.jeesite.modules.letsapi.entity.OfflineMessage;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
 import com.thinkgem.jeesite.modules.letsim.utils.OpenFireActionUtil;
-import com.thinkgem.jeesite.modules.sys.dao.DictDao;
-import com.thinkgem.jeesite.modules.sys.entity.Dict;
+import com.thinkgem.jeesite.modules.sys.dao.AreaDao;
 
 /**
  * 用户信息Service
@@ -44,7 +43,7 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	@Autowired
     private AppUserDao appUserDao;
 	@Autowired
-	private DictDao dictDao;
+	private AreaDao areaDao;
 	@Autowired
 	private MomentsInfoDao momentsInfoDao;
 	@Autowired
@@ -419,5 +418,31 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 	 */
 	public int insertSendMoment(MomentsInfo momentsInfo) {
 		return momentsInfoDao.insert(momentsInfo);
+	}
+	/**  
+	* <p>Description:查询区域 </p>      
+	* @author tao_yonggang  
+	* @date 2018年11月21日  
+	* @version 1.0  
+	*/ 
+	public RtnData getAreaForPhone(AreaPhone a) {
+		RtnData rtn = new RtnData();
+		List<AreaPhone> list=null;
+		try {
+			list=areaDao.getAreaForPhone(a);
+			if(list != null && list.size() > 0) {
+				rtn.setData(list);
+				rtn.setCode("0000");
+				rtn.setMessage("查询成功");
+			}else {
+				rtn.setCode("1055");
+				rtn.setMessage("暂无数据");
+			}
+		} catch (Exception e) {
+			rtn.setCode("500");
+			rtn.setMessage(e.getMessage());
+			logger.error("查询异常------"+e.getMessage());
+		}
+		return rtn;
 	}
 }

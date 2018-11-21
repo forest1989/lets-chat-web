@@ -3,8 +3,12 @@
  */
 package com.thinkgem.jeesite.modules.sys.dao;
 
+import java.util.List;
+
 import com.thinkgem.jeesite.common.persistence.TreeDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
+import com.thinkgem.jeesite.modules.letsapi.entity.AreaPhone;
+import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 
 /**
@@ -14,5 +18,7 @@ import com.thinkgem.jeesite.modules.sys.entity.Area;
  */
 @MyBatisDao
 public interface AreaDao extends TreeDao<Area> {
+
+	List<AreaPhone> getAreaForPhone(AreaPhone a);
 	
 }

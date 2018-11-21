@@ -19,7 +19,13 @@
 		a.del_flag,
 		p.name AS "parent.name"
 	</sql>
-	
+	<sql id="areaColumnsPhone">
+		a.id,
+		a.parent_id,
+		a.code,
+		a.phone_code,
+		a.name
+	</sql>
 	<sql id="areaJoins">
 		LEFT JOIN sys_office p ON p.id = a.parent_id
     </sql>
@@ -127,5 +133,12 @@
 					<if test="dbName == 'mssql'">'%,'+#{id}+',%'</if>
 					<if test="dbName == 'mysql'">CONCAT('%,', #{id}, ',%')</if>
 	</update>
-	
+	<!-- 查询区域 -->
+	<select id="getAreaForPhone" resultType="AreaPhone">
+		SELECT
+			<include refid="areaColumnsPhone"/>
+		FROM sys_area a
+		WHERE a.del_flag = 0 and a.parent_id=#{parentId}
+		ORDER BY a.code
+	</select>
 </mapper>
