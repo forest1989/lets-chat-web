@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.common.utils.JedisUtils;
 import com.thinkgem.jeesite.modules.letsapi.dao.AppUserDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.HomeadInfoDao;
 import com.thinkgem.jeesite.modules.letsapi.dao.MomentsInfoDao;
@@ -26,6 +27,7 @@ import com.thinkgem.jeesite.modules.letsapi.entity.FriendInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.HomeadInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.MomentsInfo;
 import com.thinkgem.jeesite.modules.letsapi.entity.OfflineMessage;
+import com.thinkgem.jeesite.modules.letsapi.utils.JsonUtils;
 import com.thinkgem.jeesite.modules.letsapi.utils.RtnData;
 import com.thinkgem.jeesite.modules.letsapi.utils.UserUtils;
 import com.thinkgem.jeesite.modules.letsim.utils.OpenFireActionUtil;
@@ -429,15 +431,39 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 		RtnData rtn = new RtnData();
 		List<AreaPhone> list=null;
 		try {
-			list=areaDao.getAreaForPhone(a);
-			if(list != null && list.size() > 0) {
-				rtn.setData(list);
+			//从redis缓存中取
+			List<AreaPhone> listJedis=null;
+			try {
+				listJedis = JedisUtils.getLists("AreaPid_"+a.getParentId());
+			} catch (Exception e) {//从redis缓存中取连接不到就从数据库查
+				list=areaDao.getAreaForPhone(a);
+				if(list != null && list.size() > 0) {
+					rtn.setData(list);
+					rtn.setCode("0000");
+					rtn.setMessage("查询成功");
+				}else {
+					rtn.setCode("1055");
+					rtn.setMessage("暂无数据");
+				}
+				return rtn;
+			}
+			if(listJedis != null) {
+				rtn.setData(listJedis);
 				rtn.setCode("0000");
 				rtn.setMessage("查询成功");
-			}else {
-				rtn.setCode("1055");
-				rtn.setMessage("暂无数据");
+			}else {//从redis缓存中取没有就查到了再加到缓存中去
+				list=areaDao.getAreaForPhone(a);
+				if(list != null && list.size() > 0) {
+					JedisUtils.setLists("AreaPid_"+a.getParentId(), list);
+					rtn.setData(list);
+					rtn.setCode("0000");
+					rtn.setMessage("查询成功");
+				}else {
+					rtn.setCode("1055");
+					rtn.setMessage("暂无数据");
+				}
 			}
+			
 		} catch (Exception e) {
 			rtn.setCode("500");
 			rtn.setMessage(e.getMessage());

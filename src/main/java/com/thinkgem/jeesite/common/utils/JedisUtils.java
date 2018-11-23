@@ -850,5 +850,52 @@ public class JedisUtils {
 	public static Object toObject(byte[] bytes){
 		return ObjectUtils.unserialize(bytes);
 	}
-
+	/** 
+     * 设置 list 
+     * @param <T> 
+     * @param key 
+     * @param value 
+     */  
+    public static <T> void setLists(String key ,List<T> list){ 
+    	Jedis jedis = null;
+        try {  
+        	jedis = getResource();
+        	jedis.set(key.getBytes(),ObjectUtils.serialize(list));  
+        } catch (Exception e) {  
+            logger.error("Set key error : "+e);  
+        }  
+    } 
+    /** 
+     * 获取list 
+     * @param <T> 
+     * @param key 
+     * @return list 
+     */  
+    public static <T> List<T> getLists(String key){
+    	Jedis jedis = null;
+    	jedis = getResource();
+        if(jedis == null || !jedis.exists(key.getBytes())){  
+            return null;  
+        }  
+        byte[] in = jedis.get(key.getBytes());    
+        List<T> list = (List<T>) ObjectUtils.unserialize(in);    
+        return list;  
+    } 
+    /**
+	 * 删除Redis内所有内容
+	 * @return
+	 * @throws JedisException
+	 */
+	public static Jedis flushAll() throws JedisException {
+		Jedis jedis = null;
+		try {
+			jedis = jedisPool.getResource();
+			jedis.flushAll();
+		} catch (JedisException e) {
+			logger.warn("getResource.", e);
+			returnBrokenResource(jedis);
+			throw e;
+		}
+		return jedis;
+	}
 }

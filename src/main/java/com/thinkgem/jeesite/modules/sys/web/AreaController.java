@@ -21,11 +21,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.utils.JedisUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.service.AreaService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+
+import redis.clients.jedis.exceptions.JedisException;
 
 /**
  * 区域Controller
@@ -90,6 +93,11 @@ public class AreaController extends BaseController {
 			return form(area, model);
 		}
 		areaService.save(area);
+		try {
+			JedisUtils.flushAll();
+		} catch (JedisException e) {
+			logger.error("Jedis异常------"+e.getMessage());
+		}
 		addMessage(redirectAttributes, "保存区域'" + area.getName() + "'成功");
 		return "redirect:" + adminPath + "/sys/area/";
 	}
@@ -105,6 +113,11 @@ public class AreaController extends BaseController {
 //			addMessage(redirectAttributes, "删除区域失败, 不允许删除顶级区域或编号为空");
 //		}else{
 			areaService.delete(area);
+			try {
+				JedisUtils.flushAll();
+			} catch (JedisException e) {
+				logger.error("Jedis异常------"+e.getMessage());
+			}
 			addMessage(redirectAttributes, "删除区域成功");
 //		}
 		return "redirect:" + adminPath + "/sys/area/";
