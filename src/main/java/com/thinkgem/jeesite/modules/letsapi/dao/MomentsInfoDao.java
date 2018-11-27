@@ -35,6 +35,7 @@ public interface MomentsInfoDao extends CrudDao<MomentsInfo> {
 	 */
 	List<MomentsInfo> findMoments2(MomentsInfo momentsInfo);
 	
+	
 	/**
 	 * @param 朋友圈查询 之：查询我的相册
 	 * @return
