@@ -471,4 +471,48 @@ public class AppUserService extends CrudService<AppUserDao, AppUser> {
 		}
 		return rtn;
 	}
+	/**
+	 * 查询朋友圈
+	 * zhaishaobo
+	 * @param e
+	 * @return
+	 */
+	public List<MomentsInfo> findMoments(MomentsInfo momentsInfo) {
+		String mark = null;
+		List<MomentsInfo> res = null;
+		//根据手机端传入的查询标记 调用不同dao
+		try {
+			mark = momentsInfo.getSelectMark();
+			if (mark.equals("0")) {
+				res = momentsInfoDao.findMoments0(momentsInfo);//刚进来获取最新十条
+				logger.info("查询结果------"+res.size());
+			}else if (mark.equals("1")) {
+				res = momentsInfoDao.findMoments1(momentsInfo);//下拉获取时间轴往上所有
+				logger.info("查询结果------"+res.size());
+			}else if (mark.equals("2")) {
+				res = momentsInfoDao.findMoments2(momentsInfo);//上滑 查询下一页
+				logger.info("查询结果------"+res.size());
+			}
+		} catch (Exception e) {
+			logger.error("查询异常------"+e.getMessage());
+			e.printStackTrace();
+		}
+		return res != null?res:null;
+	}
+	/**
+	 * 查询我的相册
+	 * zhaishaobo
+	 * @param e
+	 * @return
+	 */
+	public List<MomentsInfo> findMyMoments(MomentsInfo momentsInfo) {
+		List<MomentsInfo> res = null;
+		try {
+			res = momentsInfoDao.findMyMoments(momentsInfo);
+		} catch (Exception e) {
+			logger.error("查询我的相册异常------"+e.getMessage());
+			e.printStackTrace();
+		}
+		return res != null?res:null;
+	}
 }
