@@ -55,11 +55,13 @@ public interface AppUserDao extends CrudDao<AppUser> {
 	 * 获取用户好友信息列表
 	 */
 	List<FriendInfo> selectFriend(AppUser user);
+	
 	/**
 	 * @author zhai_shaobo
 	 * app个性化定制好友信息(用户可以对好友个性化其 loginname，phone，photo)
 	 */
 	public int customizationFriend(FriendInfo user);
+	
 	/**
 	 * @author zhai_shaobo
 	 * app个性化定制好友信息修改个性化定制信息
