@@ -116,7 +116,7 @@
 		                        AU.NICK_NAME,
 		                        AU.Photo
 		                   FROM MOMENTS_INFO MI
-		                   LEFT JOIN APP_FRIEND_INFO AFO ON MI.USER_NAME = AFO.FRIEND_LOGIN_NAME
+		                   LEFT JOIN APP_FRIEND_INFO AFO ON MI.USER_NAME = AFO.FRIEND_LOGIN_NAME AND AFO.LOGIN_NAME = #{userName}  
 		                   LEFT JOIN APP_USER AU ON MI.USER_NAME = AU.LOGIN_NAME 
 		                              ORDER BY MI.Create_Date DESC) A
 		          WHERE ROWNUM <![CDATA[<=]]> 10
@@ -148,7 +148,7 @@
 			                       AU.NICK_NAME,
 			                       AU.PHOTO
 			                  FROM MOMENTS_INFO MI
-			                  LEFT JOIN APP_FRIEND_INFO AFO ON MI.USER_NAME = AFO.FRIEND_LOGIN_NAME
+			                  LEFT JOIN APP_FRIEND_INFO AFO ON MI.USER_NAME = AFO.FRIEND_LOGIN_NAME AND AFO.LOGIN_NAME = #{userName}
 			                  LEFT JOIN APP_USER AU ON MI.USER_NAME = AU.LOGIN_NAME
 			                 ORDER BY MI.CREATE_DATE DESC) A
 			         WHERE A.USER_NAME IN
@@ -181,7 +181,7 @@
 			                       AU.NICK_NAME,
 			                       AU.PHOTO
 			                  FROM MOMENTS_INFO MI
-			                  LEFT JOIN APP_FRIEND_INFO AFO ON MI.USER_NAME = AFO.FRIEND_LOGIN_NAME
+			                  LEFT JOIN APP_FRIEND_INFO AFO ON MI.USER_NAME = AFO.FRIEND_LOGIN_NAME AND AFO.LOGIN_NAME = #{userName}
 			                  LEFT JOIN APP_USER AU ON MI.USER_NAME = AU.LOGIN_NAME
 			                 ORDER BY MI.CREATE_DATE DESC) A
 			         WHERE ROWNUM <![CDATA[<=]]> 10
