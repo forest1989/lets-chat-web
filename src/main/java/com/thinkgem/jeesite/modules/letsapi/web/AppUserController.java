@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.letsapi.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -431,7 +432,8 @@ public class AppUserController extends BaseController {
         try {
         	Map<String,Object> retMap=up.filesUpload(request,files,type);
         	if(retMap.get("list")!=null) {
-                momentsInfo.preInsert();
+//                momentsInfo.preInsert();
+                momentsInfo.preInsertMoments();
                 String imgContents=StringUtils.strip(retMap.get("list").toString(),"[]")+"|"+StringUtils.strip(retMap.get("listthumbImg").toString(),"[]");
                 momentsInfo.setImgContents(imgContents.replaceAll(" ", ""));
                 momentsInfo.setTextContents(Encodes.encodeBase64(momentsInfo.getTextContents()));
@@ -446,7 +448,8 @@ public class AppUserController extends BaseController {
         			rtn.setMessage("朋友圈发送失败");
                 }
         	}else {
-        		momentsInfo.preInsert();
+//        		momentsInfo.preInsert();
+        		 momentsInfo.preInsertMoments();
         		momentsInfo.setTextContents(Encodes.encodeBase64(momentsInfo.getTextContents()));
                 int n=appUserService.insertSendMoment(momentsInfo);
                 if(n>0) {
@@ -483,5 +486,63 @@ public class AppUserController extends BaseController {
 		}
 		return toJsonByALWAYS(response, rtn);
 	}
-  
+	/**  
+	* <p>Description:查询朋友圈 </p>      
+	* @author zhaishaobo
+	* @date 2018年11月21日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/findMoments", method = RequestMethod.POST)
+	public String  findMoments(HttpServletRequest request,HttpServletResponse response,MomentsInfo momentsInfo){
+		RtnData rtn=new RtnData();
+		List<MomentsInfo> res = new ArrayList<MomentsInfo>();
+		try {
+			res = appUserService.findMoments(momentsInfo);
+			if (res!=null && res.size()>0) {
+				rtn.setData(res);
+				rtn.setMessage("朋友圈获取成功");
+				rtn.setCode("0000");
+			}else if(res == null || res.size() == 0){
+				rtn.setData(new ArrayList<MomentsInfo>());
+				rtn.setMessage("没有更多数据");
+				rtn.setCode("0000");
+				logger.error("没有更多数据");
+			}else {
+				rtn.setData(new ArrayList<MomentsInfo>());
+				rtn.setMessage("朋友圈获取失败");
+				rtn.setCode("20022");
+				logger.error("朋友圈获取失败");
+			}
+		} catch (Exception e) {
+			 rtn.setMessage("查询异常");
+			 rtn.setCode("500");
+			 logger.error("朋友圈获取异常");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
+	
+	/**  
+	* <p>Description:查询朋友圈 </p>      
+	* @author zhaishaobo
+	* @date 2018年11月21日  
+	* @version 1.0  
+	*/ 
+	@RequestMapping(value="/findMyMoments", method = RequestMethod.POST)
+	public String  findMyMoments(HttpServletRequest request,HttpServletResponse response,MomentsInfo momentsInfo){
+		RtnData rtn=new RtnData();
+		List<MomentsInfo> res = new ArrayList<MomentsInfo>();
+		try {
+			res = appUserService.findMyMoments(momentsInfo);
+			if (res != null) {
+				 rtn.setMessage("查询我的相册成功");
+				 rtn.setCode("0000");
+				 rtn.setData(res);
+			}
+		} catch (Exception e) {
+			 rtn.setMessage("查询我的相册异常");
+			 rtn.setCode("500");
+			 logger.error("查询我的相册异常");
+		}
+		return toJsonByALWAYS(response, rtn);
+	}
 }

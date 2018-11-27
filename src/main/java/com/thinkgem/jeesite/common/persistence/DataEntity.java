@@ -30,6 +30,9 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 	protected Date updateDate;	// 更新日期
 	protected String delFlag; 	// 删除标记（0：正常；1：删除；2：审核）
 	
+	protected Date createDateMoments;
+	protected Date updateDateMoments;
+	
 	public DataEntity() {
 		super();
 		this.delFlag = DEL_FLAG_NORMAL;
@@ -39,6 +42,23 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 		super(id);
 	}
 	
+	/**
+	 * 插入之前执行方法，需要手动调用
+	 */
+	@Override
+	public void preInsertMoments(){
+		// 不限制ID为UUID，调用setIsNewRecord()使用自定义ID
+		if (!this.isNewRecord){
+			setId(IdGen.uuid());
+		}
+		User user = UserUtils.getUser();
+		if (StringUtils.isNotBlank(user.getId())){
+			this.updateBy = user;
+			this.createBy = user;
+		}
+		this.updateDateMoments = new Date();
+		this.createDateMoments = this.updateDateMoments;
+	}
 	/**
 	 * 插入之前执行方法，需要手动调用
 	 */
@@ -122,6 +142,22 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 
 	public void setDelFlag(String delFlag) {
 		this.delFlag = delFlag;
+	}
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ssSSS")
+	public Date getCreateDateMoments() {
+		return createDateMoments;
+	}
+
+	public void setCreateDateMoments(Date createDateMoments) {
+		this.createDateMoments = createDateMoments;
+	}
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ssSSS")
+	public Date getUpdateDateMoments() {
+		return updateDateMoments;
+	}
+
+	public void setUpdateDateMoments(Date updateDateMoments) {
+		this.updateDateMoments = updateDateMoments;
 	}
 
 }

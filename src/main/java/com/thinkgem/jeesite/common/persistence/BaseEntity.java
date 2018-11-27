@@ -116,6 +116,10 @@ public abstract class BaseEntity<T> implements Serializable {
 	/**
 	 * 插入之前执行方法，子类实现
 	 */
+	public abstract void preInsertMoments();
+	/**
+	 * 插入之前执行方法，子类实现
+	 */
 	public abstract void preInsert();
 	
 	/**

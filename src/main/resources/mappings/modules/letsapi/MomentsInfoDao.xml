@@ -76,8 +76,8 @@
 			#{textContents},
 			#{imgContents},
 			#{sendAddress},
-			#{createDate},
-			#{updateDate},
+			#{createDateMoments},
+			#{updateDateMoments},
 			#{delFlag}
 		)
 	</insert>
@@ -98,5 +98,121 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+	<!-- 朋友圈查询 之：只给状态0 查询最新十条朋友圈，刚进来朋友圈 -->
+	<select id="findMoments0" resultType="MomentsInfo">
+		SELECT *
+		   FROM (SELECT A.ID MOENTID,
+		                A.CREATE_DATE createDateMoments,
+		                A.USER_NAME,
+		                A.TEXT_CONTENTS,
+		                A.IMG_CONTENTS,
+		                A.REMARKS_NICK_NAME,
+		                A.REMARKS_PHOTO,
+		                A.NICK_NAME,
+		                A.Photo
+		           FROM (SELECT MI.*,
+		                        AFO.REMARKS_NICK_NAME,
+		                        AFO.REMARKS_PHOTO,
+		                        AU.NICK_NAME,
+		                        AU.Photo
+		                   FROM MOMENTS_INFO MI
+		                   LEFT JOIN APP_FRIEND_INFO AFO ON MI.USER_NAME = AFO.FRIEND_LOGIN_NAME
+		                   LEFT JOIN APP_USER AU ON MI.USER_NAME = AU.LOGIN_NAME 
+		                              ORDER BY MI.Create_Date DESC) A
+		          WHERE ROWNUM <![CDATA[<=]]> 10
+		            AND A.USER_NAME IN
+		                (SELECT SUBSTR(O.JID, 1, INSTR(O.JID, '@', -1) - 1)
+		                   FROM OFROSTER O
+		                  WHERE O.USERNAME = #{userName}
+		                    AND O.SUB = '3')
+		             OR ROWNUM <![CDATA[<=]]>10
+		            AND A.USER_NAME = #{userName})
+		  WHERE ROWNUM <![CDATA[>=]]> 0
+		  ORDER BY createDateMoments DESC
+	</select>
+	<!-- 朋友圈查询 之：有时间&有查询状态1 下拉获取时间轴往上所有 -->
+	<select id="findMoments1" resultType="MomentsInfo">
+		 SELECT *
+			  FROM (SELECT A.ID MOENTID,
+			               A.CREATE_DATE createDateMoments,
+			               A.USER_NAME,
+			               A.TEXT_CONTENTS,
+			               A.IMG_CONTENTS,
+			               A.REMARKS_NICK_NAME,
+			               A.REMARKS_PHOTO,
+			               A.NICK_NAME,
+			               A.PHOTO
+			          FROM (SELECT MI.*,
+			                       AFO.REMARKS_NICK_NAME,
+			                       AFO.REMARKS_PHOTO,
+			                       AU.NICK_NAME,
+			                       AU.PHOTO
+			                  FROM MOMENTS_INFO MI
+			                  LEFT JOIN APP_FRIEND_INFO AFO ON MI.USER_NAME = AFO.FRIEND_LOGIN_NAME
+			                  LEFT JOIN APP_USER AU ON MI.USER_NAME = AU.LOGIN_NAME
+			                 ORDER BY MI.CREATE_DATE DESC) A
+			         WHERE A.USER_NAME IN
+			               (SELECT SUBSTR(O.JID, 1, INSTR(O.JID, '@', -1) - 1)
+			                  FROM OFROSTER O
+			                 WHERE O.USERNAME = #{userName}
+			                   AND O.SUB = '3')
+			           AND A.CREATE_DATE <![CDATA[>]]>
+			           		to_timestamp(#{timeBase}, 'yyyy-MM-dd HH24:MI:ssff')
+			            OR A.USER_NAME = #{userName}
+			           AND A.CREATE_DATE <![CDATA[>]]>
+			               to_timestamp(#{timeBase}, 'yyyy-MM-dd HH24:MI:ssff'))
+			 ORDER BY createDateMoments DESC
+	</select>
+	<!-- 朋友圈查询 之：有时间&有查询状态2上滑 查询下一页 -->
+	<select id="findMoments2" resultType="MomentsInfo">
+		 SELECT *
+			  FROM (SELECT A.ID MOENTID,
+			               A.CREATE_DATE createDateMoments,
+			               A.USER_NAME,
+			               A.TEXT_CONTENTS,
+			               A.IMG_CONTENTS,
+			               A.REMARKS_NICK_NAME,
+			               A.REMARKS_PHOTO,
+			               A.NICK_NAME,
+			               A.PHOTO
+			          FROM (SELECT MI.*,
+			                       AFO.REMARKS_NICK_NAME,
+			                       AFO.REMARKS_PHOTO,
+			                       AU.NICK_NAME,
+			                       AU.PHOTO
+			                  FROM MOMENTS_INFO MI
+			                  LEFT JOIN APP_FRIEND_INFO AFO ON MI.USER_NAME = AFO.FRIEND_LOGIN_NAME
+			                  LEFT JOIN APP_USER AU ON MI.USER_NAME = AU.LOGIN_NAME
+			                 ORDER BY MI.CREATE_DATE DESC) A
+			         WHERE ROWNUM <![CDATA[<=]]> 10
+			           AND A.USER_NAME IN
+			               (SELECT SUBSTR(O.JID, 1, INSTR(O.JID, '@', -1) - 1)
+			                  FROM OFROSTER O
+			                 WHERE O.USERNAME = #{userName} AND O.SUB = '3')
+			           AND A.CREATE_DATE <![CDATA[<]]>
+			           		to_timestamp(#{timeBase}, 'yyyy-MM-dd HH24:MI:ssff')
+			            OR ROWNUM <![CDATA[<=]]> 10
+			           AND A.USER_NAME = #{userName}
+			           AND A.CREATE_DATE <![CDATA[<]]>
+			               to_timestamp(#{timeBase}, 'yyyy-MM-dd HH24:MI:ssff'))
+			 WHERE ROWNUM <![CDATA[>=]]> 0
+			 ORDER BY createDateMoments  DESC
+	</select>
 	
+	<!-- 朋友圈查询 之：我的相册 -->
+	<select id="findMyMoments" resultType="MomentsInfo">
+			 SELECT B.ID MOENTID,
+			       B.USER_NAME,
+			       B.TEXT_CONTENTS,
+			       B.IMG_CONTENTS,
+			       B.CREATE_DATE CREATEDATEMOMENTS
+			  FROM (SELECT A.*, ROWNUM RN
+			          FROM (SELECT *
+			                  FROM MOMENTS_INFO MI
+			                 WHERE MI.USER_NAME = #{userName} 
+			                 ORDER BY MI.CREATE_DATE DESC) A
+			         WHERE ROWNUM <![CDATA[<=]]> ((TO_number(#{pageNo}))+1) * 10) B
+			 WHERE RN <![CDATA[>]]> TO_number(#{pageNo}) * 10
+			 ORDER BY CREATEDATEMOMENTS DESC
+	</select>
 </mapper>
