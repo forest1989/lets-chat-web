@@ -225,6 +225,7 @@
            O1.REMARKS_PHONE,
            O1.REMARKS_PHOTO,
            O2.PHOTO,
+           O2.AREA_ID,
            O2.LOGIN_NAME,
            O2.NICK_NAME,
 		       O2.SEX,
