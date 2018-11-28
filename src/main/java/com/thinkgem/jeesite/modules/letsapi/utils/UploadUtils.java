@@ -412,7 +412,7 @@ private Map<String,Object> saveFile(MultipartFile file,List<String> list,List<St
             	saveDirthumbImg.getParentFile().mkdirs();
             // 转存文件
             file.transferTo(saveDir);
-            ImgUtils.compressPictureByQality(saveDir,saveDirthumbImg, (float) 0);
+            ImgUtils.compressPictureByQality(saveDir,saveDirthumbImg, (float) 0.5);
             retMap.put("list", list);
             retMap.put("listthumbImg", listthumbImg);
             return retMap;
