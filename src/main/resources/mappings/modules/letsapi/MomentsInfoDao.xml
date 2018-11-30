@@ -116,17 +116,17 @@
 		                        AU.NICK_NAME,
 		                        AU.Photo
 		                   FROM MOMENTS_INFO MI
-		                   LEFT JOIN APP_FRIEND_INFO AFO ON MI.USER_NAME = AFO.FRIEND_LOGIN_NAME AND AFO.LOGIN_NAME = #{userName}  
-		                   LEFT JOIN APP_USER AU ON MI.USER_NAME = AU.LOGIN_NAME 
+		                   LEFT JOIN APP_FRIEND_INFO AFO ON lower(MI.USER_NAME) = lower(AFO.FRIEND_LOGIN_NAME) AND lower(AFO.LOGIN_NAME) = lower(#{userName})  
+		                   LEFT JOIN APP_USER AU ON lower(MI.USER_NAME) = lower(AU.LOGIN_NAME) 
 		                              ORDER BY MI.Create_Date DESC) A
 		          WHERE ROWNUM <![CDATA[<=]]> 10
-		            AND A.USER_NAME IN
+		            AND lower(A.USER_NAME) IN
 		                (SELECT SUBSTR(O.JID, 1, INSTR(O.JID, '@', -1) - 1)
 		                   FROM OFROSTER O
-		                  WHERE O.USERNAME = #{userName}
+		                  WHERE lower(O.USERNAME) = lower(#{userName})
 		                    AND O.SUB = '3')
 		             OR ROWNUM <![CDATA[<=]]>10
-		            AND A.USER_NAME = #{userName})
+		            AND lower(A.USER_NAME) = lower(#{userName}))
 		  WHERE ROWNUM <![CDATA[>=]]> 0
 		  ORDER BY createDateMoments DESC
 	</select>
@@ -148,17 +148,17 @@
 			                       AU.NICK_NAME,
 			                       AU.PHOTO
 			                  FROM MOMENTS_INFO MI
-			                  LEFT JOIN APP_FRIEND_INFO AFO ON MI.USER_NAME = AFO.FRIEND_LOGIN_NAME AND AFO.LOGIN_NAME = #{userName}
-			                  LEFT JOIN APP_USER AU ON MI.USER_NAME = AU.LOGIN_NAME
+			                  LEFT JOIN APP_FRIEND_INFO AFO ON lower(MI.USER_NAME) = lower(AFO.FRIEND_LOGIN_NAME) AND lower(AFO.LOGIN_NAME) = lower(#{userName})
+			                  LEFT JOIN APP_USER AU ON lower(MI.USER_NAME) = lower(AU.LOGIN_NAME)
 			                 ORDER BY MI.CREATE_DATE DESC) A
-			         WHERE A.USER_NAME IN
+			         WHERE lower(A.USER_NAME) IN
 			               (SELECT SUBSTR(O.JID, 1, INSTR(O.JID, '@', -1) - 1)
 			                  FROM OFROSTER O
-			                 WHERE O.USERNAME = #{userName}
+			                 WHERE lower(O.USERNAME) = lower(#{userName})
 			                   AND O.SUB = '3')
 			           AND A.CREATE_DATE <![CDATA[>]]>
 			           		to_timestamp(#{timeBase}, 'yyyy-MM-dd HH24:MI:ssff')
-			            OR A.USER_NAME = #{userName}
+			            OR lower(A.USER_NAME) = lower(#{userName})
 			           AND A.CREATE_DATE <![CDATA[>]]>
 			               to_timestamp(#{timeBase}, 'yyyy-MM-dd HH24:MI:ssff'))
 			 ORDER BY createDateMoments DESC
@@ -181,18 +181,18 @@
 			                       AU.NICK_NAME,
 			                       AU.PHOTO
 			                  FROM MOMENTS_INFO MI
-			                  LEFT JOIN APP_FRIEND_INFO AFO ON MI.USER_NAME = AFO.FRIEND_LOGIN_NAME AND AFO.LOGIN_NAME = #{userName}
-			                  LEFT JOIN APP_USER AU ON MI.USER_NAME = AU.LOGIN_NAME
+			                  LEFT JOIN APP_FRIEND_INFO AFO ON lower(MI.USER_NAME) = lower(AFO.FRIEND_LOGIN_NAME) AND lower(AFO.LOGIN_NAME) = lower(#{userName})
+			                  LEFT JOIN APP_USER AU ON lower(MI.USER_NAME) = lower(AU.LOGIN_NAME)
 			                 ORDER BY MI.CREATE_DATE DESC) A
 			         WHERE ROWNUM <![CDATA[<=]]> 10
-			           AND A.USER_NAME IN
+			           AND lower(A.USER_NAME) IN
 			               (SELECT SUBSTR(O.JID, 1, INSTR(O.JID, '@', -1) - 1)
 			                  FROM OFROSTER O
-			                 WHERE O.USERNAME = #{userName} AND O.SUB = '3')
+			                 WHERE lower(O.USERNAME) = lower(#{userName}) AND O.SUB = '3')
 			           AND A.CREATE_DATE <![CDATA[<]]>
 			           		to_timestamp(#{timeBase}, 'yyyy-MM-dd HH24:MI:ssff')
 			            OR ROWNUM <![CDATA[<=]]> 10
-			           AND A.USER_NAME = #{userName}
+			           AND lower(A.USER_NAME) = lower(#{userName})
 			           AND A.CREATE_DATE <![CDATA[<]]>
 			               to_timestamp(#{timeBase}, 'yyyy-MM-dd HH24:MI:ssff'))
 			 WHERE ROWNUM <![CDATA[>=]]> 0
@@ -209,7 +209,7 @@
 			  FROM (SELECT A.*, ROWNUM RN
 			          FROM (SELECT *
 			                  FROM MOMENTS_INFO MI
-			                 WHERE MI.USER_NAME = #{userName} 
+			                 WHERE lower(MI.USER_NAME) = lower(#{userName}) 
 			                 ORDER BY MI.CREATE_DATE DESC) A
 			         WHERE ROWNUM <![CDATA[<=]]> ((TO_number(#{pageNo}))+1) * 10) B
 			 WHERE RN <![CDATA[>]]> TO_number(#{pageNo}) * 10
