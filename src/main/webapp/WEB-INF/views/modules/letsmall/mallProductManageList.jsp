@@ -13,7 +13,24 @@
 		            $("input[name=producCheck]").prop("checked", false);
 		        }
 		    });
-			
+			// 批量上热门
+			$("#saveBtHot").click(function (){
+				loading('正在提交，请稍等...');
+				if(getCheckVal()){
+					$("#optType").val("4");	
+					$("#batchForm").submit();
+					return false;
+				}
+			});
+			// 批量下热门
+			$("#delBtHot").click(function (){
+				loading('正在提交，请稍等...');
+				if(getCheckVal()){
+					$("#optType").val("5");
+					$("#batchForm").submit();
+					return false;
+				}
+			});
 			// 批量上架
 			$("#putBt").click(function (){
 				loading('正在提交，请稍等...');
@@ -113,6 +130,10 @@
 			<li class="btns"><input id="putBt" class="btn btn-success" type="button" value="批量上架"/></li>
 			<li class="btns"><input id="pullBt" class="btn btn-success" type="button" value="批量下架"/></li>
 			<li class="btns"><input id="delBt" class="btn btn-danger" type="button" value="批量删除"/></li>
+			<shiro:hasPermission name="letsmall:mallProductManage:editHot">
+			<li class="btns"><input id="saveBtHot" class="btn btn-success" type="button" value="批量上热门"/></li>
+			<li class="btns"><input id="delBtHot" class="btn btn-danger" type="button" value="批量下热门"/></li>
+			</shiro:hasPermission>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>

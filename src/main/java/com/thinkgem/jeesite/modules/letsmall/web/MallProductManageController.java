@@ -113,6 +113,14 @@ public class MallProductManageController extends BaseController {
 			}
 			addMessage(redirectAttributes, "商品删除成功");
 		}
+		if("4".equals(otpType)) {
+			mallProductManageService.batchSaveHot(Arrays.asList(idArray));
+			addMessage(redirectAttributes, "热门商品上架成功");
+		}
+		if("5".equals(otpType)) {
+			mallProductManageService.batchDeleHot(Arrays.asList(idArray));
+			addMessage(redirectAttributes, "热门商品下架成功");
+		}
 		return "redirect:"+Global.getAdminPath()+"/letsmall/mallProductManage/?repage";
 	}
 

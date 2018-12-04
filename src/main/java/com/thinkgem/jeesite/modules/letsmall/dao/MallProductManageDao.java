@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
+import com.thinkgem.jeesite.modules.letsmall.entity.HotProductMange;
 import com.thinkgem.jeesite.modules.letsmall.entity.MallProductManage;
 import com.thinkgem.jeesite.modules.letsmall.entity.ProductSpecifications;
 
@@ -31,4 +32,8 @@ public interface MallProductManageDao extends CrudDao<MallProductManage> {
 	public List<ProductSpecifications> getProductSpecList(ProductSpecifications ps);
 	
 	public String getProductNo(@Param("productType")String productType);
+
+	public void batchSaveHot(@Param("productId")String productId);
+
+	public void deleteHotbyId(@Param("list")List<String> list);
 }

@@ -13,6 +13,7 @@ import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.letsmall.dao.MallProductManageDao;
+import com.thinkgem.jeesite.modules.letsmall.entity.HotProductMange;
 import com.thinkgem.jeesite.modules.letsmall.entity.MallProductManage;
 import com.thinkgem.jeesite.modules.letsmall.entity.ProductSpecifications;
 
@@ -101,5 +102,16 @@ public class MallProductManageService extends CrudService<MallProductManageDao, 
 	
 	public void batchUpdateStatus(List<String> list, String stauts) {
 		dao.batchUpdateStatus(list, stauts);
+	}
+
+	public void batchSaveHot(List<String> asList) {
+		 dao.deleteHotbyId(asList);
+		for (int j = 0; j < asList.size(); j++) {
+			String productId=asList.get(j).toString();
+			dao.batchSaveHot(productId);
+		}
+	}
+	public void batchDeleHot(List<String> asList) {
+		dao.deleteHotbyId(asList);
 	}
 }
